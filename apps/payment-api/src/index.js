@@ -37,7 +37,9 @@ import {
   AttributionEngine,
   RecoveryEngine,
   WebhookEngine,
-  PaymentVerificationPipeline
+  PaymentVerificationPipeline,
+  VpaRotatorEngine,
+  HybridPaymentRouter
 } from '@coupi/core';
 import { HttpServer } from './server.js';
 import { registerPaymentRoutes } from './routes/payments.routes.js';
@@ -410,6 +412,9 @@ export function createPaymentApp(customDb = null, options = {}) {
     eventEmitter
   });
 
+  const vpaRotator = new VpaRotatorEngine(db);
+  const hybridRouter = new HybridPaymentRouter();
+
   const context = {
     db,
     merchantRepo,
@@ -430,7 +435,9 @@ export function createPaymentApp(customDb = null, options = {}) {
     defaultMerchant,
     checkoutBaseUrl,
     whatsappBerryService,
-    webhookEngine
+    webhookEngine,
+    vpaRotator,
+    hybridRouter
   };
 
   registerPaymentRoutes(server, context);

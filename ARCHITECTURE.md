@@ -280,11 +280,52 @@ When payment succeeds, the gateway delivers a signed server-to-server webhook:
 
 ---
 
+### 4.5 Multi-VPA Auto-Rotation & Daily Limit Guard (`VpaRotatorEngine`)
+
+Under NPCI regulations, standard consumer UPI VPAs have a daily transaction ceiling of ₹1,00,000 or 20 daily transactions. To ensure zero-drop payment continuity, COUPI PG V2 embeds an automated rotation engine:
+
+```mermaid
+flowchart TD
+    Req[Incoming Payment Session Request] --> Evaluate[Evaluate Active Receiving Account]
+    Evaluate --> Query[Query Today's VolumePaise & TxCount from SQLite WAL]
+    Query --> CheckCap{Capacity Exceeded?<br/>Volume >= 90k OR Tx >= 20}
+    CheckCap -- No --> Assign[Assign Current VPA]
+    CheckCap -- Yes --> FindNext[Select Next Enabled VPA with Available Capacity]
+    FindNext --> Promote[Promote Next VPA as Primary]
+    Promote --> Assign
+```
+
+1. **Safety Threshold**: Caps automated allocation at ₹90,000 (a 10% safety buffer under the ₹1,00,000 cap) and 20 transactions.
+2. **Deterministic Promotion**: Seamlessly promotes the next configured merchant VPA (`is_merchant_enabled = 1`) without manual intervention.
+
+---
+
+### 4.6 Phase 2 Enterprise Hybrid Routing (`HybridPaymentRouter`)
+
+For high-volume merchants (>1,000 orders/day) or transactions with high ticket values:
+
+1. **Retail Orders (< ₹2,000)**: Routed to CouPI Sovereign 0% P2P UPI rails.
+2. **High-Ticket Orders ($\ge$ ₹2,000)**: Routed to Direct Bank Smart Collect dynamic virtual accounts (ICICI Smart Collect / Yes Bank API) at a flat ₹1.00/transaction fee.
+3. **Aggregator Fee Arbitrage**: Eliminates the 2% aggregator tax, yielding 99.5% operational savings on large tickets.
+
+---
+
+### 4.7 Official Flutter SDK (`coupi_flutter`)
+
+A zero-boilerplate Flutter package (`packages/coupi-flutter`) providing:
+1. `<CoupiPayButton amount="499" orderId="..." onPaymentSuccess="..." />`
+2. Native UPI intent invocation via `url_launcher`.
+3. Android intent result parsing (`ApprovalRefNo`).
+4. Automatic clipboard UTR capture using Flutter's `WidgetsBindingObserver` lifecycle listener.
+5. Server-Sent Events (SSE) real-time session stream observer.
+
+---
+
 ## 5. Network Topology & Port Bindings
 
 | Service | Port | Entrypoint | Health Route | Primary Purpose |
 | :--- | :---: | :--- | :--- | :--- |
-| **Payment Core API** | `6100` | `apps/payment-api/src/index.js` | `GET /health` | State machine, atomic DB transactions, REST API, SSE streams, Paise Offset Engine |
+| **Payment Core API** | `6100` | `apps/payment-api/src/index.js` | `GET /health` | State machine, atomic DB transactions, REST API, SSE streams, Paise Offset Engine, VPA Rotator, Hybrid Router |
 | **Checkout Portal** | `7000` | `apps/checkout-portal/src/index.js` | `GET /health` | Customer iframe checkout, dynamic Vector QR, `coupi.js` SDK bundle |
 | **Merchant Admin** | `6001` | `apps/merchant-admin/src/index.js` | `GET /health` | Admin dashboard, cashier till desk, IMAP observer management, branding |
 | **Showcase Demo Store** | `5000` | `apps/coin-wallet-store/src/index.js` | `GET /health` | Reference merchant store, 5 outcome pages showcase, SDK testbed |
@@ -300,7 +341,7 @@ All runtime state is stored in `data/coupi_pg.sqlite` with strict foreign keys a
 ```text
 data/coupi_pg.sqlite
 ├── merchants (id, business_name, api_key, webhook_secret, branding [JSON])
-├── payment_receiving_accounts (id, merchant_id, vpa, account_name, is_slot_busy, daily_limit_paise)
+├── payment_receiving_accounts (id, merchant_id, vpa, account_name, is_slot_busy, daily_limit_paise, daily_tx_limit)
 ├── customers (id, mobile_number, name, email, risk_tier, is_banned, created_at)
 ├── customer_sessions (token, customer_id, expires_at, user_agent, ip_address)
 ├── payment_sessions (id, merchant_id, customer_id, receiving_account_id, base_amount_paise, offset_paise, amount_paise, status, queue_position, expires_at, utr)

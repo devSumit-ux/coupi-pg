@@ -231,6 +231,8 @@ export class ReceivingAccountRepository {
       isMerchantEnabled: Boolean(row.is_merchant_enabled !== undefined ? row.is_merchant_enabled : 1),
       isActive: Boolean(row.is_active),
       isSlotBusy: Boolean(row.is_slot_busy),
+      dailyLimitPaise: Number(row.daily_limit_paise || 9000000),
+      dailyTxLimit: Number(row.daily_tx_limit || 20),
       currentActiveSessionId: row.current_active_session_id,
       createdAt: new Date(row.created_at),
       updatedAt: new Date(row.updated_at)

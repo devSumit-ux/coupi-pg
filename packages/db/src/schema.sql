@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS payment_receiving_accounts (
     is_merchant_enabled BOOLEAN NOT NULL DEFAULT true,
     is_active BOOLEAN NOT NULL DEFAULT true,
     is_slot_busy BOOLEAN NOT NULL DEFAULT false,
+    daily_limit_paise BIGINT NOT NULL DEFAULT 9000000,
+    daily_tx_limit INTEGER NOT NULL DEFAULT 20,
     current_active_session_id TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

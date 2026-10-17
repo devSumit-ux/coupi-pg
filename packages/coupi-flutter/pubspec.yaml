@@ -1,0 +1,21 @@
+name: coupi_flutter
+description: Official zero-boilerplate Flutter SDK for CouPI PG V2. Sovereign 0%-fee UPI payments with native intent launcher, clipboard UTR auto-capture, and real-time SSE payment verification.
+version: 1.0.0
+homepage: https://github.com/devSumit-ux/coupi-pg
+repository: https://github.com/devSumit-ux/coupi-pg/tree/main/packages/coupi-flutter
+issue_tracker: https://github.com/devSumit-ux/coupi-pg/issues
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0

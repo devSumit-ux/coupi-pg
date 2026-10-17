@@ -145,8 +145,17 @@ export function registerPaymentRoutes(server, ctx) {
     let receivingAccountId = null;
     let receivingAccountSnapshot = null;
     if (!isCounterPayment) {
-      // Resolve active receiving account for UPI
-      const receivingAccount = ctx.accountRepo.findActiveForMerchant(merchant.id);
+      // Resolve active receiving account using Multi-VPA Rotator (enforcing daily limit guard)
+      let receivingAccount = null;
+      if (ctx.vpaRotator) {
+        try {
+          const rotation = ctx.vpaRotator.getOptimalReceivingAccount(merchant.id, amountPaise);
+          receivingAccount = rotation.account;
+        } catch {}
+      }
+      if (!receivingAccount) {
+        receivingAccount = ctx.accountRepo.findActiveForMerchant(merchant.id);
+      }
       if (!receivingAccount) {
         HttpServer.json(res, 500, { error: 'No active UPI receiving account configured for merchant.' });
         return;
@@ -212,9 +221,23 @@ export function registerPaymentRoutes(server, ctx) {
     const shouldActivateNow = isCounterPayment || isExplicitTestAutoActivate;
     const initialStatus = isCounterPayment ? PaymentStatus.ACTIVE : PaymentStatus.INITIATED;
 
+    let hybridRouting = null;
+    if (ctx.hybridRouter && !isCounterPayment) {
+      try {
+        hybridRouting = ctx.hybridRouter.route({
+          merchantId: merchant.id,
+          orderId: body.orderId,
+          amountPaise,
+          merchantTier: merchant.tier || 'STANDARD',
+          forceRail: body.rail || body.paymentRail || null
+        });
+      } catch {}
+    }
+
     const sessionMetadata = {
       ...(body.metadata || {}),
-      ...(receivingAccountSnapshot ? { receivingAccountSnapshot } : {})
+      ...(receivingAccountSnapshot ? { receivingAccountSnapshot } : {}),
+      ...(hybridRouting ? { hybridRouting } : {})
     };
 
     if (deviceId && customerId && ctx.deviceRepo) {
@@ -268,7 +291,8 @@ export function registerPaymentRoutes(server, ctx) {
       currency: session.currency,
       status: queueResult.status,
       queuePosition: queueResult.queuePosition,
-      checkoutUrl: `${resolveCheckoutBaseUrl(merchant)}/checkout/${session.id}`
+      checkoutUrl: `${resolveCheckoutBaseUrl(merchant)}/checkout/${session.id}`,
+      hybridRouting: hybridRouting || undefined
     });
   });
 

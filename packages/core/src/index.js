@@ -11,3 +11,5 @@ export * from './bank-email-parser.js';
 export * from './qr.js';
 export * from './verification-pipeline.js';
 export * from './device-security.js';
+export * from './vpa-rotator.js';
+export * from './hybrid-router.js';

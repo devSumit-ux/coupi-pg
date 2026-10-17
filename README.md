@@ -20,21 +20,24 @@
 [![Zero Aggregator Fees](https://img.shields.io/badge/Fees-0%25%20Forever-10b981?style=for-the-badge&logo=cashapp&logoColor=white)](#)
 [![Zero Hardware Required](https://img.shields.io/badge/Hardware-Zero%20Phones%20%2F%20No%20SIMs-blueviolet?style=for-the-badge)](#)
 [![High Concurrency](https://img.shields.io/badge/Concurrency-Paise%20Offset%20(100%2B%20Simultaneous)-0284c7?style=for-the-badge)](#)
-[![Cloud Native](https://img.shields.io/badge/Deploy-Render%20%7C%20Railway%20%7C%20Docker-0052cc?style=for-the-badge&logo=docker&logoColor=white)](#)
-[![Tests Passing](https://img.shields.io/badge/Tests-31%2F31%20Passing%20(100%25)-success?style=for-the-badge&logo=vitest&logoColor=white)](#)
+[![Flutter Widget](https://img.shields.io/badge/Flutter-coupi__flutter%20(pub.dev)-02569B?style=for-the-badge&logo=flutter&logoColor=white)](#-pre-packaged-flutter-widget-coupi_flutter)
+[![Multi-VPA Guard](https://img.shields.io/badge/Multi--VPA-Auto--Rotation%20Guard-6366f1?style=for-the-badge)](#-multi-vpa-auto-rotation--daily-limit-guard)
+[![Hybrid Routing](https://img.shields.io/badge/Enterprise-Hybrid%20Smart%20Collect-059669?style=for-the-badge)](#-phase-2-enterprise-hybrid-routing-bank-smart-collect)
+[![Tests Passing](https://img.shields.io/badge/Tests-33%2F33%20Passing%20(100%25)-success?style=for-the-badge&logo=vitest&logoColor=white)](#)
 [![Successor to YouPI](https://img.shields.io/badge/Evolution-YouPI--PG%20V2%20Successor-e11d48?style=for-the-badge)](#)
 
 <br/>
 
 <p align="center">
   <a href="#-the-evolution-what-youpi-pg-lacked--how-coupi-solves-it">YouPI-PG vs CouPI</a> •
+  <a href="#-pre-packaged-flutter-widget-coupi_flutter">Flutter Widget</a> •
+  <a href="#-multi-vpa-auto-rotation--daily-limit-guard">Multi-VPA Guard</a> •
+  <a href="#-phase-2-enterprise-hybrid-routing-bank-smart-collect">Hybrid Smart Collect</a> •
   <a href="#-quickstart-in-60-seconds">Quickstart</a> •
-  <a href="#-bank-email-push-setup-zero-hardware">Bank Email Setup</a> •
-  <a href="#-high-concurrency-paise-offset-engine">Paise Offset Engine</a> •
+  <a href="#-bank-email-push-setup-zero-hardware">Bank Setup</a> •
+  <a href="#-high-concurrency-paise-offset-engine">Paise Offset</a> •
   <a href="#-developer-integration-web--flutter">Developer Integration</a> •
-  <a href="#-authoritative-server-to-server-webhooks">Webhooks</a> •
-  <a href="#-cloud-deployment-render--railway--docker">Deployment</a> •
-  <a href="#-scaling-roadmap">Scaling Roadmap</a>
+  <a href="#-authoritative-server-to-server-webhooks">Webhooks</a>
 </p>
 
 ---
@@ -271,34 +274,115 @@ Coupi.pay({
 });
 ```
 
-### Option C: Flutter Mobile Integration (`buildcart-mobile`)
+### Option C: Official Zero-Boilerplate Flutter Package (`coupi_flutter`)
 
-Launch standard UPI intent deep links natively in Flutter:
+For Flutter applications on Android & iOS, use the official pre-packaged widget from `packages/coupi-flutter`:
 
-```dart
-import 'package:url_launcher/url_launcher.dart';
-
-Future<void> launchUPIIntent(String upiUri) async {
-  final Uri uri = Uri.parse(upiUri);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
-}
+```yaml
+# pubspec.yaml
+dependencies:
+  coupi_flutter:
+    path: ./packages/coupi-flutter # or hosted on pub.dev
 ```
 
-#### Sub-Second UTR Intent Callback (Android):
-When GPay or PhonePe completes, Android returns the intent result containing:
-`ApprovalRefNo=429182736192&Status=SUCCESS`
-The Flutter app submits this 12-digit UTR immediately to `POST /api/v1/payments/:id/submit-utr` for verification in **< 100ms**.
-
-#### Automatic Clipboard UTR Detection:
-When the user copies the 12-digit UPI reference number in GPay and switches back to Flutter:
+#### 2-Line Zero-Boilerplate Pay Button:
 ```dart
-ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-if (data?.text != null && RegExp(r'^\d{12}$').hasMatch(data!.text!)) {
-  submitUtrToServer(data.text!);
-}
+import 'package:coupi_flutter/coupi_flutter.dart';
+
+// In your build method:
+CoupiPayButton(
+  amount: 499.00,
+  orderId: 'ORDER-1001',
+  customerName: 'Aarav Sharma',
+  customerPhone: '9876543210',
+  onPaymentSuccess: (res) {
+    print('Payment confirmed! UTR: ${res.utr}, Amount: ₹${res.amountRupees}');
+  },
+  onPaymentFailed: (error) => print('Payment failed: $error'),
+)
 ```
+
+#### What `coupi_flutter` Automates Under the Hood:
+1. **Dynamic Session Creation**: Automatically calls `POST /api/v1/checkout/sessions` with paise offset allocation.
+2. **Native UPI Intent Launching**: Opens installed UPI apps (GPay, PhonePe, Paytm, CRED, BHIM) with a single tap.
+3. **Intent Return Parsing**: Extracts `ApprovalRefNo` and `Status` from Android intent callbacks.
+4. **Clipboard Auto-Capture (`WidgetsBindingObserver`)**: Detects 12-digit UTR copied to the system clipboard upon returning from the bank app and dispatches fast-path verification.
+5. **Real-time SSE Stream**: Listens to `/api/v1/sessions/:id/stream` for instant server confirmation.
+
+<br/>
+
+---
+
+## 🛡️ Multi-VPA Auto-Rotation & Daily Limit Guard
+
+UPI consumer VPAs have an NPCI ceiling of **₹1,00,000 / day** or **20 daily transactions**. CouPI PG V2 includes an automated daily limit guard (`VpaRotatorEngine`) that tracks volume in real time and rotates accounts before bank rejections occur:
+
+```
+  ┌─────────────────────────────────────────────────────────────────────────────┐
+  │                   MULTI-VPA AUTO-ROTATION & CAPACITY GUARD                  │
+  └─────────────────────────────────────────────────────────────────────────────┘
+
+    Incoming Checkout (₹499.00)
+                │
+                ▼
+  ┌───────────────────────────┐
+  │  VpaRotatorEngine Check   │
+  └─────────────┬─────────────┘
+                │
+    ┌───────────┴──────────────────────────────┐
+    ▼                                          ▼
+[ VPA #1: merchant@hdfc ]               [ VPA #2: merchant@icici ]
+Today's Volume: ₹89,800                 Today's Volume: ₹12,000
+Safety Ceiling: ₹90,000                 Safety Ceiling: ₹90,000
+Daily Tx Count: 19 / 20                 Daily Tx Count: 3 / 20
+    │                                          ▲
+    │ (Capacity Full / > ₹90k)                 │ (Promoted Instantly!)
+    └───────────────── AUTO-ROTATE ────────────┘
+```
+
+### Operational Guard Rules:
+- **Real-Time Volume & Tx Tracking**: Calculates daily settled volume in integer paise (`totalVolumePaise`) and completed transactions (`txCount`) using SQLite WAL index scans.
+- **Safety Threshold at ₹90,000**: Proactively switches at ₹90,000 (10% buffer below NPCI ₹1,00,000 ceiling) to eliminate payment drops.
+- **Auto-Promotion**: Switches `is_merchant_enabled` in descending order of capacity, guaranteeing continuous 24/7 transaction uptime.
+
+<br/>
+
+---
+
+## ⚡ Phase 2 Enterprise Hybrid Routing (Bank Smart Collect)
+
+For high-ticket purchases or merchants processing over **1,000 orders/day**, CouPI PG V2 provides an enterprise hybrid payment router (`HybridPaymentRouter`):
+
+```
+                       HYBRID PAYMENT ROUTER
+                         Order Amount (₹)
+                                 │
+                 ┌───────────────┴───────────────┐
+                 ▼                               ▼
+       Amount < ₹2,000 (Retail)         Amount >= ₹2,000 (High-Ticket)
+                 │                               │
+                 ▼                               ▼
+      ┌─────────────────────┐         ┌─────────────────────┐
+      │  CouPI Sovereign    │         │  Bank Smart Collect │
+      │  P2P UPI (0% Fee)   │         │  Dynamic Virtual A/c│
+      └──────────┬──────────┘         └──────────┬──────────┘
+                 │                               │
+           0% Gateway Cut                  Flat ₹1.00 / txn
+           0 Hardware                      (ICICI / Yes Bank)
+           Instant IMAP Push               Direct Bank Webhook
+```
+
+### The Math: Aggregator 2% vs. Bank Smart Collect Flat ₹1
+
+| Order Value | Aggregator Fee (2% + 18% GST) | CouPI Hybrid (Bank Smart Collect) | Your Net Savings |
+| :--- | :--- | :--- | :--- |
+| **₹500.00** | ₹11.80 | **₹0.00** *(0% CouPI P2P)* | **+ ₹11.80 (100%)** |
+| **₹2,000.00** | ₹47.20 | **₹1.00** *(Flat Bank Fee)* | **+ ₹46.20 (97.8%)** |
+| **₹10,000.00** | ₹236.00 | **₹1.00** *(Flat Bank Fee)* | **+ ₹235.00 (99.5%)** |
+| **₹50,000.00** | ₹1,180.00 | **₹1.00** *(Flat Bank Fee)* | **+ ₹1,179.00 (99.9%)** |
+
+- **Under ₹2,000**: Routed to zero-fee P2P UPI via CouPI's Paise Offset Engine.
+- **Over ₹2,000**: Routed to Bank Smart Collect dynamic virtual accounts (`ICIC0000104...`) or unique enterprise VPAs, bypassing aggregator percentage cuts entirely.
 
 <br/>
 
@@ -425,25 +509,25 @@ CMD ["npm", "start"]
 
 ## 🧪 Comprehensive Verification Suite
 
-Run all 31 regression test suites verifying cryptographic integrity, paise offsets, IMAP normalization, and fraud defense:
+Run all 33 regression test suites verifying cryptographic integrity, paise offsets, IMAP normalization, multi-VPA rotation guard, hybrid smart collect routing, and fraud defense:
 
 ```bash
 npm test
 ```
 
-All 31 suites execute in ~26 seconds with 100% pass rate.
+All 33 suites execute in ~26 seconds with 100% pass rate.
 
 <br/>
 
 ---
 
-## 📄 License & Attribution
+## 📄 License & Terms
 
-Distributed under the Commercial Sovereign License.  
-Originally inspired by the open UPI research of YouPI-PG; completely re-engineered into an enterprise-grade, cloud-native, zero-hardware payment architecture.
+Distributed under the Sovereign Commercial License.  
+Engineering and architecture maintained by devSumit-ux. All rights reserved.
 
 ---
 
 <div align="center">
-<b>CouPI PG V2 — Sovereign Payments for Independent Builders.</b>
+<b>CouPI PG V2 — Sovereign Zero-Fee UPI Infrastructure for Independent Builders.</b>
 </div>

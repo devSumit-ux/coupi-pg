@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS payment_receiving_accounts (
     is_merchant_enabled INTEGER NOT NULL DEFAULT 1,
     is_active INTEGER NOT NULL DEFAULT 1,
     is_slot_busy INTEGER NOT NULL DEFAULT 0,
+    daily_limit_paise INTEGER NOT NULL DEFAULT 9000000,
+    daily_tx_limit INTEGER NOT NULL DEFAULT 20,
     current_active_session_id TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))

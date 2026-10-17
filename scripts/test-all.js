@@ -8,6 +8,8 @@ const testFiles = [
   'packages/core/src/__tests__/core.test.js',
   'packages/core/src/__tests__/offset-engine.test.js',
   'packages/core/src/__tests__/queue-timing.test.js',
+  'packages/core/src/__tests__/vpa-rotator.test.js',
+  'packages/core/src/__tests__/hybrid-router.test.js',
   'packages/core/src/__tests__/webhook-engine.test.js',
   'packages/merchant-sdk/src/__tests__/merchant-sdk.test.js',
   'packages/merchant-sdk/src/__tests__/coupi-universal-integration.test.js',
