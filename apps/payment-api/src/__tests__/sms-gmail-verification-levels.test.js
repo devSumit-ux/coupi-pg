@@ -244,11 +244,11 @@ describe('2-Level Verification (SMS Gateway + Gmail) & Queue Management Tests', 
     assert.equal(testRes.status, 200);
   });
 
-  test('Downloads standalone Android APK binary from Payment API', async () => {
+  test('Confirms physical SMS Gateway APK retirement in favor of 100% cloud-native IMAP IDLE', async () => {
     const res = await fetch(`${baseUrl}/api/v1/admin/sms-gateway/download-apk`);
     assert.equal(res.status, 200);
-    assert.equal(res.headers.get('content-type'), 'application/vnd.android.package-archive');
-    const buf = await res.arrayBuffer();
-    assert.ok(buf.byteLength > 0);
+    const data = await res.json();
+    assert.equal(data.deprecated, true);
+    assert.equal(data.cloudNative, true);
   });
 });

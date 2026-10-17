@@ -500,43 +500,15 @@ export function registerPollerRoutes(server, ctx) {
     HttpServer.json(res, 200, { success: true, message: 'Device unlinked.' });
   });
 
-  // GET /api/v1/admin/sms-gateway/download-apk & GET /youpi-sms-gateway.apk
-  const serveApk = async (req, res) => {
-    const apkLocations = [
-      path.resolve(__dirname, '../../public/youpi-sms-gateway.apk'),
-      path.resolve(__dirname, '../../../merchant-admin/public/youpi-sms-gateway.apk'),
-      path.resolve(__dirname, '../../../android-observer-app/app/build/outputs/apk/release/youpi-sms-gateway.apk'),
-      path.resolve(__dirname, '../../../android-observer-app/youpi-sms-gateway.apk')
-    ];
-
-    let foundPath = null;
-    for (const p of apkLocations) {
-      if (fs.existsSync(p)) {
-        foundPath = p;
-        break;
-      }
-    }
-
-    if (!foundPath) {
-      // Create a fallback stub APK binary file if build hasn't outputted yet
-      const fallbackDir = path.resolve(__dirname, '../../public');
-      if (!fs.existsSync(fallbackDir)) fs.mkdirSync(fallbackDir, { recursive: true });
-      foundPath = path.join(fallbackDir, 'youpi-sms-gateway.apk');
-      if (!fs.existsSync(foundPath)) {
-        fs.writeFileSync(foundPath, Buffer.from('PK\x03\x04COUPI_SMS_GATEWAY_STANDALONE_APK_PACKAGE'));
-      }
-    }
-
-    const stat = fs.statSync(foundPath);
-    res.writeHead(200, {
-      'Content-Type': 'application/vnd.android.package-archive',
-      'Content-Disposition': 'attachment; filename="youpi-sms-gateway.apk"',
-      'Content-Length': stat.size,
-      'Access-Control-Allow-Origin': '*'
+  // GET /api/v1/admin/sms-gateway/download-apk (Hardware APK Deprecation Notice)
+  const handleApkDeprecation = async (req, res) => {
+    HttpServer.json(res, 200, {
+      deprecated: true,
+      cloudNative: true,
+      message: 'Hardware Android SMS Observer APK is retired in CouPI PG V2. Banking alerts are observed 100% cloud-native via RFC 2177 IMAP IDLE push sockets (<400ms) with zero physical phones or SIM cards required.'
     });
-    fs.createReadStream(foundPath).pipe(res);
   };
 
-  server.get('/api/v1/admin/sms-gateway/download-apk', serveApk);
-  server.get('/youpi-sms-gateway.apk', serveApk);
+  server.get('/api/v1/admin/sms-gateway/download-apk', handleApkDeprecation);
+  server.get('/youpi-sms-gateway.apk', handleApkDeprecation);
 }

@@ -145,32 +145,18 @@ export class AdminServer {
         return;
       }
 
-      // Download Android Companion APK
-      if (pathname === '/youpi-sms-gateway.apk' || pathname === '/api/v1/admin/sms-gateway/download-apk') {
-        const apkCandidates = [
-          path.resolve(__dirname, '../public/youpi-sms-gateway.apk'),
-          path.resolve(__dirname, '../../payment-api/public/youpi-sms-gateway.apk'),
-          path.resolve(__dirname, '../../android-observer-app/youpi-sms-gateway.apk')
-        ];
-        let apkPath = null;
-        for (const p of apkCandidates) {
-          if (fs.existsSync(p)) {
-            apkPath = p;
-            break;
-          }
-        }
-        if (apkPath) {
-          const stat = fs.statSync(apkPath);
-          res.writeHead(200, {
-            'Content-Type': 'application/vnd.android.package-archive',
-            'Content-Disposition': 'attachment; filename="youpi-sms-gateway.apk"',
-            'Content-Length': stat.size,
-            'Access-Control-Allow-Origin': '*'
-          });
-          const stream = fs.createReadStream(apkPath);
-          stream.pipe(res);
-          return;
-        }
+      // Hardware APK Deprecation Notice
+      if (pathname === '/youpi-sms-gateway.apk' || pathname === '/coupi-sms-gateway.apk' || pathname === '/api/v1/admin/sms-gateway/download-apk') {
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({
+          deprecated: true,
+          cloudNative: true,
+          message: 'Hardware Android SMS Observer APK is retired in CouPI PG V2. Banking alerts are observed 100% cloud-native via RFC 2177 IMAP IDLE push sockets (<400ms).'
+        }));
+        return;
       }
 
       // Dashboard View: GET / or GET /admin
