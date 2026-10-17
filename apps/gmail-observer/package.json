@@ -1,0 +1,17 @@
+{
+  "name": "gmail-observer",
+  "version": "1.0.0",
+  "description": "Gmail Payment Observer Service for COUPI PG",
+  "type": "module",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test src/__tests__/**/*.test.js"
+  },
+  "dependencies": {
+    "@coupi/common": "*",
+    "@coupi/observer-sdk": "*",
+    "imapflow": "^2.5.2",
+    "mailparser": "^3.9.40"
+  }
+}

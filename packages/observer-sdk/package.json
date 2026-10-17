@@ -1,0 +1,10 @@
+{
+  "name": "@coupi/observer-sdk",
+  "version": "1.0.0",
+  "description": "SDK for submitting observations to COUPI PG Payment Detection Core",
+  "type": "module",
+  "main": "./src/index.js",
+  "dependencies": {
+    "@coupi/common": "*"
+  }
+}
