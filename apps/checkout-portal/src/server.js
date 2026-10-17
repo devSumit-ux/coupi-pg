@@ -175,12 +175,15 @@ export class CheckoutServer {
         return;
       }
 
-      // Official SDK script: GET /youpi.js or /sdk/youpi-checkout.js
-      if (pathname === '/youpi.js' || pathname === '/sdk/youpi.js' || pathname === '/sdk/youpi-checkout.js') {
+      // Official SDK script: GET /coupi.js or /sdk/coupi.js (with legacy aliases)
+      if (
+        pathname === '/coupi.js' || pathname === '/sdk/coupi.js' || pathname === '/sdk/coupi-checkout.js' ||
+        pathname === '/youpi.js' || pathname === '/sdk/youpi.js' || pathname === '/sdk/youpi-checkout.js'
+      ) {
         try {
-          const resolvedSdkPath = fs.existsSync(path.join(__dirname, 'sdk', 'youpi.js'))
-            ? path.join(__dirname, 'sdk', 'youpi.js')
-            : this.sdkScriptPath;
+          const resolvedSdkPath = fs.existsSync(this.sdkScriptPath)
+            ? this.sdkScriptPath
+            : path.join(__dirname, 'sdk', 'coupi.js');
           const sdkContent = fs.readFileSync(resolvedSdkPath, 'utf8');
           res.writeHead(200, {
             'Content-Type': 'application/javascript; charset=utf-8',

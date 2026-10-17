@@ -71,7 +71,7 @@ export class GmailObserverServer {
         if (!clientId) {
           clientId = (this.poller.credentials?.clientId)
             ? this.poller.credentials.clientId
-            : (process.env.GMAIL_CLIENT_ID || 'mock-youpi-client-id.apps.googleusercontent.com');
+            : (process.env.GMAIL_CLIENT_ID || 'mock-coupi-client-id.apps.googleusercontent.com');
         }
 
         const finalRedirectUri = 'https://pay-gmail.coupi.local/oauth/callback';
@@ -323,7 +323,10 @@ export class GmailObserverServer {
                   messagesTotal: ${JSON.stringify(messagesTotal)},
                   timestamp: Date.now()
                 };
-                try { localStorage.setItem('youpi_gmail_oauth_result', JSON.stringify(payload)); } catch(e) {}
+                try {
+                  localStorage.setItem('coupi_gmail_oauth_result', JSON.stringify(payload));
+                  localStorage.setItem('youpi_gmail_oauth_result', JSON.stringify(payload));
+                } catch(e) {}
                 try { if (window.opener) window.opener.postMessage(payload, '*'); } catch(e) {}
                 function finishAndClose() {
                   try { if (window.opener && window.opener.fetchGmailCredentials) window.opener.fetchGmailCredentials(); } catch(e) {}

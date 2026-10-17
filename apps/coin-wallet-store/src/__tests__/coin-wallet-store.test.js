@@ -342,7 +342,12 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
     assert.ok(res.body.includes('ORD-CAN-000'));
   });
 
-  test('GET /youpi.js is served with CORS for universal frontend integration', async () => {
+  test('GET /coupi.js and /youpi.js are served with CORS for universal frontend integration', async () => {
+    const resCoupi = await request('/coupi.js');
+    assert.equal(resCoupi.status, 200);
+    assert.ok(resCoupi.body.includes('CoupiCheckout'));
+    assert.ok(resCoupi.body.includes('data-coupi-pay'));
+
     const res = await request('/youpi.js');
     assert.equal(res.status, 200);
     assert.ok(res.body.includes('CoupiCheckout'));

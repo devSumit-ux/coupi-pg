@@ -44,7 +44,15 @@ Thumbs.db
 *.jpeg
 *.mp4
 *.webm
-!apps/**
-!packages/**
+!apps/**/*.png
+!apps/**/*.jpg
+!packages/**/*.png
+!packages/**/*.jpg
 !docs/**
 !assets/**
+
+# Dart & Flutter Build / Tool Artifacts
+**/.dart_tool/
+**/.flutter-plugins*
+**/build/
+ephemeral/

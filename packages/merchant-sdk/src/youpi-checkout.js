@@ -29,7 +29,7 @@
     if (!isBrowser) return {};
 
     const script = document.currentScript ||
-      document.querySelector('script[src*="youpi.js"], script[src*="youpi-checkout.js"]');
+      document.querySelector('script[src*="coupi.js"], script[src*="coupi-checkout.js"], script[src*="youpi.js"], script[src*="youpi-checkout.js"]');
 
     if (!script) return {};
 
@@ -41,7 +41,7 @@
     const origin = scriptUrl ? scriptUrl.origin : (window.location.protocol + '//' + window.location.hostname + ':7000');
 
     return {
-      key: script.getAttribute('data-youpi-key') || script.getAttribute('data-key') || script.getAttribute('data-merchant-id') || '',
+      key: script.getAttribute('data-coupi-key') || script.getAttribute('data-youpi-key') || script.getAttribute('data-key') || script.getAttribute('data-merchant-id') || '',
       apiUrl: script.getAttribute('data-api-url') || origin,
       portalUrl: script.getAttribute('data-portal-url') || script.getAttribute('data-checkout-url') || origin,
       currency: script.getAttribute('data-currency') || 'INR',
@@ -253,6 +253,16 @@
         targetUrl = `${this.options.portalUrl}/checkout/demo`;
       }
 
+      // If running on localhost / 127.0.0.1 and targetUrl points to remote domain, normalize to localhost host
+      if (isBrowser && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        if (targetUrl.includes('coupi.local')) {
+          try {
+            const parsed = new URL(targetUrl);
+            targetUrl = `${window.location.protocol}//${window.location.host}${parsed.pathname}${parsed.search}`;
+          } catch {}
+        }
+      }
+
       // Add embedded flag and custom params
       const sep = targetUrl.includes('?') ? '&' : '?';
       targetUrl = `${targetUrl}${sep}embedded=1`;
@@ -335,10 +345,8 @@
       backdrop.appendChild(container);
       document.body.appendChild(backdrop);
 
-      requestAnimationFrame(() => {
-        backdrop.classList.add('active');
-        container.classList.add('active');
-      });
+      backdrop.classList.add('active');
+      container.classList.add('active');
 
       this.backdrop = backdrop;
       this.container = container;
@@ -370,7 +378,7 @@
       const event = e.data.event;
       const rawData = e.data.data || e.data;
 
-      if (event === 'youpi.payment_success') {
+      if (event === 'coupi.payment_success' || event === 'youpi.payment_success') {
         const payload = e.data.data || {};
         const result = {
           status: 'SUCCESS',
@@ -383,7 +391,9 @@
           raw: payload
         };
 
+        CoupiCheckout._emitEvent('coupi:payment:success', result);
         CoupiCheckout._emitEvent('youpi:payment:success', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
         CoupiCheckout._emitEvent('youpi:payment:result', result);
 
         if (typeof this.options.handler === 'function') {
@@ -401,7 +411,7 @@
             }
           });
         }, 1500);
-      } else if (event === 'youpi.payment_failed') {
+      } else if (event === 'coupi.payment_failed' || event === 'youpi.payment_failed') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'FAILED',
@@ -415,7 +425,9 @@
           raw: payload
         };
 
+        CoupiCheckout._emitEvent('coupi:payment:failed', result);
         CoupiCheckout._emitEvent('youpi:payment:failed', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
         CoupiCheckout._emitEvent('youpi:payment:result', result);
 
         if (typeof this.options.onFailed === 'function') {
@@ -433,7 +445,10 @@
             window.location.href = payload.redirectUrl;
           }
         });
-      } else if (event === 'youpi.payment_blocked' || event === 'youpi.payment_blocked_exit') {
+      } else if (
+        event === 'coupi.payment_blocked' || event === 'coupi.payment_blocked_exit' ||
+        event === 'youpi.payment_blocked' || event === 'youpi.payment_blocked_exit'
+      ) {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'SUSPICIOUS',
@@ -447,7 +462,9 @@
           raw: payload
         };
 
+        CoupiCheckout._emitEvent('coupi:payment:suspicious', result);
         CoupiCheckout._emitEvent('youpi:payment:suspicious', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
         CoupiCheckout._emitEvent('youpi:payment:result', result);
 
         if (typeof this.options.onSuspicious === 'function') {
@@ -460,7 +477,7 @@
             window.location.href = `${this.options.suspiciousUrl}${delim}order_id=${encodeURIComponent(result.order_id)}&reason=SUSPICIOUS`;
           }
         });
-      } else if (event === 'youpi.payment_expired') {
+      } else if (event === 'coupi.payment_expired' || event === 'youpi.payment_expired') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'EXPIRED',
@@ -468,7 +485,9 @@
           timestamp: new Date().toISOString()
         };
 
+        CoupiCheckout._emitEvent('coupi:payment:expired', result);
         CoupiCheckout._emitEvent('youpi:payment:expired', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
         CoupiCheckout._emitEvent('youpi:payment:result', result);
 
         if (typeof this.options.onExpired === 'function') {
@@ -481,7 +500,10 @@
             window.location.href = `${this.options.expiredUrl}${delim}order_id=${encodeURIComponent(result.order_id)}`;
           }
         });
-      } else if (event === 'youpi.modal_close' || event === 'youpi.close' || event === 'youpi.cancel' || event === 'youpi.payment_cancelled') {
+      } else if (
+        event === 'coupi.modal_close' || event === 'coupi.close' || event === 'coupi.cancel' || event === 'coupi.payment_cancelled' ||
+        event === 'youpi.modal_close' || event === 'youpi.close' || event === 'youpi.cancel' || event === 'youpi.payment_cancelled'
+      ) {
         this._dispatchCancelled();
         const redirectUrl = e.data.redirectUrl;
         this.close(() => {
@@ -498,10 +520,12 @@
     _dispatchCancelled() {
       const result = {
         status: 'CANCELLED',
-        order_id: this.options.orderId || this.options.order_id || '',
+        order_id: this.options.orderId || this.options.order_id,
         timestamp: new Date().toISOString()
       };
+      CoupiCheckout._emitEvent('coupi:payment:cancelled', result);
       CoupiCheckout._emitEvent('youpi:payment:cancelled', result);
+      CoupiCheckout._emitEvent('coupi:payment:result', result);
       CoupiCheckout._emitEvent('youpi:payment:result', result);
 
       if (typeof this.options.onCancelled === 'function') {
@@ -519,22 +543,22 @@
     }
 
     /**
-     * Handles clicks on elements with [data-youpi-pay] attribute
+     * Handles clicks on elements with [data-coupi-pay] or [data-youpi-pay] attribute
      */
     static handleButtonClick(btn) {
       if (!btn) return;
 
-      const orderId = btn.getAttribute('data-order-id') || `ORDER-${Date.now()}`;
-      const amount = btn.getAttribute('data-amount') || '0';
-      const currency = btn.getAttribute('data-currency') || scriptConfig.currency || 'INR';
-      const name = btn.getAttribute('data-name') || scriptConfig.name || 'Merchant Store';
-      const description = btn.getAttribute('data-description') || 'Order Payment';
+      const orderId = btn.getAttribute('data-coupi-order-id') || btn.getAttribute('data-order-id') || `ORDER-${Date.now()}`;
+      const amount = btn.getAttribute('data-coupi-amount') || btn.getAttribute('data-amount') || '0';
+      const currency = btn.getAttribute('data-coupi-currency') || btn.getAttribute('data-currency') || scriptConfig.currency || 'INR';
+      const name = btn.getAttribute('data-coupi-name') || btn.getAttribute('data-name') || scriptConfig.name || 'Merchant Store';
+      const description = btn.getAttribute('data-coupi-description') || btn.getAttribute('data-description') || 'Order Payment';
 
       // Customer info
       const customer = {
-        name: btn.getAttribute('data-customer-name') || '',
-        email: btn.getAttribute('data-customer-email') || '',
-        phone: btn.getAttribute('data-customer-phone') || btn.getAttribute('data-customer-mobile') || ''
+        name: btn.getAttribute('data-coupi-customer-name') || btn.getAttribute('data-customer-name') || '',
+        email: btn.getAttribute('data-coupi-customer-email') || btn.getAttribute('data-customer-email') || '',
+        phone: btn.getAttribute('data-coupi-customer-phone') || btn.getAttribute('data-customer-phone') || btn.getAttribute('data-customer-mobile') || ''
       };
 
       // Metadata parsing
@@ -692,38 +716,48 @@
         /* MOBILE BOTTOM DRAWER / BOTTOM SHEET STYLES */
         @media (max-width: 767px) {
           .youpi-checkout-backdrop {
-            align-items: flex-end;
+            position: fixed !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            display: flex !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
           }
           .youpi-checkout-container {
-            width: 100vw;
-            max-width: 100vw;
-            height: 100dvh;
-            height: 100vh;
-            height: 100%;
-            max-height: 100dvh;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            border-top-left-radius: 18px;
-            border-top-right-radius: 18px;
-            transform: translateY(100%);
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: 90vh !important;
+            height: 90dvh !important;
+            max-height: 94vh !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+            margin: 0 !important;
+            transform: translateY(0) !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6) !important;
             touch-action: auto !important;
-            overflow: hidden;
-          }
-          .youpi-checkout-container.active {
-            transform: translateY(0);
+            overflow: hidden !important;
           }
           .youpi-checkout-container.closing {
-            transform: translateY(100%);
+            transform: translateY(100%) !important;
           }
         }
       `;
     }
   }
 
-  // Auto-bind click listener for all [data-youpi-pay] buttons on page
+  // Auto-bind click listener for all [data-coupi-pay] and [data-youpi-pay] buttons on page
   if (isBrowser) {
     document.addEventListener('click', function (e) {
-      const btn = e.target && e.target.closest && e.target.closest('[data-youpi-pay]');
+      const btn = e.target && e.target.closest && e.target.closest('[data-coupi-pay], [data-youpi-pay]');
       if (btn) {
         e.preventDefault();
         CoupiCheckout.handleButtonClick(btn);
@@ -734,6 +768,11 @@
   // Export globals
   globalScope.CoupiCheckout = CoupiCheckout;
   globalScope.Coupi = CoupiCheckout;
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CoupiCheckout;
+    module.exports.CoupiCheckout = CoupiCheckout;
+    module.exports.Coupi = CoupiCheckout;
+  }
 })(typeof window !== 'undefined' ? window : globalThis);
 
 const _exportedCheckout = (typeof window !== 'undefined' ? window : globalThis).CoupiCheckout;

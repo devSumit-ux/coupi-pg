@@ -104,7 +104,15 @@ describe('Checkout Portal Integration Tests', () => {
       assert.ok(resPhonePe.headers['content-type'].includes('image/png'));
     });
 
-    test('GET /youpi.js and /sdk/youpi-checkout.js return official integration SDK with CORS', async () => {
+    test('GET /coupi.js, /youpi.js and /sdk/youpi-checkout.js return official integration SDK with CORS', async () => {
+      const resCoupiOfficial = await get('/coupi.js');
+      assert.equal(resCoupiOfficial.status, 200);
+      assert.ok(resCoupiOfficial.headers['content-type'].includes('application/javascript'));
+      assert.equal(resCoupiOfficial.headers['access-control-allow-origin'], '*');
+      assert.ok(resCoupiOfficial.text.includes('CoupiCheckout'));
+      assert.ok(resCoupiOfficial.text.includes('data-coupi-pay'));
+      assert.ok(resCoupiOfficial.text.includes('coupi:payment:success'));
+
       const resCoupi = await get('/youpi.js');
       assert.equal(resCoupi.status, 200);
       assert.ok(resCoupi.headers['content-type'].includes('application/javascript'));

@@ -116,7 +116,7 @@ export function runMigrations(targetDb) {
       id: '00000000-0000-0000-0000-000000000001',
       businessName: 'COUPI Demo Store',
       slug: 'demo-store',
-      contactEmail: 'merchant@youpi.local',
+      contactEmail: 'merchant@coupi.local',
       contactPhone: '9876543210',
       webhookUrl: process.env.COIN_STORE_WEBHOOK_URL || 'http://localhost:5000/api/webhook',
       webhookSecret: process.env.COIN_STORE_WEBHOOK_SECRET || 'merchant_webhook_secret_for_wallet_store',

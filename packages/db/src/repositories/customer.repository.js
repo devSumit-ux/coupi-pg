@@ -37,7 +37,7 @@ export class CustomerRepository {
       throw new Error('Invalid mobile number format (must be a valid 10-digit number).');
     }
     if (!email) {
-      email = `${mobileNumber}@customer.youpi.local`;
+      email = `${mobileNumber}@customer.coupi.local`;
     } else if (!isValidEmail(email)) {
       throw new Error('Invalid email address format.');
     }

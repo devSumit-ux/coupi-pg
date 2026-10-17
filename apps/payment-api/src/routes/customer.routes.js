@@ -122,7 +122,7 @@ export function registerCustomerRoutes(server, ctx) {
         otpCode,
         expiresAt,
         name: name || `Customer ${cleanMobile.slice(-4)}`,
-        email: email || `${cleanMobile}@customer.youpi.local`
+        email: email || `${cleanMobile}@customer.coupi.local`
       });
     }
 
@@ -200,7 +200,7 @@ export function registerCustomerRoutes(server, ctx) {
 
       // Create new customer account in DB
       const resolvedName = (body.name || body.fullName || pending.name || `Customer ${cleanMobile.slice(-4)}`).trim();
-      const resolvedEmail = normalizeEmail(body.email || pending.email) || `${cleanMobile}@customer.youpi.local`;
+      const resolvedEmail = normalizeEmail(body.email || pending.email) || `${cleanMobile}@customer.coupi.local`;
 
       try {
         customer = ctx.customerRepo.create({
@@ -277,7 +277,7 @@ export function registerCustomerRoutes(server, ctx) {
     const resolvedMobile = normalizeMobile(mobileNumber || body.phoneNumber);
     let resolvedEmail = normalizeEmail(email);
     if (!resolvedEmail && resolvedMobile) {
-      resolvedEmail = `${resolvedMobile}@customer.youpi.local`;
+      resolvedEmail = `${resolvedMobile}@customer.coupi.local`;
     }
     const resolvedPassword = password;
 

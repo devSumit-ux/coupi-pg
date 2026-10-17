@@ -102,9 +102,12 @@ export class CoinWalletStoreServer {
         return;
       }
 
-      // GET /youpi.js or /sdk/youpi-checkout.js (Universal Frontend Integration Script)
-      if (pathname === '/youpi.js' || pathname === '/sdk/youpi-checkout.js' || pathname === '/sdk/youpi.js') {
-        const sdkPath = path.resolve(__dirname, '../../checkout-portal/src/sdk/youpi.js');
+      // GET /coupi.js or /sdk/coupi.js (Universal Frontend Integration Script)
+      if (
+        pathname === '/coupi.js' || pathname === '/sdk/coupi.js' || pathname === '/sdk/coupi-checkout.js' ||
+        pathname === '/youpi.js' || pathname === '/sdk/youpi-checkout.js' || pathname === '/sdk/youpi.js'
+      ) {
+        const sdkPath = path.resolve(__dirname, '../../checkout-portal/src/sdk/coupi.js');
         if (fs.existsSync(sdkPath)) {
           res.writeHead(200, {
             'Content-Type': 'application/javascript; charset=utf-8',
