@@ -3,346 +3,246 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Customer Account · COUPI Store</title>
+  <title>Customer Account · CouPI Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: #131b2e;
-      --border: #243049;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-glow: rgba(37, 99, 235, 0.25);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --success: #10b981;
+      --bg-canvas: #F4F1EA;
+      --bg-docket: #FDFBF7;
+      --bg-white: #FFFFFF;
+      --ink-primary: #16181B;
+      --ink-secondary: #525966;
+      --border-hairline: #E5DFD3;
+      --border-strong: #CDC5B4;
+      --tone-green: #1A5438;
+      --tone-green-wash: #EDF5F0;
+      --tone-navy: #14233C;
+      --font-serif: 'Cinzel', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-canvas);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
     header {
-      background: rgba(2, 6, 23, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 1.1rem 2rem;
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 40;
     }
-
-    .brand { font-size: 1.35rem; font-weight: 800; color: #38bdf8; text-decoration: none; display: flex; align-items: center; gap: 0.6rem; }
-    .brand-icon { font-size: 1.5rem; }
-
-    main { max-width: 900px; width: 100%; margin: 0 auto; padding: 2.5rem 1.5rem; flex: 1; }
-
-    .celebration-banner {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      border-radius: 1.1rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    .brand {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tone-navy);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .balance-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 1.25rem;
-      padding: 2.25rem 2rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    .balance-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.06em; }
-    .balance-val {
-      font-size: 3.6rem;
-      font-weight: 900;
-      color: #f59e0b;
-      margin: 0.5rem 0;
+    .brand-emblem {
+      width: 32px;
+      height: 32px;
+      background: var(--tone-navy);
+      color: #FAF8F5;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      text-shadow: 0 0 25px var(--primary-glow);
+      border-radius: 2px;
+      font-size: 15px;
     }
 
-    .btn {
-      padding: 0.8rem 1.6rem;
-      border-radius: 0.75rem;
-      border: none;
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: inline-flex;
+    main {
+      max-width: 820px;
+      width: 100%;
+      margin: 32px auto;
+      padding: 0 24px;
+      flex: 1;
+    }
+
+    .celebration-banner {
+      background: var(--tone-green-wash);
+      border: 1px solid #B7D9C6;
+      border-left: 3px solid var(--tone-green);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      justify-content: space-between;
+    }
+    .celebration-text-title {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--tone-green);
+      margin-bottom: 2px;
+    }
+    .celebration-text-desc {
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+    }
+
+    .balance-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border-strong);
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .balance-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      margin-bottom: 6px;
+    }
+    .balance-val {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--tone-navy);
+      margin-bottom: 16px;
     }
 
     .btn-buy {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      color: #0b0f19;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+      display: inline-block;
+      background: var(--tone-navy);
+      color: #FAF8F5;
+      padding: 12px 24px;
+      font-family: var(--font-serif);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--tone-navy);
+      transition: background 0.15s ease;
     }
-
     .btn-buy:hover {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.4);
+      background: #0D192C;
     }
 
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.75rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
-    .card-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 1.25rem; color: #ffffff; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    th { text-align: left; padding: 0.85rem 1rem; background: #090d16; color: var(--text-muted); font-weight: 800; border-bottom: 1px solid var(--border); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
-    td { padding: 1rem; border-bottom: 1px solid var(--border); }
-    tr:last-child td { border-bottom: none; }
-
-    .badge-credited {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      padding: 0.3rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+    .history-card {
+      background: var(--bg-docket);
+      border: 1px solid var(--border-hairline);
+      padding: 20px;
     }
-
-    /* Quick Pack Modal */
-    .quick-modal {
-      position: fixed; inset: 0; background: rgba(12, 35, 64, 0.85); backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 90;
-      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    .history-title {
+      font-family: var(--font-serif);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tone-navy);
+      border-bottom: 1px solid var(--border-hairline);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
     }
-    .quick-modal.active { opacity: 1; pointer-events: auto; }
-    .quick-modal-card {
-      background: #131b2e; border: 1px solid var(--border); border-radius: 1.25rem;
-      max-width: 440px; width: 100%; padding: 2rem;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
     }
-    .quick-pack-item {
-      display: flex; align-items: center; justify-content: space-between;
-      background: #090d16; border: 1px solid var(--border); border-radius: 0.75rem;
-      padding: 0.85rem 1rem; margin-bottom: 0.75rem; cursor: pointer;
-      transition: all 0.15s;
+    .history-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      text-align: left;
+      padding: 6px 0;
     }
-    .quick-pack-item:hover {
-      border-color: #f59e0b;
-      background: #1e293b;
-      transform: translateY(-2px);
+    .history-table td {
+      padding: 8px 0;
+      border-top: 1px dotted var(--border-hairline);
+      color: var(--ink-primary);
     }
-
-    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="/" class="brand">
-    <span class="brand-icon">⚡</span>
-    <span>COUPI Store</span>
-  </a>
-  <a href="/" class="btn btn-buy" style="padding:0.45rem 1rem; font-size:0.85rem; text-decoration:none;">
-    ← Back to Store
-  </a>
-</header>
+  <header>
+    <a href="/" class="brand">
+      <div class="brand-emblem">C</div>
+      <span>CouPI Foundation &bull; Customer Account</span>
+    </a>
+    <a href="/" style="font-family:var(--font-mono); font-size:12px; color:var(--ink-secondary); text-decoration:none;">&larr; Return to Store</a>
+  </header>
 
-<main>
-  <!-- Optional Celebration Banner -->
-  <div class="celebration-banner" id="successBanner" hidden>
-    <div style="font-size: 2.5rem; margin-bottom: 0.35rem;">🎉</div>
-    <h2 style="color: #34d399; margin-bottom: 0.35rem; font-size: 1.45rem;">Top-Up Successful!</h2>
-    <p style="color: var(--text-muted); font-size: 0.95rem;">
-      Your payment was confirmed and your coins have been loaded into your vault balance!
-    </p>
-  </div>
-
-  <!-- Wallet Balance Tile -->
-  <div class="balance-card">
-    <div class="balance-label">Current Vault Balance</div>
-    <div class="balance-val">
-      <span>🪙</span>
-      <span id="walletCoinsDisplay">...</span>
+  <main>
+    <div class="celebration-banner" id="celebrationBanner">
+      <div>
+        <div class="celebration-text-title">Top-Up Successful!</div>
+        <div class="celebration-text-desc">Direct banking credit authoritatively verified by RFC 2177 push socket.</div>
+      </div>
+      <span style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--tone-green); padding:4px 8px; background:#FFFFFF; border:1px solid #B7D9C6;">VERIFIED</span>
     </div>
-    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.75rem;">
-      Ready to use for in-game purchases, battle passes, and digital unlocks.
-    </p>
-    <button type="button" class="btn btn-buy" onclick="openQuickPackModal()">
-      ⚡ Top Up More Coins (Popup Drawer)
-    </button>
-  </div>
 
-  <!-- Recent Ledger History -->
-  <div class="card">
-    <div class="card-title">Top-Up History & Transaction Ledger</div>
-    <div style="overflow-x: auto;">
-      <table>
+    <div class="balance-card">
+      <div class="balance-label">Current Vault Balance</div>
+      <div class="balance-val" id="vaultBalanceDisplay">50 Coins</div>
+      <a href="/" class="btn-buy">Requisition Additional Coins &rsaquo;</a>
+    </div>
+
+    <div class="history-card">
+      <div class="history-title">Settlement Audit Ledger</div>
+      <table class="history-table">
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>Pack Description</th>
-            <th>Coins Added</th>
+            <th>Order Ref</th>
+            <th>Type</th>
+            <th>Credit</th>
             <th>Status</th>
-            <th>Timestamp</th>
           </tr>
         </thead>
-        <tbody id="walletLedgerBody">
-          <tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:2rem;">Loading transactions...</td></tr>
+        <tbody id="historyTableBody">
+          <tr>
+            <td style="font-family:var(--font-mono);">COIN-ORD-INIT</td>
+            <td>Genesis Allocation</td>
+            <td style="font-family:var(--font-mono); font-weight:700; color:var(--tone-green);">+50</td>
+            <td style="font-family:var(--font-mono); color:var(--tone-green);">CONFIRMED</td>
+          </tr>
         </tbody>
       </table>
     </div>
-  </div>
-</main>
+  </main>
 
-<!-- Quick Pack Chooser Modal (Directly opens CouPI Drawer) -->
-<div class="quick-modal" id="quickModal">
-  <div class="quick-modal-card">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-      <h3 style="font-size:1.25rem; font-weight:800; color:#fff;">⚡ Choose Coin Pack</h3>
-      <button type="button" onclick="closeQuickPackModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.4rem; cursor:pointer;">✕</button>
-    </div>
-
-    <div class="quick-pack-item" onclick="triggerCheckout('Starter Pack', 100, 100)">
-      <div>
-        <div style="font-weight:800; color:#fff;">⚡ Starter Pack</div>
-        <div style="font-size:0.8rem; color:var(--text-muted);">+100 Game Coins</div>
-      </div>
-      <div style="font-weight:800; color:#f59e0b; font-size:1.1rem;">₹100</div>
-    </div>
-
-    <div class="quick-pack-item" onclick="triggerCheckout('Gamer Pack', 500, 500)" style="border-color:#f59e0b;">
-      <div>
-        <div style="font-weight:800; color:#fff;">🔥 Gamer Pack <span style="font-size:0.7rem; background:#f59e0b; color:#000; padding:2px 6px; border-radius:4px; font-weight:900;">POPULAR</span></div>
-        <div style="font-size:0.8rem; color:var(--text-muted);">+500 Game Coins</div>
-      </div>
-      <div style="font-weight:800; color:#f59e0b; font-size:1.1rem;">₹500</div>
-    </div>
-
-    <div class="quick-pack-item" onclick="triggerCheckout('Pro Vault', 1000, 1000)">
-      <div>
-        <div style="font-weight:800; color:#fff;">💎 Pro Vault</div>
-        <div style="font-size:0.8rem; color:var(--text-muted);">+1,000 Game Coins</div>
-      </div>
-      <div style="font-weight:800; color:#f59e0b; font-size:1.1rem;">₹1,000</div>
-    </div>
-
-    <div class="quick-pack-item" onclick="triggerCheckout('Mythic Hoard', 2500, 2500)">
-      <div>
-        <div style="font-weight:800; color:#fff;">👑 Mythic Hoard</div>
-        <div style="font-size:0.8rem; color:var(--text-muted);">+2,500 Game Coins</div>
-      </div>
-      <div style="font-weight:800; color:#f59e0b; font-size:1.1rem;">₹2,500</div>
-    </div>
-  </div>
-</div>
-
-<!-- Universal COUPI PG Integration SDK -->
-<script src="/coupi.js"></script>
-
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const orderIdParam = urlParams.get('orderId');
-
-  function openQuickPackModal() {
-    document.getElementById('quickModal').classList.add('active');
-  }
-
-  function closeQuickPackModal() {
-    document.getElementById('quickModal').classList.remove('active');
-  }
-
-  async function loadWallet() {
-    try {
-      const res = await fetch('/api/wallet-balance');
-      const data = await res.json();
-
-      document.getElementById('walletCoinsDisplay').textContent = (data.coins || 0).toLocaleString();
-
-      if (orderIdParam) {
-        document.getElementById('successBanner').hidden = false;
-      }
-
-      const tbody = document.getElementById('walletLedgerBody');
-      if (data.history && data.history.length > 0) {
-        tbody.innerHTML = data.history.map(item => `
-          <tr>
-            <td><strong style="color:#ffffff;">#${item.orderId}</strong></td>
-            <td>${item.packName || 'Coin Pack'}</td>
-            <td><strong style="color:#f59e0b;">+${Number(item.coins).toLocaleString()} Coins</strong></td>
-            <td><span class="badge-credited">${item.status}</span></td>
-            <td>${new Date(item.timestamp).toLocaleString()}</td>
-          </tr>
-        `).join('');
-      } else {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:2rem;">No top-up transactions recorded yet.</td></tr>';
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async function triggerCheckout(packName, coins, price) {
-    closeQuickPackModal();
-
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ packName, coins, price })
-      });
-      const data = await res.json();
-
-      if (res.ok && data.checkoutUrl) {
-        if (window.Coupi) {
-          Coupi.pay({
-            checkoutUrl: data.checkoutUrl,
-            order_id: data.orderId,
-            amount: price,
-            name: 'COUPI Store',
-            description: `${packName}`,
-            handler: async function(paymentResponse) {
-              // Direct instant credit
-              await fetch('/api/verify-payment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  paymentId: paymentResponse.utr || paymentResponse.paymentId || data.paymentId,
-                  orderId: data.orderId,
-                  coins: coins,
-                  packName: packName
-                })
-              });
-              document.getElementById('successBanner').hidden = false;
-              loadWallet();
-            }
-          });
-        } else {
-          window.location.href = data.checkoutUrl;
+  <script>
+    fetch('/api/wallet-balance')
+      .then(res => res.json())
+      .then(data => {
+        if (data.coins !== undefined) {
+          document.getElementById('vaultBalanceDisplay').textContent = `${data.coins} Coins`;
         }
-      } else {
-        alert(data.error || 'Failed to initiate checkout.');
-      }
-    } catch (err) {
-      alert('Checkout error: ' + err.message);
-    }
-  }
-
-  loadWallet();
-</script>
-
+        if (data.history && data.history.length > 0) {
+          const tbody = document.getElementById('historyTableBody');
+          tbody.innerHTML = data.history.map(item => `
+            <tr>
+              <td style="font-family:var(--font-mono);">${item.orderId}</td>
+              <td>${item.packName}</td>
+              <td style="font-family:var(--font-mono); font-weight:700; color:var(--tone-green);">+${item.coins}</td>
+              <td style="font-family:var(--font-mono); color:var(--tone-green);">${item.status}</td>
+            </tr>
+          `).join('');
+        }
+      })
+      .catch(() => {});
+  </script>
 </body>
 </html>

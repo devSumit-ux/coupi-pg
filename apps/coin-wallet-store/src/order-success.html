@@ -3,222 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payment Successful · COUPI Store</title>
+  <title>Payment Successful · CouPI Foundation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0b1120;
-      --card-bg: #111c34;
-      --border: #1e293b;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --success: #10b981;
-      --success-glow: rgba(16, 185, 129, 0.2);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg-canvas: #F4F1EA;
+      --bg-docket: #FDFBF7;
+      --bg-white: #FFFFFF;
+      --ink-primary: #16181B;
+      --ink-secondary: #525966;
+      --border-hairline: #E5DFD3;
+      --border-strong: #CDC5B4;
+      --tone-green: #1A5438;
+      --tone-green-wash: #EDF5F0;
+      --tone-navy: #14233C;
+      --font-serif: 'Cinzel', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
-
-    header {
-      background: #060a12;
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-canvas);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      font-size: 1.25rem;
-      font-weight: 800;
-      font-family: 'Outfit', sans-serif;
-      color: #38bdf8;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    main { max-width: 640px; width: 100%; margin: 2rem auto; padding: 1.5rem; flex: 1; }
-
-    .result-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 1.25rem;
-      padding: 2.5rem 2rem;
-      text-align: center;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-    }
-
-    .status-icon-wrap {
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      background: rgba(16, 185, 129, 0.15);
-      border: 2px solid var(--success);
-      color: var(--success);
-      font-size: 2.25rem;
-      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 1.25rem auto;
-      box-shadow: 0 0 25px var(--success-glow);
+      padding: 24px;
+    }
+
+    .docket-result-card {
+      background: var(--bg-docket);
+      border: 1px solid var(--border-strong);
+      border-top: 3px solid var(--tone-green);
+      max-width: 540px;
+      width: 100%;
+      padding: 36px 30px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: var(--tone-green-wash);
+      color: var(--tone-green);
+      border: 1px solid #B7D9C6;
+      margin-bottom: 16px;
     }
 
     .result-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--tone-green);
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
     .result-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
+      font-size: 13.5px;
+      color: var(--ink-secondary);
       line-height: 1.5;
-      margin-bottom: 1.75rem;
+      margin-bottom: 24px;
     }
 
-    .verified-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      color: #34d399;
-      font-size: 0.8rem;
+    .amount-display {
+      font-family: var(--font-mono);
+      font-size: 36px;
       font-weight: 700;
-      padding: 0.35rem 0.85rem;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.02em;
+      color: var(--ink-primary);
+      margin-bottom: 20px;
     }
 
-    .details-table {
-      background: #070d18;
-      border: 1px solid var(--border);
-      border-radius: 0.85rem;
-      padding: 1.25rem;
-      margin-bottom: 2rem;
+    .evidence-block {
+      background: var(--bg-white);
+      border: 1px solid var(--border-hairline);
+      padding: 14px 16px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
       text-align: left;
+      margin-bottom: 24px;
+      color: var(--ink-secondary);
     }
-
-    .detail-row {
+    .evidence-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 0.65rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.9rem;
+      padding: 5px 0;
+      border-bottom: 1px dotted var(--border-hairline);
+    }
+    .evidence-row:last-child {
+      border-bottom: none;
+    }
+    .evidence-row span.val {
+      font-weight: 600;
+      color: var(--ink-primary);
     }
 
-    .detail-row:last-child { border-bottom: none; }
-    .detail-label { color: var(--text-muted); font-weight: 500; }
-    .detail-val { color: #ffffff; font-weight: 700; font-family: monospace; font-size: 0.95rem; }
-    .detail-val.amount-highlight { color: #34d399; font-size: 1.2rem; font-family: 'Outfit', sans-serif; }
-
-    .btn-row { display: flex; gap: 0.85rem; }
-    .btn {
-      flex: 1;
-      padding: 0.85rem 1.25rem;
-      border-radius: 0.65rem;
-      border: none;
+    .btn-action-primary {
+      display: block;
+      width: 100%;
+      background: var(--tone-navy);
+      color: #FAF8F5;
+      border: 1px solid var(--tone-navy);
+      padding: 12px 18px;
+      font-family: var(--font-serif);
+      font-size: 12.5px;
       font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       text-decoration: none;
-      transition: all 0.2s;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background 0.15s ease;
     }
-
-    .btn-primary { background: var(--primary); color: #ffffff; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-secondary { background: #1e293b; color: #f8fafc; border: 1px solid var(--border); }
-    .btn-secondary:hover { background: #334155; }
+    .btn-action-primary:hover {
+      background: #0D192C;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="/" class="brand">
-    <span>⚡ COUPI Store</span>
-  </a>
-  <span style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Reference Implementation Demo</span>
-</header>
-
-<main>
-  <div class="result-card">
-    <div class="status-icon-wrap">✓</div>
+  <div class="docket-result-card">
+    <div class="status-badge">VERIFIED BY COUPI PG</div>
     <h1 class="result-title">Payment Successful!</h1>
-    <p class="result-subtitle">Your transaction has been processed and automatically verified by COUPI PG banking observers.</p>
+    <p class="result-subtitle">
+      Direct banking credit authoritatively verified by RFC 2177 push socket. Your order has been marked paid.
+    </p>
 
-    <div class="verified-badge">
-      <span>●</span> VERIFIED BY COUPI PG
-    </div>
+    <div class="amount-display">₹{{AMOUNT}}</div>
 
-    <div class="details-table">
-      <div class="detail-row">
-        <span class="detail-label">Order ID</span>
-        <span class="detail-val" id="valOrderId">{{ORDER_ID}}</span>
+    <div class="evidence-block">
+      <div class="evidence-row">
+        <span>Order Reference</span>
+        <span class="val">{{ORDER_ID}}</span>
       </div>
-      <div class="detail-row">
-        <span class="detail-label">Amount Received</span>
-        <span class="detail-val amount-highlight" id="valAmount">₹{{AMOUNT}}</span>
+      <div class="evidence-row">
+        <span>Bank Reference (UTR)</span>
+        <span class="val">{{UTR}}</span>
       </div>
-      <div class="detail-row">
-        <span class="detail-label">Payment Mode</span>
-        <span class="detail-val" id="valMode">{{MODE}}</span>
+      <div class="evidence-row">
+        <span>Settlement Mode</span>
+        <span class="val">DIRECT UPI</span>
       </div>
-      <div class="detail-row">
-        <span class="detail-label">Bank Reference / UTR</span>
-        <span class="detail-val" id="valUtr">{{UTR}}</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Timestamp</span>
-        <span class="detail-val" id="valTimestamp" style="font-size: 0.8rem;">{{TIMESTAMP}}</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Status</span>
-        <span class="detail-val" style="color: #34d399;">SUCCESS (SETTLED)</span>
+      <div class="evidence-row">
+        <span>Banking Observer</span>
+        <span class="val" style="color:var(--tone-green);">RFC 2177 IDLE CONFIRMED</span>
       </div>
     </div>
 
-    <div class="btn-row">
-      <a href="/wallet" class="btn btn-primary">View Wallet Balance</a>
-      <a href="/" class="btn btn-secondary">Return to Store</a>
-    </div>
+    <a href="/wallet" class="btn-action-primary">View Customer Vault &rsaquo;</a>
   </div>
-</main>
-
-<script>
-  // Dynamic client query param fallback if rendered statically
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('order_id') || params.get('orderId')) {
-    const oId = params.get('order_id') || params.get('orderId');
-    const el = document.getElementById('valOrderId');
-    if (el && (el.textContent === '{{ORDER_ID}}' || !el.textContent)) el.textContent = oId;
-  }
-  if (params.get('amount')) {
-    const el = document.getElementById('valAmount');
-    if (el && (el.textContent.includes('{{AMOUNT}}') || !el.textContent)) el.textContent = '₹' + Number(params.get('amount')).toFixed(2);
-  }
-  if (params.get('utr')) {
-    const el = document.getElementById('valUtr');
-    if (el && (el.textContent === '{{UTR}}' || !el.textContent)) el.textContent = params.get('utr');
-  }
-  if (params.get('mode') || params.get('payment_mode')) {
-    const el = document.getElementById('valMode');
-    if (el && (el.textContent === '{{MODE}}' || !el.textContent)) el.textContent = params.get('mode') || params.get('payment_mode');
-  }
-</script>
 
 </body>
 </html>

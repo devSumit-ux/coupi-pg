@@ -650,9 +650,10 @@
           max-width: 95vw;
           height: 680px;
           max-height: 92vh;
-          background: #ffffff;
-          border-radius: 14px;
-          box-shadow: 0 25px 65px rgba(0, 0, 0, 0.5);
+          background: #FDFBF7;
+          border: 1px solid #CDC5B4;
+          border-radius: 4px;
+          box-shadow: 0 24px 64px -12px rgba(20, 24, 30, 0.35);
           overflow: hidden;
           transform: translateY(20px) scale(0.98);
           transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -673,7 +674,7 @@
           height: 100%;
           border: none;
           flex: 1;
-          background: #ffffff;
+          background: #FDFBF7;
           touch-action: auto !important;
         }
         .coupi-checkout-close-btn {
@@ -683,9 +684,9 @@
           width: 28px;
           height: 28px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          border: none;
-          color: #ffffff;
+          background: rgba(20, 35, 60, 0.15);
+          border: 1px solid #CDC5B4;
+          color: #14233C;
           font-size: 14px;
           cursor: pointer;
           z-index: 10;
@@ -695,18 +696,19 @@
           transition: background 0.15s;
         }
         .coupi-checkout-close-btn:hover {
-          background: rgba(255, 255, 255, 0.4);
+          background: rgba(20, 35, 60, 0.3);
         }
 
-        /* DESKTOP / PC MODAL STYLES (Razorpay 2-Column Exact Layout) */
+        /* DESKTOP / PC MODAL STYLES */
         @media (min-width: 768px) {
           .coupi-checkout-container {
-            width: 900px;
+            width: 880px;
             max-width: 95vw;
-            height: 600px;
-            max-height: 92vh;
-            border-radius: 16px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            height: 640px;
+            max-height: 94vh;
+            border-radius: 4px;
+            border: 1px solid #CDC5B4;
+            box-shadow: 0 24px 64px -12px rgba(20, 24, 30, 0.35);
           }
           .coupi-checkout-close-btn {
             display: none; /* Native in-modal close button inside the checkout header bar */
