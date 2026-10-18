@@ -87,34 +87,50 @@ With CouPI PG:        ₹0.00 Fees • Instant Direct Bank Settlement
 
 ## 🏗️ How CouPI Works
 
+<p align="center">
+  <img src="assets/coupi-architecture-flow.svg" alt="CouPI PG V2 Architecture & Lifecycle" width="100%" />
+</p>
+
+### ⏱️ Sub-Second Verification Sequence
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Customer as 👤 Customer (Web / Flutter)
+  participant Coupi as ⚡ CouPI Payment Core
+  participant UPI as 📱 UPI App (GPay / PhonePe)
+  participant Bank as 🏦 Bank Core (NPCI)
+  participant Observer as 📡 Cloud IMAP Observer
+  participant Merchant as 💼 Merchant Backend
+
+  Customer->>Coupi: POST /api/v1/checkout/sessions (Base ₹499.00)
+  Coupi-->>Customer: Allocated unique sub-rupee slot: ₹499.03 + UPI Intent
+  Customer->>UPI: 1-Tap launch intent / Scan Vector QR
+  UPI->>Bank: Customer authorizes ₹499.03 (NPCI Rails)
+  Bank-->>Merchant: Account credited ₹499.03 instantly
+  Bank-)Observer: Dispatches credit alert email
+  Observer->>Coupi: RFC 2177 IMAP IDLE push event (< 400ms)
+  Coupi->>Coupi: Matches ₹499.03 & UTR ➔ Transitions to SUCCESS
+  par Instant Client Confirmation
+    Coupi-->>Customer: Real-time SSE / Socket push (Green checkmark)
+  and Authoritative Proof of Payment
+    Coupi->>Merchant: POST /api/webhook (HMAC-SHA256 signature)
+  end
+  Merchant-->>Coupi: HTTP 200 (Order Fulfilled)
 ```
-  [ Customer (Web / Flutter App) ]
-                │
-    (1) Initiates checkout: Base Order ₹500.00
-                │
-    (2) CouPI Paise Offset Engine allocates unique active slot: ₹500.02
-                │
-    (3) Customer scans vector QR or 1-taps UPI intent deep link
-                │
-    (4) Customer approves in GPay / PhonePe / Paytm / CRED
-                │
-    (5) Bank receives funds & sends instant credit alert email
-                │
-  ┌─────────────┴─────────────────────────────────┐
-  ▼                                               ▼
-[ Sub-Second Intent Callback ]      [ Cloud-Native IMAP IDLE Listener ]
-Android intent returns ApprovalRefNo   Persistent TLS socket receives email (<400ms)
-(Submits UTR in 100ms)                 Regex parses amount ₹500.02 & 12-digit UTR
-  └─────────────┬─────────────────────────────────┘
-                │
-    (6) Attribution Engine matches ₹500.02 & transitions session to SUCCESS
-                │
-    ┌───────────┴───────────────────────────────┐
-    ▼                                           ▼
-[ Real-Time Client Push ]             [ HMAC-SHA256 Signed Webhook ]
-Socket.io / SSE broadcasts to UI      POST /api/webhook to merchant server
-(Instant green checkmark)             (Authoritative database fulfillment)
-```
+
+<br/>
+
+### 📱 Live Product Showcase (Desktop & Mobile)
+
+<div align="center">
+
+| 🖥️ Desktop Web Checkout Modal | 📱 Mobile Intent & Fast-Path UTR |
+| :---: | :---: |
+| <img src="assets/desktop-demo.gif" width="460" alt="Desktop Web Checkout Demo" /> | <img src="assets/mobile-demo.gif" width="280" alt="Mobile Checkout Demo" /> |
+| *Zero-redirect modal with live vector QR & dynamic timer* | *Native Android/iOS UPI app switch & clipboard UTR catch* |
+
+</div>
 
 <br/>
 
@@ -128,8 +144,8 @@ Socket.io / SSE broadcasts to UI      POST /api/webhook to merchant server
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/coupi-pg/coupi.git
-cd coupi
+git clone https://github.com/devSumit-ux/coupi-pg.git
+cd coupi-pg
 npm install
 ```
 
@@ -204,6 +220,10 @@ That's it! CouPI opens an RFC 2177 persistent TLS socket. Whenever a bank email 
 ---
 
 ## 🎯 High-Concurrency Paise Offset Engine
+
+<p align="center">
+  <img src="assets/paise-offset-engine.svg" alt="Paise Offset Concurrency Visual" width="100%" />
+</p>
 
 ### The Problem CouPI Solves:
 When a customer transfers money via P2P UPI, the bank notification typically reads:
