@@ -4,36 +4,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>{{MERCHANT_NAME}} · {{APP_NAME}} Remittance Voucher</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>{{MERCHANT_NAME}} · {{APP_NAME}}</title>
   <style>
     :root {
-      --bg-canvas: #F4F1EA;
-      --bg-docket: #FDFBF7;
-      --bg-white: #FFFFFF;
-      --ink-primary: #16181B;
-      --ink-secondary: #525966;
-      --ink-tertiary: #878E99;
-      --border-hairline: #E5DFD3;
-      --border-strong: #CDC5B4;
-      --border-dashed: #C4BCAB;
-      --tone-green: #1A5438;
-      --tone-green-wash: #EDF5F0;
-      --tone-green-border: #B7D9C6;
-      --tone-ochre: #9A4325;
-      --tone-ochre-wash: #FBF2ED;
-      --tone-ochre-border: #EDCEBF;
-      --tone-navy: #14233C;
-      --tone-navy-wash: #EFF3F9;
-      --tone-navy-border: #C4D3E5;
-      --font-serif: 'Cinzel', Georgia, 'Times New Roman', serif;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      --ypg-blue: #14233C;
-      --ypg-blue-dark: #0A1424;
-      --ypg-font: var(--font-sans);
+      --apple-bg: #f5f5f7;
+      --apple-sheet: #ffffff;
+      --apple-sidebar: #fafafa;
+      --apple-text: #1d1d1f;
+      --apple-subtext: #86868b;
+      --apple-tertiary: #6e6e73;
+      --apple-border: rgba(0, 0, 0, 0.08);
+      --apple-border-subtle: #e5e5ea;
+      --apple-border-strong: rgba(0, 0, 0, 0.14);
+      --apple-blue: #0071e3;
+      --apple-green: #34c759;
+      --apple-green-wash: #f0fdf4;
+      --apple-amber: #ff9500;
+      --apple-amber-wash: #fffbeb;
+      --apple-red: #ff3b30;
+      --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --apple-font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --apple-radius-sm: 8px;
+      --apple-radius-md: 14px;
+      --apple-radius-lg: 20px;
+      --apple-radius-pill: 980px;
+      --ypg-blue: var(--apple-blue);
+      --ypg-font: var(--apple-font);
     }
 
     * {
@@ -50,11 +46,11 @@
     }
 
     html, body {
-      background-color: var(--bg-canvas);
-      color: var(--ink-primary);
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      line-height: 1.5;
+      background-color: var(--apple-bg);
+      color: var(--apple-text);
+      font-family: var(--apple-font);
+      font-size: 14px;
+      line-height: 1.45;
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
@@ -63,7 +59,8 @@
       padding: 0;
       margin: 0;
       overflow-x: hidden;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.012em;
+      -webkit-font-smoothing: antialiased;
     }
 
     body.is-embedded {
@@ -75,14 +72,15 @@
       overflow: hidden;
     }
 
-    /* --- EDITORIAL SOVEREIGN REMITTANCE DOCKET --- */
+    /* --- APPLE PAY SHEET CONTAINER --- */
     .ypg-wrapper {
       width: 100%;
       max-width: 860px;
-      min-height: 620px;
-      background: var(--bg-docket);
-      border: 1px solid var(--border-strong);
-      box-shadow: 0 20px 48px -12px rgba(20, 24, 30, 0.18), 0 2px 8px rgba(20, 24, 30, 0.04);
+      min-height: 600px;
+      background: var(--apple-sheet);
+      border-radius: var(--apple-radius-lg);
+      border: 1px solid var(--apple-border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
       display: flex;
       flex-direction: row;
       position: relative;
@@ -95,71 +93,68 @@
         min-height: 100vh;
         min-height: 100dvh;
         flex-direction: column;
+        border-radius: 0;
         border: none;
         box-shadow: none;
       }
     }
 
-    /* --- SPLASH SCREEN --- */
+    /* Splash Screen */
     .ypg-splash-screen {
       position: absolute;
       inset: 0;
-      background: var(--bg-docket);
+      background: #ffffff;
       z-index: 100;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
-      gap: 16px;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      gap: 14px;
     }
     .ypg-splash-screen.fade-out {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
-    .ypg-splash-seal {
-      width: 72px;
-      height: 72px;
-      border: 2px solid var(--border-strong);
-      border-radius: 50%;
+    .ypg-splash-emblem {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--apple-radius-md);
+      background: #000000;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg-white);
-      box-shadow: inset 0 0 0 4px var(--bg-docket);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
     }
     .ypg-splash-title {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--tone-navy);
-    }
-    .ypg-splash-subtitle {
-      font-size: 11.5px;
-      color: var(--ink-secondary);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--apple-text);
     }
 
-    /* --- TOAST --- */
+    /* Toast Notification */
     .ypg-toast {
       position: fixed;
-      top: 16px;
+      top: 18px;
       left: 50%;
       transform: translateX(-50%) translateY(-20px);
-      background: var(--tone-navy);
-      color: #FFFFFF;
+      background: rgba(29, 29, 31, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #ffffff;
       padding: 9px 18px;
-      border-radius: 4px;
-      font-size: 12px;
+      border-radius: var(--apple-radius-pill);
+      font-size: 12.5px;
       font-weight: 500;
-      letter-spacing: 0.01em;
+      letter-spacing: -0.01em;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.25s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 2000;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
@@ -169,183 +164,109 @@
     }
 
     /* ========================================================
-       LEFT COLUMN: OFFICIAL REMITTANCE DOCKET (SIDEBAR)
+       LEFT SIDEBAR: ORDER & PRICE RECEIPT
        ======================================================== */
     .ypg-pc-sidebar {
-      width: 320px;
+      width: 310px;
       flex-shrink: 0;
-      background: #F8F5EE;
-      border-right: 1px solid var(--border-hairline);
-      padding: 32px 28px;
+      background: var(--apple-sidebar);
+      border-right: 1px solid var(--apple-border);
+      padding: 32px 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
     }
     @media (max-width: 768px) {
       .ypg-pc-sidebar {
         width: 100%;
-        padding: 20px 20px 16px 20px;
+        padding: 20px 20px 16px;
         border-right: none;
-        border-bottom: 1px solid var(--border-hairline);
+        border-bottom: 1px solid var(--apple-border);
       }
     }
 
-    .ypg-docket-masthead {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding-bottom: 18px;
-      border-bottom: 2px solid var(--border-strong);
-      margin-bottom: 22px;
-    }
-    .ypg-docket-emblem {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--tone-navy);
-      color: #FAF8F5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-serif);
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: 0.05em;
-      flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .ypg-docket-masthead-text {
-      display: flex;
-      flex-direction: column;
-    }
-    .ypg-docket-tag {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--tone-ochre);
-    }
-    .ypg-docket-org {
-      font-family: var(--font-serif);
-      font-size: 13.5px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--tone-navy);
-      text-transform: uppercase;
-    }
-
-    /* Merchant Beneficiary Block */
     .ypg-pc-brand-header {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
     .ypg-pc-avatar {
       width: 44px;
       height: 44px;
-      background: var(--bg-white);
-      border: 1px solid var(--border-strong);
-      border-radius: 4px;
+      border-radius: var(--apple-radius-md);
+      background: #000000;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-serif);
       font-weight: 700;
       font-size: 18px;
-      color: var(--tone-navy);
       flex-shrink: 0;
       overflow: hidden;
+      border: 1px solid var(--apple-border);
     }
     .ypg-pc-brand-info {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .ypg-pc-merchant-name {
-      font-family: var(--font-sans);
       font-size: 15px;
-      font-weight: 700;
-      color: var(--ink-primary);
-      line-height: 1.3;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--apple-text);
+      line-height: 1.25;
     }
     .ypg-pc-trust-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--tone-green);
-      letter-spacing: 0.01em;
+      gap: 4px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--apple-green);
     }
     .ypg-pc-green-shield {
-      width: 13px;
-      height: 13px;
-      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
     }
 
-    /* Price Card (Institutional Ledger) */
+    /* Price Summary Card */
     .ypg-pc-price-card {
-      background: var(--bg-white);
-      border: 1px solid var(--border-hairline);
-      border-left: 3px solid var(--tone-navy);
-      padding: 14px 16px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-md);
+      border: 1px solid var(--apple-border);
+      padding: 16px 18px;
       margin-bottom: 18px;
     }
     .ypg-pc-price-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--ink-secondary);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--apple-subtext);
       margin-bottom: 4px;
+      letter-spacing: -0.01em;
     }
     .ypg-pc-price-val {
-      font-family: var(--font-mono);
-      font-size: 26px;
+      font-size: 30px;
       font-weight: 700;
-      color: var(--ink-primary);
-      letter-spacing: -0.02em;
+      color: var(--apple-text);
+      letter-spacing: -0.035em;
       font-variant-numeric: tabular-nums;
+      line-height: 1.1;
     }
 
-    /* CouPI Concurrency & Evidence Ledger */
-    .ypg-pc-evidence-ledger {
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px dashed var(--border-dashed);
-      padding: 12px 14px;
-      margin-bottom: 18px;
-    }
-    .ypg-pc-evidence-title {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--tone-navy);
-      margin-bottom: 6px;
+    /* Social Proof Strip */
+    .ypg-pc-social-proof {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-    }
-    .ypg-pc-evidence-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--ink-secondary);
-      padding: 3px 0;
-      border-bottom: 1px dotted var(--border-hairline);
-    }
-    .ypg-pc-evidence-row:last-child {
-      border-bottom: none;
-    }
-    .ypg-pc-evidence-val {
-      font-family: var(--font-mono);
-      font-weight: 600;
-      color: var(--ink-primary);
+      gap: 8px;
+      font-size: 12px;
+      color: var(--apple-tertiary);
+      padding: 10px 14px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-sm);
+      border: 1px solid var(--apple-border);
+      margin-bottom: 14px;
     }
 
     /* Customer Identity Row */
@@ -353,16 +274,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 12px;
-      background: var(--bg-white);
-      border: 1px solid var(--border-hairline);
+      padding: 11px 14px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-sm);
+      border: 1px solid var(--apple-border);
       cursor: pointer;
+      font-size: 12.5px;
+      color: var(--apple-text);
       transition: background 0.15s ease;
-      font-size: 12px;
-      color: var(--ink-secondary);
     }
     .ypg-pc-row-btn:hover {
-      background: #FAF8F2;
+      background: #f0f0f2;
     }
     .ypg-pc-row-left {
       display: flex;
@@ -374,70 +296,45 @@
       white-space: nowrap;
     }
     .ypg-pc-chevron {
-      color: var(--ink-tertiary);
+      color: var(--apple-subtext);
       font-size: 14px;
     }
 
-    /* Social Proof Bar */
-    .ypg-pc-social-proof {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 11.5px;
-      color: var(--ink-secondary);
-      padding: 8px 10px;
-      background: var(--bg-white);
-      border: 1px solid var(--border-hairline);
-      margin-bottom: 14px;
-    }
-
-    /* Sovereign Treasury Watermark (Left bottom) */
+    /* Watermark Seal */
     .ypg-pc-bags-wrap {
       margin-top: auto;
       padding-top: 18px;
     }
-    .ypg-pc-seal-watermark {
-      border: 1px solid var(--border-hairline);
-      background: var(--bg-white);
-      padding: 12px 14px;
-      text-align: center;
-    }
-    .ypg-pc-seal-text {
-      font-family: var(--font-serif);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--tone-navy);
-      margin-bottom: 3px;
-    }
-    .ypg-pc-seal-sub {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      color: var(--ink-tertiary);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+    .ypg-apple-security-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--apple-subtext);
+      padding: 10px 12px;
+      border-radius: var(--apple-radius-sm);
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid var(--apple-border);
     }
 
     /* ========================================================
-       RIGHT WORKSPACE: DOCKET PROCESSING & SETTLEMENT INTERFACE
+       RIGHT WORKSPACE: ACTIVE PAYMENT SHEET
        ======================================================== */
     .ypg-pc-workspace {
       flex: 1;
       display: flex;
       flex-direction: column;
-      background: var(--bg-docket);
+      background: var(--apple-sheet);
       min-width: 0;
     }
 
-    /* Top Bar */
+    /* Apple Top Bar */
     .ypg-pc-topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 28px;
-      border-bottom: 1px solid var(--border-hairline);
-      background: var(--bg-white);
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--apple-border);
     }
     @media (max-width: 768px) {
       .ypg-pc-topbar {
@@ -445,12 +342,10 @@
       }
     }
     .ypg-pc-topbar-title {
-      font-family: var(--font-serif);
-      font-size: 13.5px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--tone-navy);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--apple-text);
     }
     .ypg-pc-topbar-actions {
       display: flex;
@@ -460,28 +355,26 @@
     }
     .ypg-pc-btn-more,
     .ypg-pc-btn-close {
-      background: none;
-      border: 1px solid var(--border-hairline);
-      color: var(--ink-secondary);
-      width: 32px;
-      height: 32px;
-      border-radius: 3px;
+      background: #f5f5f7;
+      border: none;
+      color: var(--apple-text);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease;
     }
     .ypg-pc-btn-more:hover,
     .ypg-pc-btn-close:hover {
-      background: var(--bg-canvas);
-      color: var(--ink-primary);
-      border-color: var(--border-strong);
+      background: #e5e5ea;
     }
 
-    /* Mobile Header (Hidden on Desktop) */
+    /* Mobile Header */
     .ypg-header {
       display: none;
     }
@@ -489,8 +382,8 @@
       .ypg-header {
         display: block;
         padding: 12px 18px;
-        background: #F8F5EE;
-        border-bottom: 1px solid var(--border-hairline);
+        background: #ffffff;
+        border-bottom: 1px solid var(--apple-border);
       }
       .ypg-header-main-row {
         display: flex;
@@ -506,23 +399,21 @@
         background: none;
         border: none;
         cursor: pointer;
-        color: var(--ink-secondary);
+        color: var(--apple-text);
         display: flex;
         align-items: center;
       }
       .ypg-merchant-avatar {
         width: 34px;
         height: 34px;
-        background: var(--bg-white);
-        border: 1px solid var(--border-strong);
-        border-radius: 3px;
+        background: #000000;
+        color: #ffffff;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: var(--font-serif);
         font-weight: 700;
-        font-size: 15px;
-        color: var(--tone-navy);
+        font-size: 14px;
       }
       .ypg-merchant-text-group {
         display: flex;
@@ -530,39 +421,37 @@
       }
       .ypg-merchant-name {
         font-size: 14px;
-        font-weight: 700;
-        color: var(--ink-primary);
+        font-weight: 600;
+        color: var(--apple-text);
       }
       .ypg-trusted-badge {
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        font-size: 10.5px;
-        font-weight: 600;
-        color: var(--tone-green);
+        font-size: 11px;
+        color: var(--apple-green);
+        font-weight: 500;
       }
       .ypg-green-shield {
         width: 11px;
         height: 11px;
       }
       .ypg-btn-profile {
-        background: none;
-        border: 1px solid var(--border-hairline);
-        color: var(--ink-secondary);
+        background: #f5f5f7;
+        border: none;
+        color: var(--apple-text);
         width: 32px;
         height: 32px;
-        border-radius: 3px;
+        border-radius: 50%;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .ypg-header-subbanner {
-        display: none;
-      }
+      .ypg-header-subbanner { display: none; }
     }
 
-    /* Main Scrollable Body */
+    /* Scrollable Body */
     .ypg-body {
       flex: 1;
       padding: 28px;
@@ -576,18 +465,15 @@
 
     /* Page / Section Titles */
     .ypg-page-title {
-      font-family: var(--font-serif);
-      font-size: 17px;
+      font-size: 20px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--tone-navy);
-      margin-bottom: 6px;
-      text-transform: uppercase;
+      letter-spacing: -0.025em;
+      color: var(--apple-text);
+      margin-bottom: 4px;
     }
     .ypg-section-heading {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: var(--ink-secondary);
+      font-size: 13px;
+      color: var(--apple-subtext);
     }
     .ypg-section-label-row {
       display: flex;
@@ -596,38 +482,32 @@
       margin-bottom: 16px;
     }
 
-    /* Server Health Status Pill */
+    /* Server Health Indicator */
     .ypg-server-health-indicator {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 5px 12px;
-      border-radius: 2px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--apple-radius-pill);
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 16px;
     }
     .ypg-server-health-indicator.is-working {
-      background: var(--tone-green-wash);
-      color: var(--tone-green);
-      border: 1px solid var(--tone-green-border);
+      background: var(--apple-green-wash);
+      color: var(--apple-green);
     }
     .ypg-server-health-indicator.is-busy {
-      background: var(--tone-ochre-wash);
-      color: var(--tone-ochre);
-      border: 1px solid var(--tone-ochre-border);
+      background: var(--apple-amber-wash);
+      color: var(--apple-amber);
     }
     .ypg-server-health-indicator.is-issues {
-      background: #FEF2F2;
-      color: #991B1B;
-      border: 1px solid #FECACA;
+      background: #fef2f2;
+      color: var(--apple-red);
     }
     .ypg-pulse-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: currentColor;
     }
@@ -636,36 +516,36 @@
     .ypg-downtime-alert {
       display: flex;
       gap: 12px;
-      padding: 12px 14px;
-      background: var(--tone-ochre-wash);
-      border: 1px solid var(--tone-ochre-border);
-      border-left: 3px solid var(--tone-ochre);
+      padding: 12px 16px;
+      background: var(--apple-amber-wash);
+      border-radius: var(--apple-radius-md);
       margin-bottom: 18px;
+      border: 1px solid #fde68a;
     }
     .ypg-downtime-heading {
-      font-weight: 700;
-      font-size: 12.5px;
-      color: var(--tone-ochre);
-      margin-bottom: 3px;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--apple-amber);
+      margin-bottom: 2px;
     }
     .ypg-downtime-msg {
-      font-size: 11.5px;
-      color: var(--ink-secondary);
-      line-height: 1.45;
+      font-size: 12px;
+      color: var(--apple-text);
+      line-height: 1.4;
       margin-bottom: 6px;
     }
     .ypg-btn-downtime-alt {
-      background: var(--tone-ochre);
-      color: #FFFFFF;
+      background: var(--apple-amber);
+      color: #ffffff;
       border: none;
-      padding: 5px 12px;
-      font-size: 11.5px;
+      padding: 6px 14px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      border-radius: 2px;
+      border-radius: var(--apple-radius-pill);
     }
 
-    /* Two Sub-columns (Desktop Method List & Active View) */
+    /* Two Sub-Columns (Desktop) */
     .ypg-pc-columns {
       display: flex;
       gap: 24px;
@@ -685,62 +565,59 @@
     }
     @media (max-width: 768px) {
       .ypg-pc-methods-list {
-        display: none; /* Managed by top method tab selector on mobile */
+        display: none;
       }
     }
     .ypg-pc-method-card {
-      background: var(--bg-white);
-      border: 1px solid var(--border-hairline);
-      padding: 12px;
+      background: #f5f5f7;
+      border: 1.5px solid transparent;
+      border-radius: var(--apple-radius-md);
+      padding: 12px 14px;
       cursor: pointer;
       transition: all 0.15s ease;
-      position: relative;
     }
     .ypg-pc-method-card:hover {
-      border-color: var(--border-strong);
-      background: #FCFAF5;
+      background: #eaeaec;
     }
     .ypg-pc-method-card.is-active {
-      border-color: var(--tone-navy);
-      border-left: 3px solid var(--tone-navy);
-      background: #FAF8F2;
+      background: #ffffff;
+      border-color: var(--apple-blue);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.12);
     }
     .ypg-pc-method-header {
       display: flex;
       align-items: center;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .ypg-pc-method-title {
-      font-family: var(--font-sans);
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--ink-primary);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--apple-text);
     }
     .ypg-pc-method-sub {
-      font-size: 11px;
-      color: var(--ink-secondary);
+      font-size: 11.5px;
+      color: var(--apple-subtext);
       line-height: 1.35;
       margin-bottom: 6px;
     }
     .ypg-pc-method-icons {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
     .ypg-pc-mini-icon {
-      height: 14px;
+      height: 13px;
       width: auto;
       object-fit: contain;
     }
     .ypg-pc-cash-pill {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      font-size: 9.5px;
+      font-weight: 600;
       text-transform: uppercase;
-      padding: 2px 5px;
-      background: #EFECE4;
-      color: var(--ink-secondary);
+      padding: 2px 6px;
+      background: #e5e5ea;
+      color: var(--apple-tertiary);
+      border-radius: 4px;
       margin-left: auto;
     }
 
@@ -749,79 +626,81 @@
       min-width: 0;
     }
 
-    /* Method Selector Bar (Mobile) */
+    /* Method Selector Tabs (Mobile) */
     .ypg-method-selector-bar {
       display: none;
-      gap: 8px;
+      background: #eeeeee;
+      border-radius: 10px;
+      padding: 3px;
       margin-bottom: 18px;
+      gap: 3px;
       overflow-x: auto;
-      padding-bottom: 4px;
     }
     .ypg-method-tab {
-      background: var(--bg-white);
-      border: 1px solid var(--border-hairline);
-      padding: 8px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ink-secondary);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--apple-text);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       white-space: nowrap;
-      border-radius: 3px;
+      transition: all 0.15s ease;
     }
     .ypg-method-tab.active {
-      border-color: var(--tone-navy);
-      color: var(--tone-navy);
-      background: var(--tone-navy-wash);
+      background: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* Countdown Pill */
+    /* Apple Countdown Pill */
     .ypg-countdown-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: var(--bg-white);
-      border: 1px solid var(--border-hairline);
+      gap: 5px;
+      background: #f5f5f7;
       padding: 4px 10px;
-      font-family: var(--font-mono);
-      font-size: 11.5px;
+      border-radius: var(--apple-radius-pill);
+      font-size: 12px;
       font-weight: 600;
-      color: var(--ink-primary);
-      border-radius: 2px;
+      color: var(--apple-text);
     }
 
-    /* QR Code Certificate Frame */
+    /* QR Code Card Frame */
     .ypg-qr-card-container {
-      background: var(--bg-white);
-      border: 1px solid var(--border-strong);
-      padding: 22px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-lg);
+      border: 1px solid var(--apple-border);
+      padding: 24px;
       display: flex;
       gap: 24px;
       align-items: center;
       margin-bottom: 20px;
-      position: relative;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     }
     @media (max-width: 600px) {
       .ypg-qr-card-container {
         flex-direction: column;
         text-align: center;
-        padding: 18px;
+        padding: 20px;
         gap: 16px;
       }
     }
     .ypg-qr-image-box {
-      width: 196px;
-      height: 196px;
+      width: 190px;
+      height: 190px;
       flex-shrink: 0;
-      background: #FFFFFF;
-      border: 1px solid var(--border-hairline);
+      background: #ffffff;
+      border-radius: var(--apple-radius-md);
+      border: 1px solid var(--apple-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
-      box-shadow: inset 0 0 0 2px var(--bg-docket);
+      padding: 10px;
     }
     .ypg-qr-image-box svg {
       width: 100% !important;
@@ -834,12 +713,10 @@
       gap: 10px;
     }
     .ypg-qr-prompt-title {
-      font-family: var(--font-serif);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: var(--tone-navy);
-      text-transform: uppercase;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--apple-text);
     }
     .ypg-upi-logos-row {
       display: flex;
@@ -848,15 +725,15 @@
       flex-wrap: wrap;
     }
     .ypg-app-icon {
-      width: 28px;
-      height: 28px;
-      border: 1px solid var(--border-hairline);
-      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--apple-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #FFFFFF;
-      padding: 3px;
+      background: #ffffff;
+      padding: 4px;
     }
     .ypg-app-icon img {
       max-width: 100%;
@@ -866,8 +743,8 @@
 
     /* Verification Instructions Guide */
     .ypg-instructions-card {
-      background: #F8F5EE;
-      border: 1px solid var(--border-hairline);
+      background: #f5f5f7;
+      border-radius: var(--apple-radius-md);
       padding: 16px 18px;
       margin-bottom: 20px;
     }
@@ -876,8 +753,8 @@
       gap: 12px;
       align-items: flex-start;
       margin-bottom: 10px;
-      font-size: 12px;
-      color: var(--ink-secondary);
+      font-size: 12.5px;
+      color: var(--apple-tertiary);
       line-height: 1.45;
     }
     .ypg-instruction-step:last-child {
@@ -887,140 +764,152 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: var(--tone-navy);
-      color: #FFFFFF;
+      background: #1d1d1f;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       flex-shrink: 0;
     }
 
-    /* --- PRE-GATEWAY AUTH VIEW (AUTHENTIC IDENTITY ENTRANCE) --- */
+    /* --- AUTH VIEW (APPLE ID STYLE SHEET) --- */
     .ypg-auth-box {
-      background: var(--bg-white);
-      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      border-radius: var(--apple-radius-lg);
+      border: 1px solid var(--apple-border);
       padding: 24px;
       margin-top: 14px;
     }
     .ypg-auth-sub-desc {
-      font-size: 12.5px;
-      color: var(--ink-secondary);
+      font-size: 13px;
+      color: var(--apple-subtext);
       margin-bottom: 20px;
-      line-height: 1.45;
     }
     .ypg-input-group {
       margin-bottom: 16px;
     }
     .ypg-input-label {
       display: block;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--apple-subtext);
       margin-bottom: 6px;
     }
     .ypg-phone-input-wrap {
       display: flex;
-      border: 1px solid var(--border-strong);
-      background: var(--bg-white);
+      background: #f5f5f7;
+      border-radius: var(--apple-radius-md);
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      overflow: hidden;
+    }
+    .ypg-phone-input-wrap:focus-within {
+      background: #ffffff;
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
     }
     .ypg-phone-prefix {
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 0 12px;
-      background: #F8F5EE;
-      border-right: 1px solid var(--border-hairline);
-      font-family: var(--font-mono);
-      font-size: 12.5px;
+      padding: 0 14px;
+      background: #ebebee;
+      font-size: 14px;
       font-weight: 600;
-      color: var(--ink-primary);
+      color: var(--apple-text);
     }
     .ypg-phone-control,
     .ypg-input-control {
       width: 100%;
       border: none;
-      padding: 11px 14px;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      color: var(--ink-primary);
+      padding: 12px 14px;
+      font-family: var(--apple-font);
+      font-size: 15px;
+      color: var(--apple-text);
       background: transparent;
       outline: none;
     }
     .ypg-input-control {
-      border: 1px solid var(--border-strong);
-      background: var(--bg-white);
+      background: #f5f5f7;
+      border-radius: var(--apple-radius-md);
+    }
+    .ypg-input-control:focus {
+      background: #ffffff;
+      border: 1px solid var(--apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
     }
     .ypg-otp-control {
       letter-spacing: 0.35em;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       text-align: center;
     }
     .ypg-btn-auth-action {
       width: 100%;
-      background: var(--tone-navy);
-      color: #FAF8F5;
-      border: 1px solid var(--tone-navy);
-      padding: 12px 18px;
-      font-family: var(--font-serif);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      background: #000000;
+      color: #ffffff;
+      border: none;
+      border-radius: var(--apple-radius-pill);
+      padding: 13px 20px;
+      font-family: var(--apple-font);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: background 0.15s ease;
-      margin-top: 10px;
+      gap: 6px;
+      transition: background 0.15s ease, transform 0.1s ease;
+      margin-top: 12px;
     }
     .ypg-btn-auth-action:hover {
-      background: #0D192C;
+      background: #1d1d1f;
+      transform: scale(1.006);
+    }
+    .ypg-btn-auth-action:active {
+      transform: scale(0.99);
     }
     .ypg-auth-badge-banner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 12px;
-      background: #F8F5EE;
-      border: 1px solid var(--border-hairline);
-      font-size: 12px;
-      color: var(--ink-secondary);
+      padding: 10px 14px;
+      background: #f5f5f7;
+      border-radius: var(--apple-radius-md);
+      font-size: 12.5px;
+      color: var(--apple-text);
       margin-bottom: 14px;
     }
     .ypg-btn-link {
       background: none;
       border: none;
-      color: var(--tone-navy);
-      font-weight: 700;
-      font-size: 12px;
+      color: var(--apple-blue);
+      font-weight: 500;
+      font-size: 12.5px;
       cursor: pointer;
+    }
+    .ypg-btn-link:hover {
       text-decoration: underline;
     }
 
-    /* Saved Account Row */
+    /* Saved Account */
     .saved-account-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 14px;
-      border: 1px solid var(--border-hairline);
-      background: #FDFBF7;
+      border-radius: var(--apple-radius-md);
+      background: #f5f5f7;
       margin-bottom: 12px;
       cursor: pointer;
     }
 
-    /* Sticky Bottom Footer */
+    /* Bottom Apple Action Bar */
     .ypg-sticky-footer {
-      background: var(--bg-white);
-      border-top: 1px solid var(--border-hairline);
+      background: #ffffff;
+      border-top: 1px solid var(--apple-border);
       padding: 14px 28px;
       display: flex;
       flex-direction: column;
@@ -1033,7 +922,7 @@
     }
     .ypg-legal-disclaimer {
       font-size: 11px;
-      color: var(--ink-tertiary);
+      color: var(--apple-subtext);
       text-align: center;
     }
     .ypg-action-bottom-bar {
@@ -1045,47 +934,45 @@
     .ypg-amount-view-group {
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 8px;
     }
     .ypg-bottom-price {
-      font-family: var(--font-mono);
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 700;
-      color: var(--ink-primary);
+      color: var(--apple-text);
+      font-variant-numeric: tabular-nums;
     }
     .ypg-btn-view-details {
       background: none;
       border: none;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--ink-secondary);
+      font-size: 12px;
+      color: var(--apple-blue);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
     }
     .ypg-btn-continue {
-      background: var(--tone-navy);
-      color: #FFFFFF;
-      border: 1px solid var(--tone-navy);
-      padding: 9px 18px;
-      font-family: var(--font-sans);
-      font-size: 12.5px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+      background: #000000;
+      color: #ffffff;
+      border: none;
+      border-radius: var(--apple-radius-pill);
+      padding: 10px 20px;
+      font-family: var(--apple-font);
+      font-size: 13px;
+      font-weight: 600;
       cursor: pointer;
-      border-radius: 2px;
       transition: background 0.15s ease;
     }
     .ypg-btn-continue:hover {
-      background: #0D192C;
+      background: #1d1d1f;
     }
 
     /* Order Details Drawer */
     .ypg-details-drawer {
       display: none;
-      background: #F8F5EE;
-      border: 1px solid var(--border-hairline);
+      background: #f5f5f7;
+      border-radius: var(--apple-radius-md);
       padding: 14px 16px;
       margin-top: 8px;
     }
@@ -1096,36 +983,35 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: var(--font-serif);
-      font-size: 11.5px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--tone-navy);
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border-hairline);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--apple-text);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--apple-border);
       padding-bottom: 6px;
     }
     .ypg-details-row {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      color: var(--ink-secondary);
-      padding: 4px 0;
+      color: var(--apple-subtext);
+      padding: 3px 0;
     }
     .ypg-details-row.total {
-      font-weight: 700;
-      color: var(--ink-primary);
-      border-top: 1px dashed var(--border-dashed);
-      padding-top: 8px;
+      font-weight: 600;
+      color: var(--apple-text);
+      border-top: 1px solid var(--apple-border);
+      padding-top: 6px;
       margin-top: 4px;
     }
 
-    /* --- PROCESSING / AUDIT LEDGER VIEW --- */
+    /* Modal Sheet Backdrop */
     .rzp-sheet-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(20, 24, 30, 0.45);
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 1500;
       display: flex;
       align-items: center;
@@ -1136,76 +1022,71 @@
       display: none !important;
     }
     .rzp-sheet-dialog {
-      background: var(--bg-docket);
-      border: 1px solid var(--border-strong);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-      max-width: 440px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-xl);
+      border: 1px solid var(--apple-border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+      max-width: 420px;
       width: 100%;
-      padding: 28px 24px;
+      padding: 32px 24px;
       text-align: center;
       position: relative;
     }
     .rzp-sheet-title {
-      font-family: var(--font-serif);
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--tone-navy);
+      letter-spacing: -0.02em;
+      color: var(--apple-text);
       margin-bottom: 6px;
     }
     .rzp-sheet-subtitle {
-      font-size: 12px;
-      color: var(--ink-secondary);
+      font-size: 13px;
+      color: var(--apple-subtext);
       line-height: 1.45;
       margin-bottom: 20px;
     }
     .rzp-sheet-cancel-btn {
-      background: none;
-      border: 1px solid var(--border-hairline);
-      padding: 9px 18px;
-      font-size: 12px;
+      background: #f5f5f7;
+      border: none;
+      border-radius: var(--apple-radius-pill);
+      padding: 10px 20px;
+      font-size: 12.5px;
       font-weight: 600;
-      color: var(--ink-secondary);
+      color: var(--apple-text);
       cursor: pointer;
       margin-top: 14px;
     }
-    .rzp-sheet-cancel-btn:hover {
-      background: #F8F5EE;
-      color: var(--ink-primary);
-    }
     .rzp-btn-wait {
       width: 100%;
-      background: var(--tone-navy);
-      color: #FFFFFF;
+      background: #000000;
+      color: #ffffff;
       border: none;
-      padding: 11px;
-      font-family: var(--font-sans);
-      font-size: 13px;
-      font-weight: 700;
+      border-radius: var(--apple-radius-pill);
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       margin-top: 14px;
       margin-bottom: 8px;
     }
     .rzp-btn-confirm-cancel {
       width: 100%;
-      background: none;
-      border: 1px solid var(--border-hairline);
-      color: var(--tone-ochre);
-      padding: 10px;
-      font-size: 12px;
-      font-weight: 600;
+      background: transparent;
+      border: none;
+      color: var(--apple-red);
+      font-size: 13px;
+      font-weight: 500;
       cursor: pointer;
     }
 
-    /* Terminal Result Cards (Success, Expired, Blocked, Duplicate) */
+    /* Terminal Success / Expired Cards */
     .ypg-success-box,
     .ypg-expired-box,
     .ypg-blocked-box,
     .ypg-duplicate-box {
-      background: var(--bg-white);
-      border: 1px solid var(--border-strong);
-      padding: 32px 24px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-xl);
+      padding: 36px 24px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -1213,48 +1094,42 @@
       gap: 12px;
     }
     .ypg-success-circle {
-      width: 54px;
-      height: 54px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
-      background: var(--tone-green-wash);
-      border: 2px solid var(--tone-green);
+      background: var(--apple-green-wash);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--tone-green);
+      color: var(--apple-green);
     }
     .ypg-check-svg {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       stroke: currentColor;
       stroke-width: 2.5;
       fill: none;
     }
     .ypg-success-title {
-      font-family: var(--font-serif);
-      font-size: 17px;
+      font-size: 20px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--tone-green);
+      letter-spacing: -0.025em;
+      color: var(--apple-text);
     }
     .ypg-success-amount {
-      font-family: var(--font-mono);
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 700;
-      color: var(--ink-primary);
+      color: var(--apple-text);
+      letter-spacing: -0.03em;
     }
     .btn-return-merchant {
-      background: var(--tone-navy);
-      color: #FAF8F5;
-      padding: 11px 24px;
-      font-family: var(--font-serif);
-      font-size: 12.5px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      background: #000000;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 13.5px;
+      font-weight: 600;
       text-decoration: none;
-      border: 1px solid var(--tone-navy);
+      border-radius: var(--apple-radius-pill);
       margin-top: 10px;
       display: inline-block;
     }
@@ -1263,48 +1138,51 @@
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: var(--tone-ochre-wash);
-      border: 1px solid var(--tone-ochre);
+      background: #fffbeb;
+      color: var(--apple-amber);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--tone-ochre);
     }
     .ypg-expired-title {
-      font-family: var(--font-serif);
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      color: var(--tone-ochre);
-      text-transform: uppercase;
+      color: var(--apple-text);
     }
     .ypg-expired-desc {
-      font-size: 12.5px;
-      color: var(--ink-secondary);
-      max-width: 380px;
-      line-height: 1.5;
+      font-size: 13px;
+      color: var(--apple-subtext);
+      max-width: 360px;
+      line-height: 1.45;
     }
     .ypg-btn-expired-primary {
-      background: var(--tone-navy);
-      color: #FAF8F5;
+      background: #000000;
+      color: #ffffff;
       border: none;
+      border-radius: var(--apple-radius-pill);
       padding: 10px 20px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
     }
     .ypg-btn-expired-secondary {
-      background: none;
-      border: 1px solid var(--border-hairline);
-      color: var(--ink-secondary);
-      padding: 9px 18px;
+      background: #f5f5f7;
+      border: none;
+      border-radius: var(--apple-radius-pill);
+      color: var(--apple-text);
+      padding: 10px 18px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
     }
 
-    /* Modal dialog overlay */
+    /* Modal Dialog */
     .ypg-dialog-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(20, 24, 30, 0.45);
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 1600;
       display: flex;
       align-items: center;
@@ -1315,14 +1193,14 @@
       display: none !important;
     }
     .ypg-dialog-card {
-      background: var(--bg-docket);
-      border: 1px solid var(--border-strong);
-      padding: 24px;
+      background: #ffffff;
+      border-radius: var(--apple-radius-xl);
+      border: 1px solid var(--apple-border);
+      padding: 28px;
       max-width: 420px;
       width: 100%;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
     }
-
     .ypg-popover-item {
       display: flex;
       align-items: center;
@@ -1331,15 +1209,15 @@
       background: none;
       border: none;
       padding: 8px 10px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
-      color: var(--ink-secondary);
+      color: var(--apple-text);
       cursor: pointer;
       text-align: left;
+      border-radius: 6px;
     }
     .ypg-popover-item:hover {
-      background: #F8F5EE;
-      color: var(--ink-primary);
+      background: #f5f5f7;
     }
   </style>
 </head>
@@ -1347,42 +1225,26 @@
 <body>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="ypgToast" class="ypg-toast"><img src="/icons/upi.svg" alt="UPI" style="height:12px; vertical-align:middle; filter:brightness(0) invert(1); margin-right:6px;" /> Sovereign direct banking socket connected</div>
+  <div id="ypgToast" class="ypg-toast"><img src="/icons/upi.svg" alt="UPI" style="height:12px; vertical-align:middle; filter:brightness(0) invert(1); margin-right:6px;" /> Connected to UPI banking observer</div>
 
-  <!-- COUPI PG EDITORIAL REMITTANCE DOCKET CONTAINER -->
+  <!-- APPLE CHECKOUT SHEET WRAPPER -->
   <div class="ypg-wrapper">
 
-    <!-- 1. INITIAL COUPI PG LOADING SPLASH -->
+    <!-- 1. LOADING SPLASH -->
     <div id="ypgSplashScreen" class="ypg-splash-screen">
-      <div class="ypg-splash-seal">
-        <img id="splashBrandLogo" alt="Logo" style="display:none; max-width:54px; max-height:54px; object-fit:contain;" />
-        <svg id="splashDefaultShield" viewBox="0 0 40 40" width="34" height="34" fill="none">
-          <circle cx="20" cy="20" r="18" stroke="#14233C" stroke-width="1.8" />
-          <path d="M20 7L30 12V22C30 28 20 33 20 33C20 33 10 28 10 22V12L20 7Z" stroke="#14233C" stroke-width="1.6" fill="none" />
-          <path d="M16 20L19 23L25 17" stroke="#1A5438" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <div class="ypg-splash-emblem">
+        <img id="splashBrandLogo" alt="Logo" style="display:none; max-width:44px; max-height:44px; object-fit:contain;" />
+        <span id="splashDefaultShield">C</span>
       </div>
-      <div style="text-align: center;">
-        <div class="ypg-splash-title" id="splashSecuredByText">CouPI Sovereign Gateway</div>
-        <div class="ypg-splash-subtitle">RFC 2177 Verified Remittance Voucher</div>
-      </div>
+      <div class="ypg-splash-title" id="splashSecuredByText">CouPI</div>
     </div>
 
     <!-- =======================================================
-         PC LEFT SIDEBAR (EDITORIAL REMITTANCE DOCKET MASTHEAD)
+         LEFT SIDEBAR (RECEIPT & ORDER SUMMARY)
          ======================================================= -->
     <aside class="ypg-pc-sidebar">
       <div>
-        <!-- Institutional Remittance Masthead -->
-        <div class="ypg-docket-masthead">
-          <div class="ypg-docket-emblem">C</div>
-          <div class="ypg-docket-masthead-text">
-            <span class="ypg-docket-tag">Sovereign Remittance</span>
-            <span class="ypg-docket-org">Direct Bank Docket</span>
-          </div>
-        </div>
-
-        <!-- Merchant Beneficiary Header -->
+        <!-- Merchant Brand Header -->
         <div class="ypg-pc-brand-header">
           <div class="ypg-pc-avatar" id="pcMerchantAvatarBox">
             <span id="pcMerchantAvatarLetter">M</span>
@@ -1392,50 +1254,30 @@
             <div class="ypg-pc-merchant-name" id="pcMerchantName">{{MERCHANT_NAME}}</div>
             <div class="ypg-pc-trust-badge" id="pcTrustBadge">
               <svg class="ypg-pc-green-shield" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#1A5438" />
+                <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#34c759" />
                 <path d="M8.5 12l2.5 2.5 5-5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <span id="pcTrustBadgeText">CouPI Verified Business</span>
+              <span id="pcTrustBadgeText">Verified Business</span>
             </div>
           </div>
         </div>
 
         <!-- Social Proof Audit Note -->
         <div class="ypg-pc-social-proof" id="pcSocialProofWrap">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          <span id="pcSocialProofText">Institutional settlement verified for {{MERCHANT_NAME}}</span>
+          <span id="pcSocialProofText">Verified direct banking connection</span>
         </div>
 
-        <!-- Price Summary Ledger (Strictly NO raw VPA exposed) -->
+        <!-- Price Summary Card -->
         <div class="ypg-pc-price-card">
-          <div class="ypg-pc-price-label">Net Payable Settlement</div>
+          <div class="ypg-pc-price-label">Total Payable</div>
           <div class="ypg-pc-price-val" id="pcPriceSummaryAmount">₹{{AMOUNT}}</div>
         </div>
 
-        <!-- CouPI Paise Offset & Concurrency Ledger Evidence -->
-        <div class="ypg-pc-evidence-ledger">
-          <div class="ypg-pc-evidence-title">
-            <span>Remittance Audit</span>
-            <span style="color:var(--tone-green);">● LIVE</span>
-          </div>
-          <div class="ypg-pc-evidence-row">
-            <span>Intermediary Fee</span>
-            <span class="ypg-pc-evidence-val" style="color:var(--tone-green);">₹0.00 (0.00%)</span>
-          </div>
-          <div class="ypg-pc-evidence-row">
-            <span>Banking Observer</span>
-            <span class="ypg-pc-evidence-val">RFC 2177 IDLE</span>
-          </div>
-          <div class="ypg-pc-evidence-row">
-            <span>Attribution Model</span>
-            <span class="ypg-pc-evidence-val">Sub-Rupee Offset</span>
-          </div>
-        </div>
-
-        <!-- User Identity Row -->
+        <!-- Customer Identity Row -->
         <div class="ypg-pc-row-btn" id="pcCustomerProfileRow" onclick="toggleAccountMenu(event)">
           <div class="ypg-pc-row-left">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1448,37 +1290,34 @@
         </div>
       </div>
 
-      <!-- Bottom Authentic Sovereign Remittance Docket Watermark Seal -->
+      <!-- Watermark Security Strip -->
       <div class="ypg-pc-bags-wrap">
-        <div class="ypg-pc-seal-watermark">
-          <div class="ypg-pc-seal-text">COUPI SOVEREIGN SETTLEMENT</div>
-          <div class="ypg-pc-seal-sub">Zero-Levy Banking Protocol</div>
+        <div class="ypg-apple-security-strip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <span>256-Bit Encrypted Banking Socket</span>
         </div>
       </div>
     </aside>
 
     <!-- =======================================================
-         RIGHT WORKSPACE: ACTIVE REMITTANCE WORKSPACE
+         RIGHT WORKSPACE: ACTIVE PAYMENT SHEET
          ======================================================= -->
     <div class="ypg-pc-workspace">
-      <!-- PC TOPBAR -->
+      <!-- TOP BAR -->
       <div class="ypg-pc-topbar">
-        <div class="ypg-pc-topbar-title">Remittance Options</div>
+        <div class="ypg-pc-topbar-title">Payment Options</div>
         <div class="ypg-pc-topbar-actions">
           <button type="button" class="ypg-pc-btn-more" id="btnPcMore" onclick="toggleAccountMenu(event)" title="Options">•••</button>
-          <button type="button" class="ypg-pc-btn-close" onclick="openCancelPaymentModal()" title="Close Remittance">✕</button>
+          <button type="button" class="ypg-pc-btn-close" onclick="openCancelPaymentModal()" title="Close">✕</button>
 
-          <!-- PC Account Popover Menu -->
-          <div class="ypg-account-popover" id="accountMenuPopoverPc" hidden style="position: absolute; top: 40px; right: 0; background: var(--bg-white); color: var(--ink-primary); border: 1px solid var(--border-strong); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); padding: 6px; z-index: 1000; min-width: 220px;">
-            <div class="popoverCustomerName" id="popoverCustomerNamePc" style="padding: 6px 10px; font-weight: 700; font-size: 11.5px; border-bottom: 1px solid var(--border-hairline); color: var(--tone-navy);">
-              Guest User
-            </div>
-            <button type="button" class="ypg-popover-item" onclick="openHelpModal()">
-              <span>⚖️</span> Audit &amp; Support
-            </button>
-            <button type="button" class="ypg-popover-item" onclick="handleCustomerLogout()" style="color: var(--tone-ochre);">
-              <span>🚪</span> Sign Out / Switch Number
-            </button>
+          <!-- Popover Menu -->
+          <div class="ypg-account-popover" id="accountMenuPopoverPc" hidden style="position: absolute; top: 40px; right: 0; background: #ffffff; border-radius: 14px; border: 1px solid var(--apple-border); box-shadow: 0 12px 32px rgba(0,0,0,0.12); padding: 6px; z-index: 1000; min-width: 200px;">
+            <div class="popoverCustomerName" id="popoverCustomerNamePc" style="padding: 6px 10px; font-weight: 600; font-size: 12px; border-bottom: 1px solid #f5f5f7;">Guest User</div>
+            <button type="button" class="ypg-popover-item" onclick="openHelpModal()">Support &amp; Audit</button>
+            <button type="button" class="ypg-popover-item" onclick="handleCustomerLogout()" style="color:var(--apple-red);">Sign Out</button>
           </div>
         </div>
       </div>
@@ -1500,14 +1339,14 @@
               <div class="ypg-merchant-name" id="headerMerchantName">{{MERCHANT_NAME}}</div>
               <div class="ypg-trusted-badge" id="headerTrustBadge">
                 <svg class="ypg-green-shield" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#1A5438" />
+                  <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#34c759" />
                   <path d="M8.5 12l2.5 2.5 5-5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <span id="headerTrustBadgeText">CouPI Verified Business</span>
+                <span id="headerTrustBadgeText">Verified Business</span>
               </div>
             </div>
           </div>
-          <button type="button" class="ypg-btn-profile" id="btnProfileMenu" onclick="toggleAccountMenu(event)" title="User Profile">
+          <button type="button" class="ypg-btn-profile" id="btnProfileMenu" onclick="toggleAccountMenu(event)" title="Profile">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
@@ -1517,31 +1356,28 @@
         <div class="ypg-header-subbanner" id="headerSubbanner" style="display:none;">
           <span id="subbannerText">{{SIDEBAR_NOTICE}}</span>
         </div>
-        <div class="ypg-account-popover" id="accountMenuPopover" hidden style="background:var(--bg-white); border:1px solid var(--border-strong); padding:6px; margin-top:8px;">
-          <div id="popoverCustomerName" style="padding:4px 8px; font-weight:700; font-size:11.5px; border-bottom:1px solid var(--border-hairline);">Guest User</div>
-          <button type="button" class="ypg-popover-item" onclick="openHelpModal()"><span>⚖️</span> Help &amp; Support</button>
-          <button type="button" class="ypg-popover-item" onclick="handleCustomerLogout()" style="color:var(--tone-ochre);"><span>🚪</span> Sign Out</button>
+        <div class="ypg-account-popover" id="accountMenuPopover" hidden style="background:#ffffff; border-radius:12px; border:1px solid var(--apple-border); padding:6px; margin-top:8px;">
+          <div id="popoverCustomerName" style="padding:4px 8px; font-weight:600; font-size:12px;">Guest User</div>
+          <button type="button" class="ypg-popover-item" onclick="openHelpModal()">Support</button>
+          <button type="button" class="ypg-popover-item" onclick="handleCustomerLogout()" style="color:var(--apple-red);">Sign Out</button>
         </div>
       </header>
 
       <!-- SCROLLABLE BODY -->
       <main class="ypg-body">
 
-        <!-- PRE-GATEWAY CUSTOMER AUTHENTICATION VIEW -->
+        <!-- PRE-GATEWAY AUTH VIEW -->
         <div id="preGatewayAuthView" hidden>
           <h2 class="ypg-page-title" id="authViewMainTitle">Sign in to Pay</h2>
           <div class="ypg-auth-box">
             <div class="ypg-auth-sub-desc" id="authViewSubTitle">Enter your 10-digit WhatsApp mobile number to continue</div>
 
-            <!-- Saved Account -->
             <div class="ypg-saved-accs-wrapper" id="preAuthSavedAccountsContainer" hidden>
-              <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--ink-secondary); text-transform:uppercase; margin-bottom:8px;">
-                Verified Identity on Record
-              </div>
+              <div style="font-size:11px; font-weight:600; color:var(--apple-subtext); text-transform:uppercase; margin-bottom:8px;">Saved Account</div>
               <div id="savedAccountsList"></div>
             </div>
 
-            <!-- STEP 1: MOBILE NUMBER -->
+            <!-- STEP 1: MOBILE -->
             <div id="authStepMobile">
               <div class="ypg-input-group">
                 <label class="ypg-input-label">WhatsApp Mobile Number</label>
@@ -1554,7 +1390,7 @@
                 </div>
               </div>
 
-              <div style="font-size:11.5px; color:var(--ink-secondary); margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+              <div style="font-size:12px; color:var(--apple-subtext); margin-bottom:14px; display:flex; align-items:center; gap:6px;">
                 <span>💬</span>
                 <span>We'll verify your mobile via WhatsApp OTP</span>
               </div>
@@ -1564,7 +1400,7 @@
               </button>
             </div>
 
-            <!-- STEP 2: NEW CUSTOMER SIGN UP -->
+            <!-- STEP 2: SIGN UP -->
             <div id="authStepSignup" hidden>
               <div class="ypg-auth-badge-banner">
                 <div>
@@ -1574,7 +1410,7 @@
                 <button type="button" class="ypg-btn-link" onclick="goToAuthStep('mobile')">Change</button>
               </div>
 
-              <div style="font-size:12px; color:var(--ink-primary); font-weight:600; margin-bottom:12px;">
+              <div style="font-size:13px; font-weight:600; color:var(--apple-text); margin-bottom:12px;">
                 New to COUPI PG? Please enter your name and email to proceed:
               </div>
 
@@ -1593,17 +1429,17 @@
               </button>
             </div>
 
-            <!-- STEP 3: OTP VERIFICATION -->
+            <!-- STEP 3: OTP -->
             <div id="authStepOtp" hidden>
-              <div class="ypg-auth-badge-banner" style="background:var(--tone-navy-wash); border-color:var(--tone-navy-border); color:var(--tone-navy);">
+              <div class="ypg-auth-badge-banner">
                 <div>
-                  <span>Code dispatched to: </span>
+                  <span>Code sent to: </span>
                   <strong id="authOtpPhoneBadge">+91 </strong>
                 </div>
                 <button type="button" class="ypg-btn-link" onclick="goToAuthStep('mobile')">Edit</button>
               </div>
 
-              <div id="authOtpGreeting" style="font-size:12px; color:var(--ink-primary); font-weight:600; margin-bottom:8px;">
+              <div id="authOtpGreeting" style="font-size:13px; font-weight:600; color:var(--apple-text); margin-bottom:8px;">
                 Enter the 6-digit code sent to your phone:
               </div>
 
@@ -1615,12 +1451,12 @@
                 <span>Verify &amp; Continue to Pay</span> &rsaquo;
               </button>
 
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:11.5px; color:var(--ink-secondary);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12px; color:var(--apple-subtext);">
                 <div>
                   Didn't receive code?
                   <button type="button" class="ypg-btn-link" id="btnResendOtp" onclick="handleResendOtp()" style="margin-left:4px;">Resend OTP</button>
                 </div>
-                <span id="otpCountdownTimer" style="font-family:var(--font-mono); font-weight:600;"></span>
+                <span id="otpCountdownTimer" style="font-weight:600;"></span>
               </div>
             </div>
 
@@ -1630,18 +1466,18 @@
         <!-- MAIN PAYMENT GATEWAY INTERFACE -->
         <div id="paymentGatewayInterface" hidden>
 
-          <!-- MOBILE PAYMENT METHOD SELECTOR BAR -->
+          <!-- MOBILE METHOD SELECTOR BAR -->
           <div id="paymentMethodSelectorBar" class="ypg-method-selector-bar" style="display:{{METHOD_SELECTOR_DISPLAY}};">
             <button type="button" class="ypg-method-tab active" id="tabMethodUpi" onclick="selectPaymentMethod('UPI')">
-              <img src="/icons/upi.svg" alt="UPI" style="height:13px;" />
+              <img src="/icons/upi.svg" alt="UPI" style="height:12px;" />
               <span>UPI QR</span>
             </button>
             <button type="button" class="ypg-method-tab" id="tabMethodCod" onclick="selectPaymentMethod('COD')" style="{{TAB_COD_STYLE}}">
-              <img src="/icons/cash.svg" alt="COD" style="height:13px; width:13px;" />
+              <img src="/icons/cash.svg" alt="COD" style="height:12px; width:12px;" />
               <span>Cash on Delivery</span>
             </button>
             <button type="button" class="ypg-method-tab" id="tabMethodCash" onclick="selectPaymentMethod('CASH_COUNTER')" style="{{TAB_CASH_STYLE}}">
-              <img src="/icons/cash.svg" alt="Cash" style="height:13px; width:13px;" />
+              <img src="/icons/cash.svg" alt="Cash" style="height:12px; width:12px;" />
               <span>Cash</span>
             </button>
             <button type="button" class="ypg-method-tab" id="tabMethodCard" onclick="selectPaymentMethod('CARD_COUNTER')" style="{{TAB_CARD_STYLE}}">
@@ -1651,15 +1487,13 @@
 
           <!-- DESKTOP 2-COLUMN MODALITY WORKSPACE -->
           <div class="ypg-pc-columns">
-            <!-- Left Methods Selection -->
             <div class="ypg-pc-methods-list" id="pcMethodsList">
-              <!-- UPI Card -->
               <div class="ypg-pc-method-card is-active" id="pcMethodCardUpi" onclick="selectPaymentMethod('UPI')">
                 <div class="ypg-pc-method-header">
-                  <img src="/icons/upi.svg" alt="UPI" style="height:13px; margin-right:6px;" />
-                  <div class="ypg-pc-method-title">UPI Direct QR</div>
+                  <img src="/icons/upi.svg" alt="UPI" style="height:12px; margin-right:6px;" />
+                  <div class="ypg-pc-method-title">UPI QR</div>
                 </div>
-                <div class="ypg-pc-method-sub">Instant zero-fee banking transfer</div>
+                <div class="ypg-pc-method-sub">Direct banking transfer</div>
                 <div class="ypg-pc-method-icons">
                   <img class="ypg-pc-mini-icon" src="/icons/gpay.png" alt="GPay" />
                   <img class="ypg-pc-mini-icon" src="/icons/phonepe.png" alt="PhonePe" />
@@ -1667,44 +1501,41 @@
                 </div>
               </div>
 
-              <!-- Cash at Till (Offline) -->
               <div class="ypg-pc-method-card" id="pcMethodCardCash" onclick="selectPaymentMethod('CASH_COUNTER')" style="{{PC_CASH_STYLE}}">
                 <div class="ypg-pc-method-header">
-                  <img src="/icons/cash.svg" alt="Cash" style="width:14px; height:14px; margin-right:6px;" />
+                  <img src="/icons/cash.svg" alt="Cash" style="width:13px; height:13px; margin-right:6px;" />
                   <div class="ypg-pc-method-title">Cash at Till</div>
-                  <span class="ypg-pc-cash-pill">Counter</span>
+                  <span class="ypg-pc-cash-pill">Till</span>
                 </div>
-                <div class="ypg-pc-method-sub">Pay cash directly to store cashier</div>
+                <div class="ypg-pc-method-sub">Pay cash to cashier</div>
               </div>
 
-              <!-- Card at Counter (Offline) -->
               <div class="ypg-pc-method-card" id="pcMethodCardCard" onclick="selectPaymentMethod('CARD_COUNTER')" style="{{PC_CARD_STYLE}}">
                 <div class="ypg-pc-method-header">
                   <div class="ypg-pc-method-title">Card at Counter</div>
                   <span class="ypg-pc-cash-pill">POS</span>
                 </div>
-                <div class="ypg-pc-method-sub">Swipe or tap card at POS desk</div>
+                <div class="ypg-pc-method-sub">Swipe or tap POS desk</div>
               </div>
 
-              <!-- Cash on Delivery (COD) -->
               <div class="ypg-pc-method-card" id="pcMethodCardCod" onclick="selectPaymentMethod('COD')" style="{{PC_COD_STYLE}}">
                 <div class="ypg-pc-method-header">
-                  <img src="/icons/cash.svg" alt="COD" style="width:14px; height:14px; margin-right:6px;" />
+                  <img src="/icons/cash.svg" alt="COD" style="width:13px; height:13px; margin-right:6px;" />
                   <div class="ypg-pc-method-title">Cash on Delivery</div>
                   <span class="ypg-pc-cash-pill">COD</span>
                 </div>
-                <div class="ypg-pc-method-sub">Pay physical cash at doorstep</div>
+                <div class="ypg-pc-method-sub">Doorstep physical cash</div>
               </div>
             </div>
 
-            <!-- Right Active Payment View -->
+            <!-- Active View -->
             <div class="ypg-pc-active-view">
-              <!-- VIEW A: PURE UPI QR INTERFACE -->
+              <!-- VIEW A: UPI QR INTERFACE -->
               <div id="viewUpiContent">
                 <div class="ypg-section-label-row">
                   <div>
-                    <h2 class="ypg-page-title" style="margin-bottom:2px;">UPI Remittance Docket</h2>
-                    <span class="ypg-section-heading">Scan with any authorized UPI client</span>
+                    <h2 class="ypg-page-title" style="margin-bottom:2px;">Scan &amp; Pay via UPI</h2>
+                    <span class="ypg-section-heading">Pay with any installed UPI application</span>
                   </div>
                   <div class="ypg-countdown-pill" id="activeTimerBadge">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -1715,13 +1546,11 @@
                   </div>
                 </div>
 
-                <!-- UPI Server Health Indicator -->
                 <div class="ypg-server-health-indicator {{SERVER_HEALTH_CLASS}}" id="upiServerHealthIndicator">
                   <span class="ypg-pulse-dot" id="serverPulseDot"></span>
                   <span id="serverStatusLabel">{{SERVER_HEALTH_LABEL}}</span>
                 </div>
 
-                <!-- Server Downtime Alert -->
                 <div class="{{DOWNTIME_ALERT_CLASS}}" id="serverDowntimeAlert" style="display:{{DOWNTIME_ALERT_STYLE}};">
                   <div>
                     <div class="ypg-downtime-heading">{{DOWNTIME_HEADING}}</div>
@@ -1732,14 +1561,13 @@
                   </div>
                 </div>
 
-                <!-- Core UPI QR Certificate Box -->
                 <div class="ypg-qr-card-container">
                   <div class="ypg-qr-image-box" id="qrImageContainer">
-                    <div style="font-family:var(--font-mono); font-size:11px; color:var(--ink-tertiary);">Rendering QR...</div>
+                    <div style="font-size:12px; color:var(--apple-subtext);">Rendering QR...</div>
                   </div>
 
                   <div class="ypg-qr-details-col">
-                    <div class="ypg-qr-prompt-title">Scan via Any UPI Application</div>
+                    <div class="ypg-qr-prompt-title">Scan using any UPI App</div>
                     <div class="ypg-upi-logos-row">
                       <div class="ypg-app-icon" title="Google Pay"><img src="/icons/gpay.png" alt="GPay" /></div>
                       <div class="ypg-app-icon" title="PhonePe"><img src="/icons/phonepe.png" alt="PhonePe" /></div>
@@ -1747,130 +1575,102 @@
                       <div class="ypg-app-icon" title="CRED"><img src="/icons/cred.png" alt="CRED" /></div>
                       <div class="ypg-app-icon" title="BHIM"><img src="/icons/bhim.png" alt="BHIM" /></div>
                     </div>
-                    <div style="font-size:11.5px; color:var(--ink-secondary); line-height:1.45;">
-                      Exact sub-rupee amount ensures instantaneous attribution directly to merchant account.
+                    <div style="font-size:12px; color:var(--apple-subtext); line-height:1.45;">
+                      Dynamic sub-rupee fraction attributes payment directly to your account.
                     </div>
                   </div>
                 </div>
 
-                <!-- Verification Steps -->
                 <div class="ypg-instructions-card">
                   <div class="ypg-instruction-step">
                     <div class="ypg-step-num">1</div>
-                    <div>Open your preferred UPI mobile application (GPay, PhonePe, Paytm, CRED).</div>
+                    <div>Open Google Pay, PhonePe, Paytm, or CRED on your phone.</div>
                   </div>
                   <div class="ypg-instruction-step">
                     <div class="ypg-step-num">2</div>
-                    <div>Scan the voucher QR code above and transfer exact allocated sum of <strong>₹{{AMOUNT}}</strong>.</div>
+                    <div>Scan the QR code above and transfer exact sum of <strong>₹{{AMOUNT}}</strong>.</div>
                   </div>
                   <div class="ypg-instruction-step">
                     <div class="ypg-step-num">3</div>
-                    <div>Banking push observer confirms credit automatically in sub-second time.</div>
+                    <div>Confirmation is detected automatically via banking push socket.</div>
                   </div>
                 </div>
               </div>
 
-              <!-- VIEW COD: CASH ON DELIVERY -->
+              <!-- VIEW COD -->
               <div id="viewCodContent" hidden>
                 <div class="ypg-section-label-row">
-                  <h2 class="ypg-page-title">Doorstep Cash Remittance (COD)</h2>
+                  <h2 class="ypg-page-title">Cash on Delivery (COD)</h2>
                   <div class="ypg-countdown-pill" id="codTimerBadge">
                     <span id="codTimerText">05:00</span>
                   </div>
                 </div>
 
-                <div style="background:var(--bg-white); border:1px solid var(--border-hairline); border-left:3px solid var(--tone-ochre); padding:16px; margin-bottom:16px;">
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; color:var(--ink-secondary);">Payable on Delivery</span>
-                    <strong style="font-family:var(--font-mono); font-size:22px; color:var(--ink-primary);">₹{{AMOUNT}}</strong>
+                <div style="background:#f5f5f7; border-radius:var(--apple-radius-md); padding:16px; margin-bottom:16px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="font-size:12px; color:var(--apple-subtext);">Amount Payable on Delivery</span>
+                    <strong style="font-size:22px; color:var(--apple-text);">₹{{AMOUNT}}</strong>
                   </div>
-                  <div style="font-size:12px; color:var(--ink-secondary); border-top:1px dashed var(--border-hairline); padding-top:8px;">
-                    <div>Consignee: <strong id="codCustomerName">Customer</strong></div>
-                    <div>Contact: <span id="codCustomerPhone" style="font-family:var(--font-mono);">-</span></div>
-                  </div>
-                </div>
-
-                <div class="ypg-instructions-card">
-                  <div class="ypg-instruction-step">
-                    <div class="ypg-step-num">1</div>
-                    <div>Order is processed and dispatched to your registered address.</div>
-                  </div>
-                  <div class="ypg-instruction-step">
-                    <div class="ypg-step-num">2</div>
-                    <div>Remit <strong>₹{{AMOUNT}}</strong> in cash to the delivery executive upon arrival.</div>
+                  <div style="font-size:12px; color:var(--apple-tertiary); border-top:1px solid rgba(0,0,0,0.06); padding-top:8px;">
+                    <div>Recipient: <strong id="codCustomerName">Customer</strong></div>
+                    <div>Contact: <span id="codCustomerPhone">-</span></div>
                   </div>
                 </div>
 
                 <button type="button" class="ypg-btn-auth-action" id="btnConfirmCod" onclick="promptConfirmCodOrder()">
-                  <span>Confirm Cash on Delivery Order (₹{{AMOUNT}})</span> &rsaquo;
+                  <span>Confirm Cash on Delivery (₹{{AMOUNT}})</span> &rsaquo;
                 </button>
               </div>
 
-              <!-- VIEW CASH: CASH AT BILLING TILL -->
+              <!-- VIEW CASH (OFFLINE) -->
               <div id="viewCashContent" hidden>
-                <h2 class="ypg-page-title">Physical Remittance at Billing Till</h2>
-                <div style="background:var(--bg-white); border:1px solid var(--border-hairline); border-left:3px solid var(--tone-green); padding:20px; text-align:center; margin:16px 0;">
-                  <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--tone-green); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px;">
-                    Sum Payable to Cashier
-                  </div>
-                  <div style="font-family:var(--font-mono); font-size:32px; font-weight:700; color:var(--ink-primary);">₹{{AMOUNT}}</div>
-                  <div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border-hairline); display:flex; align-items:center; justify-content:center; gap:8px;">
-                    <span style="font-size:11.5px; color:var(--ink-secondary);">Order Identifier:</span>
-                    <span class="cashierOrderIdDisplay" style="font-family:var(--font-mono); font-size:14px; font-weight:700; color:var(--tone-navy); background:#F8F5EE; padding:2px 8px; border:1px solid var(--border-hairline);">#{{ORDER_ID}}</span>
-                  </div>
+                <h2 class="ypg-page-title">Pay with Cash at Till</h2>
+                <div style="background:#f5f5f7; border-radius:var(--apple-radius-md); padding:24px; text-align:center; margin:16px 0;">
+                  <div style="font-size:12px; font-weight:600; color:var(--apple-subtext); text-transform:uppercase; margin-bottom:4px;">Amount Payable to Cashier</div>
+                  <div style="font-size:36px; font-weight:700; color:var(--apple-text);">₹{{AMOUNT}}</div>
+                  <div style="margin-top:10px; font-size:13px; color:var(--apple-tertiary);">Order: <strong class="cashierOrderIdDisplay">#{{ORDER_ID}}</strong></div>
                 </div>
                 <div class="ypg-instructions-card">
-                  <p style="font-size:12px; color:var(--ink-secondary); line-height:1.5; margin:0;" id="cashCounterDeskNotice">
-                    {{COUNTER_INSTRUCTIONS}}
-                  </p>
+                  <p style="font-size:12px; color:var(--apple-tertiary); margin:0;" id="cashCounterDeskNotice">{{COUNTER_INSTRUCTIONS}}</p>
                 </div>
               </div>
 
-              <!-- VIEW CARD: CARD AT POS MACHINE -->
+              <!-- VIEW CARD (OFFLINE) -->
               <div id="viewCardContent" hidden>
-                <h2 class="ypg-page-title">Card Remittance at Counter</h2>
-                <div style="background:var(--bg-white); border:1px solid var(--border-hairline); border-left:3px solid var(--tone-navy); padding:20px; text-align:center; margin:16px 0;">
-                  <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--tone-navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px;">
-                    POS Terminal Charge
-                  </div>
-                  <div style="font-family:var(--font-mono); font-size:32px; font-weight:700; color:var(--ink-primary);">₹{{AMOUNT}}</div>
-                  <div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border-hairline); display:flex; align-items:center; justify-content:center; gap:8px;">
-                    <span style="font-size:11.5px; color:var(--ink-secondary);">Order Identifier:</span>
-                    <span class="cashierOrderIdDisplay" style="font-family:var(--font-mono); font-size:14px; font-weight:700; color:var(--tone-navy); background:#F8F5EE; padding:2px 8px; border:1px solid var(--border-hairline);">#{{ORDER_ID}}</span>
-                  </div>
+                <h2 class="ypg-page-title">Pay with Card at Counter</h2>
+                <div style="background:#f5f5f7; border-radius:var(--apple-radius-md); padding:24px; text-align:center; margin:16px 0;">
+                  <div style="font-size:12px; font-weight:600; color:var(--apple-subtext); text-transform:uppercase; margin-bottom:4px;">POS Terminal Charge</div>
+                  <div style="font-size:36px; font-weight:700; color:var(--apple-text);">₹{{AMOUNT}}</div>
+                  <div style="margin-top:10px; font-size:13px; color:var(--apple-tertiary);">Order: <strong class="cashierOrderIdDisplay">#{{ORDER_ID}}</strong></div>
                 </div>
                 <div class="ypg-instructions-card">
-                  <p style="font-size:12px; color:var(--ink-secondary); line-height:1.5; margin:0;" id="cardCounterDeskNotice">
-                    Please swipe, insert, or tap your credit or debit card on the store POS terminal at the billing desk.
-                  </p>
+                  <p style="font-size:12px; color:var(--apple-tertiary); margin:0;" id="cardCounterDeskNotice">Please swipe or tap your card at the billing counter POS terminal.</p>
                 </div>
               </div>
 
               <!-- VIEW B: QUEUE VIEW -->
               <div id="viewQueuedContent" hidden>
                 <div id="queueTimeSavingBanner" class="ypg-time-saving-banner" style="display:none;"></div>
-                <div style="background:var(--bg-white); border:1px solid var(--border-strong); padding:24px; text-align:center;">
-                  <div style="font-family:var(--font-serif); font-size:15px; font-weight:700; text-transform:uppercase; color:var(--tone-navy);">Remittance Queue Reserved</div>
-                  <div class="ypg-queue-number" id="queueNumberDisplay" style="font-family:var(--font-mono); font-size:36px; font-weight:800; color:var(--tone-navy); margin:12px 0;">#1</div>
-                  <div style="font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--ink-secondary);">
-                    Estimated Queue Clearance: <span id="queueTimerText">00:30</span>
-                  </div>
+                <div style="background:#f5f5f7; border-radius:var(--apple-radius-md); padding:28px; text-align:center;">
+                  <div style="font-size:16px; font-weight:600; color:var(--apple-text);">Payment Slot Reserved</div>
+                  <div class="ypg-queue-number" id="queueNumberDisplay" style="font-size:36px; font-weight:700; color:var(--apple-text); margin:8px 0;">#1</div>
+                  <div style="font-size:12px; color:var(--apple-subtext);">Wait time: <span id="queueTimerText">00:30</span></div>
                 </div>
               </div>
 
-              <!-- VIEW C: AUDIT LEDGER PROCESSING VIEW -->
+              <!-- VIEW C: PROCESSING VIEW -->
               <div id="viewProcessingContent" hidden>
-                <div style="background:var(--bg-white); border:1px solid var(--border-strong); padding:32px 20px; text-align:center;">
-                  <div class="rzp-sheet-title">Verifying Banking Credit</div>
-                  <div class="rzp-sheet-subtitle">Connecting to RFC 2177 banking IDLE push socket...</div>
-                  <div style="font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--tone-green); margin:16px 0;">
-                    Bank confirmation observation (<span id="procTimerText">30s</span>)
+                <div style="background:#f5f5f7; border-radius:var(--apple-radius-lg); padding:36px 20px; text-align:center;">
+                  <div class="rzp-sheet-title">Verifying Payment</div>
+                  <div class="rzp-sheet-subtitle">Observing RFC 2177 banking push socket...</div>
+                  <div style="font-size:13px; font-weight:600; color:var(--apple-green); margin:16px 0;">
+                    Bank confirmation in progress (<span id="procTimerText">30s</span>)
                   </div>
-                  <button type="button" class="rzp-sheet-cancel-btn" onclick="openCancelPaymentModal()">Cancel Remittance</button>
+                  <button type="button" class="rzp-sheet-cancel-btn" onclick="openCancelPaymentModal()">Cancel</button>
                 </div>
               </div>
 
-              <!-- VIEW D: SUCCESS CELEBRATION VIEW -->
+              <!-- VIEW D: SUCCESS VIEW -->
               <div id="viewSuccessContent" hidden>
                 <div class="ypg-success-box">
                   <div class="ypg-success-circle" id="successIconCircle">
@@ -1878,12 +1678,12 @@
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   </div>
-                  <div class="ypg-success-title" id="successTitleText">Settlement Confirmed</div>
+                  <div class="ypg-success-title" id="successTitleText">Payment Successful!</div>
                   <div class="ypg-success-amount" id="successAmountVal">₹{{AMOUNT}}</div>
-                  <div style="font-size:12px; color:var(--ink-secondary); max-width:360px;" id="successDescText">
-                    Remittance authoritatively observed and verified by CouPI sovereign banking socket.
+                  <div style="font-size:13px; color:var(--apple-subtext); max-width:360px;" id="successDescText">
+                    Payment automatically confirmed by CouPI banking observer.
                   </div>
-                  <div id="successCodDevApiBox" style="display:none; font-family:var(--font-mono); font-size:11px; background:#F8F5EE; padding:8px 12px; border:1px solid var(--border-hairline);">
+                  <div id="successCodDevApiBox" style="display:none; font-family:var(--apple-font-mono); font-size:11px; background:#f5f5f7; padding:8px 12px; border-radius:8px;">
                     <div id="successCodDevApiUrl"></div>
                   </div>
                   <a href="javascript:void(0)" class="btn-return-merchant" id="btnReturnStore">Return to Merchant</a>
@@ -1899,13 +1699,13 @@
                       <polyline points="12 6 12 12 16 14" />
                     </svg>
                   </div>
-                  <div class="ypg-expired-title" id="failedTitleText">Remittance Session Elapsed</div>
+                  <div class="ypg-expired-title" id="failedTitleText">Payment Session Expired</div>
                   <div class="ypg-expired-desc" id="failedDescriptionText">
-                    The 5-minute sovereign verification window expired before banking confirmation was recorded.
+                    The 5-minute active payment window elapsed before verification was completed.
                   </div>
                   <div style="display:flex; gap:10px; margin-top:8px;">
-                    <button type="button" class="ypg-btn-expired-primary" id="btnFailedAction" onclick="handleRetryNewPayment()">Re-initiate Transfer</button>
-                    <button type="button" class="ypg-btn-expired-secondary" onclick="openHelpModal()">Audit Docket</button>
+                    <button type="button" class="ypg-btn-expired-primary" id="btnFailedAction" onclick="handleRetryNewPayment()">Try Again</button>
+                    <button type="button" class="ypg-btn-expired-secondary" onclick="openHelpModal()">Support</button>
                   </div>
                 </div>
               </div>
@@ -1913,26 +1713,26 @@
               <!-- VIEW F: FRAUD / INVESTIGATION VIEW -->
               <div id="viewBlockedContent" hidden>
                 <div class="ypg-blocked-box">
-                  <div class="ypg-blocked-title" id="blockedTitleText">Security Audit Incident</div>
-                  <div class="ypg-blocked-subtitle" id="blockedSubtitleText">Session Suspended Pending Risk Inspection</div>
-                  <p id="blockedNoticeText" style="font-size:12px; color:var(--ink-secondary); line-height:1.45;">
-                    Automated observer identified an anomalous attribution pattern. Transaction has been halted for security audit.
+                  <div class="ypg-blocked-title" id="blockedTitleText">Security Alert</div>
+                  <div class="ypg-blocked-subtitle" id="blockedSubtitleText">Session Suspended Pending Review</div>
+                  <p id="blockedNoticeText" style="font-size:13px; color:var(--apple-subtext);">
+                    Automated observer identified an anomalous attribution pattern. Transaction has been halted for review.
                   </p>
-                  <div style="font-family:var(--font-mono); font-size:11px; background:#F8F5EE; padding:10px 14px; border:1px solid var(--border-hairline); width:100%; max-width:320px; text-align:left;">
+                  <div style="font-family:var(--apple-font-mono); font-size:11.5px; background:#f5f5f7; border-radius:8px; padding:10px 14px; text-align:left; width:100%; max-width:320px;">
                     <div>Ref: <strong id="blockedOrderRefVal">-</strong></div>
                     <div>Session: <span id="blockedSessionIdVal">-</span></div>
                     <div>Recorded: <span id="blockedTimestampVal">-</span></div>
                   </div>
-                  <button type="button" class="ypg-btn-expired-primary" onclick="handleBlockedExit()">Return to Merchant Store</button>
+                  <button type="button" class="ypg-btn-expired-primary" onclick="handleBlockedExit()">Return to Merchant</button>
                 </div>
               </div>
 
               <!-- VIEW G: DUPLICATE SESSION DETECTED VIEW -->
               <div id="viewDuplicateSessionContent" hidden>
                 <div class="ypg-duplicate-box">
-                  <div class="ypg-duplicate-title" id="dupSessionTitleText">Device Binding Notice</div>
-                  <div class="ypg-duplicate-subtitle" id="dupSessionSubtitleText">Payment Session Active on Another Hardware Endpoint</div>
-                  <p style="font-size:12px; color:var(--ink-secondary);">For cryptographic safety, only one active checkout channel is permitted per transaction.</p>
+                  <div class="ypg-duplicate-title" id="dupSessionTitleText">Device Security Check</div>
+                  <div class="ypg-duplicate-subtitle" id="dupSessionSubtitleText">Payment Session Active on Another Device</div>
+                  <p style="font-size:13px; color:var(--apple-subtext);">For security, this session cannot be continued from this device.</p>
                   <button type="button" class="ypg-btn-auth-action" id="btnEndAndRestartPayment" onclick="handleEndAndStartNewPayment()">
                     <span>END SESSION &amp; START NEW PAYMENT</span>
                   </button>
@@ -1945,17 +1745,17 @@
         </div>
       </main>
 
-      <!-- AUTHENTIC STICKY BOTTOM FOOTER -->
+      <!-- STICKY FOOTER -->
       <footer class="ypg-sticky-footer" id="ypgStickyFooter">
         <div class="ypg-legal-disclaimer" id="footerLegalDisclaimer">
-          CouPI Sovereign Remittance Infrastructure &bull; 256-Bit TLS &bull; <span style="text-decoration:underline; cursor:pointer;" onclick="openHelpModal()">Audit &amp; Privacy</span>
+          Secured by CouPI &bull; 256-Bit Bank Encryption &bull; <span style="text-decoration:underline; cursor:pointer;" onclick="openHelpModal()">Privacy Notice</span>
         </div>
 
         <div class="ypg-action-bottom-bar">
           <div class="ypg-amount-view-group">
             <div class="ypg-bottom-price" id="bottomAmountDisplay">₹{{AMOUNT}}</div>
             <button type="button" class="ypg-btn-view-details" onclick="toggleOrderDetails()">
-              <span>Docket Breakdown</span>
+              <span>View Details</span>
               <span id="chevronDetailsIcon">&#9652;</span>
             </button>
           </div>
@@ -1968,23 +1768,23 @@
         <!-- Order Breakdown Drawer -->
         <div class="ypg-details-drawer" id="orderDetailsDrawer">
           <div class="ypg-details-header">
-            <span>Remittance Breakdown</span>
-            <button type="button" onclick="toggleOrderDetails()" style="background:none; border:none; font-size:14px; cursor:pointer; color:var(--ink-secondary);">✕</button>
+            <span>Order Summary</span>
+            <button type="button" onclick="toggleOrderDetails()" style="background:none; border:none; font-size:14px; cursor:pointer; color:var(--apple-subtext);">✕</button>
           </div>
           <div class="ypg-details-row">
             <span>Order Reference</span>
             <strong id="drawerOrderId">{{ORDER_ID}}</strong>
           </div>
           <div class="ypg-details-row">
-            <span>Beneficiary</span>
+            <span>Merchant</span>
             <strong>{{MERCHANT_NAME}}</strong>
           </div>
           <div class="ypg-details-row">
-            <span>CouPI Gateway Levy</span>
-            <span style="color:var(--tone-green); font-weight:700;">₹0.00 (Zero Intermediary Fee)</span>
+            <span>Platform Fee</span>
+            <span style="color:var(--apple-green); font-weight:600;">₹0.00 (Zero Fee)</span>
           </div>
           <div class="ypg-details-row total">
-            <span>Net Sum</span>
+            <span>Total</span>
             <strong id="drawerTotalAmount">₹{{AMOUNT}}</strong>
           </div>
         </div>
@@ -1992,23 +1792,21 @@
 
     </div><!-- END ypg-pc-workspace -->
 
-    <!-- HELP / AUDIT MODAL -->
+    <!-- HELP MODAL -->
     <div class="ypg-dialog-overlay" id="helpModal" hidden>
       <div class="ypg-dialog-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <strong style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; color:var(--tone-navy);" id="helpModalTitle">CouPI Audit &amp; Support</strong>
-          <button type="button" onclick="closeHelpModal()" style="background:none; border:none; font-size:16px; cursor:pointer; color:var(--ink-secondary);">✕</button>
+          <strong style="font-size:15px; font-weight:600;" id="helpModalTitle">Help &amp; Support</strong>
+          <button type="button" onclick="closeHelpModal()" style="background:none; border:none; font-size:16px; cursor:pointer; color:var(--apple-subtext);">✕</button>
         </div>
-        <div style="font-size:11.5px; color:var(--ink-secondary); margin-bottom:10px;">Official Settlement Inquiries:</div>
-        <div id="helpModalEmailsContainer" style="margin-bottom:6px; font-size:11.5px;"></div>
-        <div id="helpModalMobilesContainer" style="margin-bottom:10px; font-size:11.5px;"></div>
-        <div id="helpModalLegalLinks" style="display:none; gap:12px; font-size:11px; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border-hairline);"></div>
-        <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--ink-secondary); text-transform:uppercase; margin-bottom:4px;">
-          Remittance Case Evidence
-        </div>
-        <pre id="helpModalCaseInfoText" style="background:#F8F5EE; padding:8px; font-family:var(--font-mono); font-size:10.5px; color:var(--ink-primary); margin-bottom:12px; border:1px solid var(--border-hairline); white-space:pre-wrap;"></pre>
+        <div style="font-size:12px; color:var(--apple-subtext); margin-bottom:10px;">For inquiries regarding your payment:</div>
+        <div id="helpModalEmailsContainer" style="margin-bottom:6px; font-size:12px;"></div>
+        <div id="helpModalMobilesContainer" style="margin-bottom:10px; font-size:12px;"></div>
+        <div id="helpModalLegalLinks" style="display:none; gap:12px; font-size:11px; margin-bottom:10px;"></div>
+        <div style="font-size:11px; font-weight:600; color:var(--apple-subtext); text-transform:uppercase; margin-bottom:4px;">Case Details</div>
+        <pre id="helpModalCaseInfoText" style="background:#f5f5f7; border-radius:8px; padding:8px; font-family:var(--apple-font-mono); font-size:11px; margin-bottom:14px; white-space:pre-wrap;"></pre>
         <button type="button" class="ypg-btn-auth-action" onclick="copyCaseInfo()">
-          <span id="copyCaseText">Copy Docket Evidence</span>
+          <span id="copyCaseText">Copy Details</span>
         </button>
       </div>
     </div>
@@ -2016,8 +1814,8 @@
     <!-- CONFLICT MODAL -->
     <div class="ypg-dialog-overlay" id="activeConflictModal" hidden>
       <div class="ypg-dialog-card" style="text-align:center;">
-        <strong style="font-family:var(--font-serif); font-size:15px; color:var(--tone-navy); display:block; margin-bottom:6px;" id="conflictModalTitle">Active Remittance Detected</strong>
-        <p style="font-size:12px; color:var(--ink-secondary); line-height:1.45; margin-bottom:16px;" id="conflictModalDesc">
+        <strong style="font-size:16px; font-weight:600; display:block; margin-bottom:6px;" id="conflictModalTitle">Active Session Detected</strong>
+        <p style="font-size:13px; color:var(--apple-subtext); margin-bottom:16px;" id="conflictModalDesc">
           You already have an active payment session.
         </p>
         <div style="display:flex; flex-direction:column; gap:8px;">
@@ -2031,33 +1829,33 @@
       </div>
     </div>
 
-    <!-- PROCESSING MODAL SHEET -->
+    <!-- PROCESSING MODAL -->
     <div class="rzp-sheet-backdrop" id="rzpProcessingModal" hidden>
       <div class="rzp-sheet-dialog">
-        <button type="button" onclick="closeProcessingModal()" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:16px; cursor:pointer; color:var(--ink-secondary);">✕</button>
-        <div class="rzp-sheet-title" id="rzpProcessingTitle">Verifying Direct Credit</div>
-        <div class="rzp-sheet-subtitle" id="rzpProcessingSubtitle">Observing RFC 2177 bank push socket...</div>
-        <div style="font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--tone-green); margin:12px 0;">
-          Checking settlement ledger...
+        <button type="button" onclick="closeProcessingModal()" style="position:absolute; top:14px; right:14px; background:none; border:none; font-size:16px; cursor:pointer; color:var(--apple-subtext);">✕</button>
+        <div class="rzp-sheet-title" id="rzpProcessingTitle">Verifying Payment</div>
+        <div class="rzp-sheet-subtitle" id="rzpProcessingSubtitle">Observing banking push socket...</div>
+        <div style="font-size:12.5px; font-weight:600; color:var(--apple-green); margin:12px 0;">
+          Checking transaction...
         </div>
-        <button type="button" class="rzp-sheet-cancel-btn" onclick="openCancelPaymentModal()">Cancel Remittance</button>
+        <button type="button" class="rzp-sheet-cancel-btn" onclick="openCancelPaymentModal()">Cancel</button>
       </div>
     </div>
 
-    <!-- CANCEL PAYMENT MODAL SHEET -->
+    <!-- CANCEL PAYMENT MODAL -->
     <div class="rzp-sheet-backdrop" id="rzpCancelModal" hidden>
       <div class="rzp-sheet-dialog">
         <div id="rzpCancelPromptView">
-          <div class="rzp-sheet-title">Cancel Remittance?</div>
+          <div class="rzp-sheet-title">Cancel Payment?</div>
           <div class="rzp-sheet-subtitle">
             You will be returned to <span class="cancelMerchantNameSpan">{{MERCHANT_NAME}}</span>.
           </div>
-          <button type="button" class="rzp-btn-wait" onclick="closeCancelPaymentModal()">Return to Voucher</button>
-          <button type="button" class="rzp-btn-confirm-cancel" onclick="confirmCancelPayment()">Confirm Cancellation</button>
+          <button type="button" class="rzp-btn-wait" onclick="closeCancelPaymentModal()">No, Continue</button>
+          <button type="button" class="rzp-btn-confirm-cancel" onclick="confirmCancelPayment()">Yes, Cancel</button>
         </div>
         <div id="rzpCancellingProgressView" style="display:none;">
-          <div class="rzp-sheet-title">Cancelling Session</div>
-          <div class="rzp-sheet-subtitle">Releasing sub-rupee concurrency slot...</div>
+          <div class="rzp-sheet-title">Cancelling Payment</div>
+          <div class="rzp-sheet-subtitle">Releasing session slot...</div>
         </div>
       </div>
     </div>
@@ -2156,7 +1954,7 @@
       if (splash && !splash.classList.contains('fade-out')) {
         setTimeout(() => {
           splash.classList.add('fade-out');
-        }, 450);
+        }, 400);
       }
     }
 
@@ -2322,15 +2120,15 @@
             html += `
               <div class="saved-account-row" onclick="handleSelectSavedAccount('${acc.id}', event)">
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <div style="width:26px; height:26px; border-radius:50%; background:var(--tone-navy-wash); color:var(--tone-navy); font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center;">${initial}</div>
+                  <div style="width:28px; height:28px; border-radius:50%; background:#e5e5ea; color:#1d1d1f; font-weight:600; font-size:12px; display:flex; align-items:center; justify-content:center;">${initial}</div>
                   <div>
-                    <div style="font-size:12px; font-weight:700;">${escapeHtml(acc.name)}</div>
-                    <div style="font-size:10.5px; color:var(--ink-secondary); font-family:var(--font-mono);">${acc.mobileNumber ? '+91 ' + escapeHtml(acc.mobileNumber) : ''}</div>
+                    <div style="font-size:13px; font-weight:600;">${escapeHtml(acc.name)}</div>
+                    <div style="font-size:11px; color:var(--apple-subtext);">${acc.mobileNumber ? '+91 ' + escapeHtml(acc.mobileNumber) : ''}</div>
                   </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:6px;">
-                  <button type="button" class="ypg-btn-link" style="font-size:11px;" onclick="handleSelectSavedAccount('${acc.id}', event)">Select</button>
-                  <button type="button" style="background:none; border:none; color:var(--ink-tertiary); font-size:12px; cursor:pointer;" onclick="removeRememberedAccount('${acc.id}', event)" title="Remove">✕</button>
+                  <button type="button" class="ypg-btn-link" style="font-size:12px;" onclick="handleSelectSavedAccount('${acc.id}', event)">Select</button>
+                  <button type="button" style="background:none; border:none; color:var(--apple-subtext); font-size:13px; cursor:pointer;" onclick="removeRememberedAccount('${acc.id}', event)" title="Remove">✕</button>
                 </div>
               </div>
             `;
@@ -2365,7 +2163,7 @@
         if (authEl) { authEl.hidden = true; authEl.style.setProperty('display', 'none', 'important'); }
         if (payEl) { payEl.hidden = false; payEl.style.removeProperty('display'); }
         if (footerEl) footerEl.style.display = '';
-        if (pcTopbarTitle) pcTopbarTitle.textContent = 'Remittance Options';
+        if (pcTopbarTitle) pcTopbarTitle.textContent = 'Payment Options';
       }
     }
 
@@ -3022,7 +2820,7 @@
 
     async function promptConfirmCodOrder() {
       const amt = state?.amount || '{{AMOUNT}}';
-      if (!confirm(`Confirm Cash on Delivery order for ₹${amt}? Physical cash will be collected upon doorstep delivery.`)) {
+      if (!confirm(`Confirm Cash on Delivery order for ₹${amt}? Pay in cash upon delivery.`)) {
         return;
       }
       await executeConfirmCodOrder();
@@ -3032,7 +2830,7 @@
       const btn = document.getElementById('btnConfirmCod');
       if (btn) {
         btn.disabled = true;
-        btn.innerText = 'Placing Cash on Delivery Order...';
+        btn.innerText = 'Placing Order...';
       }
       try {
         const res = await fetch(`${API_BASE}/api/v1/checkout/${PAYMENT_ID}/confirm-cod`, {
@@ -3046,19 +2844,18 @@
           alert(data.error || 'Failed to place COD order');
           if (btn) {
             btn.disabled = false;
-            btn.innerHTML = '<span>Confirm Cash on Delivery Order (₹' + (state?.amount || '{{AMOUNT}}') + ')</span> &rsaquo;';
+            btn.innerHTML = '<span>Confirm Cash on Delivery (₹' + (state?.amount || '{{AMOUNT}}') + ')</span> &rsaquo;';
           }
         }
       } catch (e) {
         alert('Network error confirming COD order.');
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = '<span>Confirm Cash on Delivery Order (₹' + (state?.amount || '{{AMOUNT}}') + ')</span> &rsaquo;';
+          btn.innerHTML = '<span>Confirm Cash on Delivery (₹' + (state?.amount || '{{AMOUNT}}') + ')</span> &rsaquo;';
         }
       }
     }
 
-    // --- DEVICE IDENTITY LAYER ---
     const DeviceIdentity = {
       dbName: 'coupi_device_keystore_v1',
       storeName: 'keys',
@@ -3212,10 +3009,10 @@
     function renderState(data) {
       state = data;
       const b = data.branding || {};
-      const appName = b.appName || 'CouPI Sovereign Gateway';
+      const appName = b.appName || 'CouPI';
       const merchantName = data.merchantName || 'Merchant Checkout';
 
-      document.title = `${merchantName} · Remittance Voucher`;
+      document.title = `${merchantName} · ${appName}`;
 
       if (data.merchantName) {
         const nameEl = document.getElementById('headerMerchantName');
@@ -3229,7 +3026,6 @@
       const pcPrice = document.getElementById('pcPriceSummaryAmount');
       if (pcPrice && data.amount) pcPrice.textContent = `₹${data.amount}`;
 
-      // Merchant Avatar Logo
       const pcLogoImg = document.getElementById('pcMerchantAvatarImg');
       const pcLetterSpan = document.getElementById('pcMerchantAvatarLetter');
       if (b.logoUrl) {
@@ -3243,7 +3039,6 @@
         }
       }
 
-      // Customer identity
       const pcCustomerText = document.getElementById('pcCustomerProfileText');
       if (pcCustomerText) {
         const c = data.customer || activeCustomer || (getPreservedIdentity()?.customer);
@@ -3261,7 +3056,7 @@
         el.textContent = data.merchantName || 'Merchant';
       });
 
-      // UPI Server Health Indicator
+      // Health
       const serverIndicator = data.upiServerIndicator || { status: 'WORKING', tier: 'GREEN', label: 'Server Is Working' };
       const healthPill = document.getElementById('upiServerHealthIndicator');
       const healthLabel = document.getElementById('serverStatusLabel');
@@ -3309,13 +3104,13 @@
         });
       }
 
-      // Instructions
+      // Counter Notices
       const cashNoticeEl = document.getElementById('cashCounterDeskNotice');
       if (cashNoticeEl && b.counterInstructions) cashNoticeEl.textContent = b.counterInstructions;
       const cardNoticeEl = document.getElementById('cardCounterDeskNotice');
       if (cardNoticeEl && b.cardCounterInstructions) cardNoticeEl.textContent = b.cardCounterInstructions;
 
-      // Conflict modal
+      // Conflict Modal
       const conflictModal = document.getElementById('activeConflictModal');
       if (data.hasActiveSessionConflict) {
         hideAllContent();
@@ -3344,9 +3139,9 @@
           if (footer) footer.style.display = 'none';
 
           const titleEl = document.getElementById('failedTitleText');
-          if (titleEl) titleEl.textContent = 'Remittance Cancelled';
+          if (titleEl) titleEl.textContent = 'Payment Cancelled';
           const descEl = document.getElementById('failedDescriptionText');
-          if (descEl) descEl.textContent = 'You cancelled this payment session. Return to the merchant store.';
+          if (descEl) descEl.textContent = 'You cancelled this payment session. Return to the store.';
           const btnAction = document.getElementById('btnFailedAction');
           if (btnAction) {
             btnAction.textContent = 'Back to Store';
@@ -3415,7 +3210,6 @@
 
       renderMethodSelectorBar(data);
 
-      // Customer gate
       if (data.customer) activeCustomer = data.customer;
       else if (!activeCustomer) {
         const preserved = getPreservedIdentity();
@@ -3522,7 +3316,7 @@
       } catch (e) { }
     }
 
-    function openProcessingModal(title = 'Verifying Credit', subtitle = 'Observing banking push socket...') {
+    function openProcessingModal(title = 'Verifying Payment', subtitle = 'Observing banking push socket...') {
       const modal = document.getElementById('rzpProcessingModal');
       const tEl = document.getElementById('rzpProcessingTitle');
       const sEl = document.getElementById('rzpProcessingSubtitle');
@@ -3594,7 +3388,7 @@
     });
 
     async function submitPaymentDone() {
-      openProcessingModal('Verifying Credit', 'Observing RFC 2177 banking socket...');
+      openProcessingModal('Verifying Payment', 'Observing RFC 2177 banking socket...');
       emitTriggerHook('PAYMENT_DONE_CLICKED');
       try {
         const res = await fetch(`${API_BASE}/api/v1/checkout/${PAYMENT_ID}/payment-done`, { method: 'POST' });
@@ -3722,10 +3516,10 @@
       const phoneBox = document.getElementById('helpModalMobilesContainer');
       const caseBox = document.getElementById('helpModalCaseInfoText');
 
-      if (emailBox) emailBox.innerHTML = `<strong>Inquiry Email:</strong> ${branding.supportEmail || 'support@merchant.in'}`;
-      if (phoneBox) phoneBox.innerHTML = `<strong>Banking Helpdesk:</strong> ${branding.supportMobile || '+91 80 4000 0000'}`;
+      if (emailBox) emailBox.innerHTML = `<strong>Email:</strong> ${branding.supportEmail || 'support@merchant.in'}`;
+      if (phoneBox) phoneBox.innerHTML = `<strong>Phone:</strong> ${branding.supportMobile || '+91 80 4000 0000'}`;
       if (caseBox) {
-        caseBox.textContent = `REMITTANCE_ID: ${PAYMENT_ID}\nORDER_REF: ${state?.orderId || 'N/A'}\nALLOCATED_SUM: ₹${state?.amount || 'N/A'}\nSTATUS: ${state?.status || 'N/A'}\nOBSERVER: RFC 2177 IMAP IDLE PUSH`;
+        caseBox.textContent = `PAYMENT_ID: ${PAYMENT_ID}\nORDER_REF: ${state?.orderId || 'N/A'}\nAMOUNT: ₹${state?.amount || 'N/A'}\nSTATUS: ${state?.status || 'N/A'}`;
       }
     }
 
@@ -3736,8 +3530,8 @@
     function copyCaseInfo() {
       const text = document.getElementById('helpModalCaseInfoText').textContent;
       navigator.clipboard.writeText(text).then(() => {
-        document.getElementById('copyCaseText').textContent = 'Evidence Copied to Clipboard!';
-        setTimeout(() => { document.getElementById('copyCaseText').textContent = 'Copy Docket Evidence'; }, 2000);
+        document.getElementById('copyCaseText').textContent = 'Copied!';
+        setTimeout(() => { document.getElementById('copyCaseText').textContent = 'Copy Details'; }, 2000);
       });
     }
 
