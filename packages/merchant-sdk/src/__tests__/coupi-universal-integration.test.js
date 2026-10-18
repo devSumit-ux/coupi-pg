@@ -45,7 +45,7 @@ describe('Universal COUPI PG One-Script Integration Tests', () => {
   test('Button attribute extractor correctly parses customer and metadata attributes', () => {
     // Mock DOM button element
     const mockAttrs = {
-      'data-youpi-pay': '',
+      'data-coupi-pay': '',
       'data-order-id': 'ORD-BTN-101',
       'data-amount': '750',
       'data-currency': 'INR',

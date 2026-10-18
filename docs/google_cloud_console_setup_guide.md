@@ -1,12 +1,12 @@
-# Google Cloud Console & Gmail Direct API Setup Guide for YouPI PG
+# Google Cloud Console & Gmail Direct API Setup Guide for CouPI PG
 
-This guide provides step-by-step instructions to configure your Google Cloud Console project, enable the Gmail API, configure OAuth 2.0 credentials, and obtain a persistent **Refresh Token** to connect your Gmail account directly to the YouPI PG Merchant Admin panel.
+This guide provides step-by-step instructions to configure your Google Cloud Console project, enable the Gmail API, configure OAuth 2.0 credentials, and obtain a persistent **Refresh Token** to connect your Gmail account directly to the CouPI PG Merchant Admin panel.
 
 ---
 
 ## Architecture Overview
 
-YouPI PG introduces a **2-Level Verification Architecture**:
+CouPI PG introduces a **2-Level Verification Architecture**:
 - **Level 1 Verification**: First incoming credit match detected via **Direct Gmail API** or **Android SMS Gateway** in the 5-minute payment window. Starts a 5-second dual-verification grace window.
 - **Level 2 Verification**: Dual confirmation (`DUAL_VERIFIED_L2`) when **both** Gmail and SMS Gateway confirm the credit within 5 seconds.
 - **Aggressive 1-Second Polling**: Background poller checks both channels every 1 second without requiring an active browser tab or manual click.
@@ -28,7 +28,7 @@ To connect Gmail in the Merchant Admin panel (`http://localhost:5000`), you will
 1. Open [Google Cloud Console](https://console.cloud.google.com/).
 2. Log in with the Google Account that receives your bank credit notification emails (or your merchant admin account).
 3. At the top navigation bar, click the project selection dropdown and click **"New Project"**.
-4. Set **Project Name** to: `YouPI-PG-Observer`.
+4. Set **Project Name** to: `CouPI-PG-Observer`.
 5. Leave Organization as *No organization* (or select your organization).
 6. Click **Create** and wait a few seconds for project provisioning.
 
@@ -47,7 +47,7 @@ To connect Gmail in the Merchant Admin panel (`http://localhost:5000`), you will
 2. Under **User Type**, select **External** (or **Internal** if using Google Workspace).
 3. Click **Create**.
 4. Fill in the required application information:
-   - **App name**: `YouPI Payment Observer`
+   - **App name**: `CouPI Payment Observer`
    - **User support email**: Your Gmail address
    - **Developer contact information**: Your email address
 5. Click **Save and Continue**.
@@ -68,7 +68,7 @@ To connect Gmail in the Merchant Admin panel (`http://localhost:5000`), you will
 1. In the sidebar, navigate to **APIs & Services > Credentials**.
 2. Click **+ Create Credentials** at the top and select **OAuth client ID**.
 3. Under **Application type**, select **Web application**.
-4. Under **Name**, enter: `YouPI PG Web Client`.
+4. Under **Name**, enter: `CouPI PG Web Client`.
 5. Under **Authorized JavaScript origins**, add:
    - `http://localhost:5000`
    - `http://localhost:6100`
@@ -85,7 +85,7 @@ To connect Gmail in the Merchant Admin panel (`http://localhost:5000`), you will
 ---
 
 ### Step 5: Obtain the Persistent Refresh Token using OAuth Playground
-Google OAuth access tokens expire after 1 hour, but a **Refresh Token** allows the YouPI PG server to automatically fetch fresh access tokens indefinitely in the background.
+Google OAuth access tokens expire after 1 hour, but a **Refresh Token** allows the CouPI PG server to automatically fetch fresh access tokens indefinitely in the background.
 
 1. Open [Google OAuth 2.0 Playground](https://developers.google.com/oauthplayground).
 2. Click the **Gear Icon (⚙️)** in the top right corner to open configuration settings:
@@ -98,7 +98,7 @@ Google OAuth access tokens expire after 1 hour, but a **Refresh Token** allows t
    - Click the blue **Authorize APIs** button.
 4. Google will display a sign-in screen:
    - Select your bank-linked Gmail account.
-   - If prompted with *"Google hasn't verified this app"*, click **Advanced** > **Go to YouPI Payment Observer (unsafe)**.
+   - If prompted with *"Google hasn't verified this app"*, click **Advanced** > **Go to CouPI Payment Observer (unsafe)**.
    - Review the requested permission and click **Continue**.
 5. You will be redirected back to the OAuth Playground under **Step 2 Exchange authorization code for tokens**:
    - The authorization code will be populated automatically.
@@ -109,8 +109,8 @@ Google OAuth access tokens expire after 1 hour, but a **Refresh Token** allows t
 
 ---
 
-### Step 6: Connect Gmail in YouPI Merchant Panel
-1. Open the YouPI Merchant Admin dashboard at `http://localhost:5000`.
+### Step 6: Connect Gmail in CouPI Merchant Panel
+1. Open the CouPI Merchant Admin dashboard at `http://localhost:5000`.
 2. Navigate to **📡 Payment Observers (SMS & Gmail)** (Tab 3).
 3. In the **📧 Gmail Direct API** card:
    - Paste your **Google OAuth Client ID**.
@@ -118,7 +118,7 @@ Google OAuth access tokens expire after 1 hour, but a **Refresh Token** allows t
    - Paste your **Google Refresh Token**.
 4. Click **💾 Save Gmail Credentials**.
 5. Click **🔑 Test Connection**:
-   - YouPI PG will exchange the refresh token with Google's OAuth server and query `users.getProfile`.
+   - CouPI PG will exchange the refresh token with Google's OAuth server and query `users.getProfile`.
    - The badge will turn green: `CONFIGURED` with confirmation:
      `Connected! Authorized as yourname@gmail.com. Total messages: 1,420.`
 
@@ -128,7 +128,7 @@ Google OAuth access tokens expire after 1 hour, but a **Refresh Token** allows t
 
 Once configured:
 1. When a customer initiates a UPI payment, the session enters the **5-minute payment window**.
-2. YouPI PG launches aggressive **1-second background pollers** across both the **Android SMS Gateway** and the **Gmail Direct API**.
+2. CouPI PG launches aggressive **1-second background pollers** across both the **Android SMS Gateway** and the **Gmail Direct API**.
 3. When your bank sends an email credit alert (e.g. from HDFC, SBI, ICICI, Axis, Paytm, or Kotak):
    - The poller extracts the amount, payer VPA, and bank reference/UTR.
    - The payment is attributed as **Level 1 Verified**.

@@ -104,8 +104,7 @@ export class CoinWalletStoreServer {
 
       // GET /coupi.js or /sdk/coupi.js (Universal Frontend Integration Script)
       if (
-        pathname === '/coupi.js' || pathname === '/sdk/coupi.js' || pathname === '/sdk/coupi-checkout.js' ||
-        pathname === '/youpi.js' || pathname === '/sdk/youpi-checkout.js' || pathname === '/sdk/youpi.js'
+        pathname === '/coupi.js' || pathname === '/sdk/coupi.js' || pathname === '/sdk/coupi-checkout.js'
       ) {
         const sdkPath = path.resolve(__dirname, '../../checkout-portal/src/sdk/coupi.js');
         if (fs.existsSync(sdkPath)) {

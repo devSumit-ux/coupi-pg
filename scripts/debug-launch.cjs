@@ -72,13 +72,13 @@ async function test() {
     await new Promise(r => setTimeout(r, 2500));
 
     const check = await send('Runtime.evaluate', {
-      expression: 'document.querySelector(".youpi-checkout-backdrop")?.className',
+      expression: 'document.querySelector(".coupi-checkout-backdrop")?.className',
       returnByValue: true
     });
     console.log('[Runner] Backdrop className:', check?.value);
 
     const iframeCheck = await send('Runtime.evaluate', {
-      expression: 'document.querySelector(".youpi-checkout-iframe")?.src',
+      expression: 'document.querySelector(".coupi-checkout-iframe")?.src',
       returnByValue: true
     });
     console.log('[Runner] Iframe src:', iframeCheck?.value);

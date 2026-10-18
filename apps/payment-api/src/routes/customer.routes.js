@@ -19,7 +19,7 @@ export function registerCustomerRoutes(server, ctx) {
       return authHeader.slice(7).trim();
     }
     const cookieHeader = req.headers['cookie'] || '';
-    const match = cookieHeader.match(/youpi_session=([^;]+)/);
+    const match = cookieHeader.match(/coupi_session=([^;]+)/) || cookieHeader.match(/youpi_session=([^;]+)/);
     if (match) {
       return match[1].trim();
     }
@@ -28,7 +28,7 @@ export function registerCustomerRoutes(server, ctx) {
 
   // Helper to set session cookie header
   function buildSessionCookie(token, maxAgeSeconds = 30 * 24 * 3600) {
-    return `youpi_session=${token}; Path=/; Max-Age=${maxAgeSeconds}; HttpOnly; SameSite=Lax`;
+    return `coupi_session=${token}; Path=/; Max-Age=${maxAgeSeconds}; HttpOnly; SameSite=Lax`;
   }
 
   // Pending signup challenges cache: mobileNumber -> { otpCode, expiresAt, name, email }
@@ -472,7 +472,7 @@ export function registerCustomerRoutes(server, ctx) {
       ctx.customerSessionRepo.revokeToken(token);
     }
 
-    res.setHeader('Set-Cookie', 'youpi_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
+    res.setHeader('Set-Cookie', 'coupi_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
     HttpServer.json(res, 200, { success: true, message: 'Logged out successfully.' });
   });
 

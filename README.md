@@ -121,19 +121,6 @@ sequenceDiagram
 
 <br/>
 
-### 📱 Live Product Showcase (Desktop & Mobile)
-
-<div align="center">
-
-| 🖥️ Desktop Web Checkout Modal | 📱 Mobile Intent & Fast-Path UTR |
-| :---: | :---: |
-| <img src="assets/desktop-demo.gif" width="460" alt="Desktop Web Checkout Demo" /> | <img src="assets/mobile-demo.gif" width="280" alt="Mobile Checkout Demo" /> |
-| *Zero-redirect modal with live vector QR & dynamic timer* | *Native Android/iOS UPI app switch & clipboard UTR catch* |
-
-</div>
-
-<br/>
-
 ---
 
 ## ⚡ Quickstart in 60 Seconds

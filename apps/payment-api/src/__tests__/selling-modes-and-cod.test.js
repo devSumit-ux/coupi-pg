@@ -80,7 +80,7 @@ describe('Architectural Update: Selling Modes (Online vs Offline), COD Flow, & C
         sellingMode: 'ONLINE',
         codEnabled: true,
         branding: {
-          appName: 'YouPI Online Store',
+          appName: 'CouPI Online Store',
           sellingMode: 'ONLINE'
         }
       }

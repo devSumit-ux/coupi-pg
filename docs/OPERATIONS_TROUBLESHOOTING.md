@@ -38,10 +38,10 @@ A customer pays via their UPI app near the end of their 5-minute payment window,
 ### PostgreSQL Production Backup
 ```bash
 # Automated Daily Backup Script
-pg_dump -U youpi -d coupi_pg -F c -b -v -f "/var/backups/coupi_pg_$(date +\%Y\%m\%d).dump"
+pg_dump -U coupi -d coupi_pg -F c -b -v -f "/var/backups/coupi_pg_$(date +\%Y\%m\%d).dump"
 
 # Restore from Backup
-pg_restore -U youpi -d coupi_pg -v "/var/backups/coupi_pg_20260908.dump"
+pg_restore -U coupi -d coupi_pg -v "/var/backups/coupi_pg_20260908.dump"
 ```
 
 ### SQLite Local Backup

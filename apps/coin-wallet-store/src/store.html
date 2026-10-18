@@ -1070,7 +1070,6 @@
                   class="btn-buy-primary"
                   id="btnInitiateCheckout"
                   data-coupi-pay
-                  data-youpi-pay
                   data-order-id=""
                   data-amount="1.00"
                   data-currency="INR"
@@ -1571,7 +1570,7 @@ app.post('/api/coupi-webhook', express.raw({ type: 'application/json' }), (req, 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
           <div style="background:#0c1527; padding:1.25rem; border-radius:10px; border:1px solid #1e293b;">
             <strong style="color:#38bdf8; font-size:0.95rem;">Q: What do I put in my HTML?</strong>
-            <p style="color:#94a3b8; font-size:0.85rem; margin-top:0.4rem; line-height:1.5;">A: Exactly one script tag: <code>&lt;script src="..." data-youpi-key="KEY"&gt;&lt;/script&gt;</code> and your button with <code>data-youpi-pay</code>.</p>
+            <p style="color:#94a3b8; font-size:0.85rem; margin-top:0.4rem; line-height:1.5;">A: Exactly one script tag: <code>&lt;script src="..." data-coupi-key="KEY"&gt;&lt;/script&gt;</code> and your button with <code>data-coupi-pay</code>.</p>
           </div>
           <div style="background:#0c1527; padding:1.25rem; border-radius:10px; border:1px solid #1e293b;">
             <strong style="color:#38bdf8; font-size:0.95rem;">Q: What information do I send to COUPI?</strong>
@@ -1579,7 +1578,7 @@ app.post('/api/coupi-webhook', express.raw({ type: 'application/json' }), (req, 
           </div>
           <div style="background:#0c1527; padding:1.25rem; border-radius:10px; border:1px solid #1e293b;">
             <strong style="color:#38bdf8; font-size:0.95rem;">Q: How does the payment modal open?</strong>
-            <p style="color:#94a3b8; font-size:0.85rem; margin-top:0.4rem; line-height:1.5;">A: Automatically! Clicking a <code>data-youpi-pay</code> button dims and blurs the background and renders the centered 2-column modal (or mobile drawer).</p>
+            <p style="color:#94a3b8; font-size:0.85rem; margin-top:0.4rem; line-height:1.5;">A: Automatically! Clicking a <code>data-coupi-pay</code> button dims and blurs the background and renders the centered 2-column modal (or mobile drawer).</p>
           </div>
           <div style="background:#0c1527; padding:1.25rem; border-radius:10px; border:1px solid #1e293b;">
             <strong style="color:#38bdf8; font-size:0.95rem;">Q: Which event actually proves the order is paid?</strong>
@@ -1748,7 +1747,7 @@ app.post('/api/coupi-webhook', express.raw({ type: 'application/json' }), (req, 
       if (btnDisp) btnDisp.textContent = formatted;
     }
 
-    // --- PURCHASE INITIATION (Using Official Universal YouPI Integration) ---
+    // --- PURCHASE INITIATION (Using Official Universal CouPI Integration) ---
     async function startGatewayPurchase() {
       const btn = document.getElementById('btnInitiateCheckout');
       const oldHtml = btn.innerHTML;
@@ -1832,31 +1831,26 @@ app.post('/api/coupi-webhook', express.raw({ type: 'application/json' }), (req, 
     }
 
     window.addEventListener('coupi:payment:success', handlePaymentSuccess);
-    window.addEventListener('youpi:payment:success', handlePaymentSuccess);
 
     function handlePaymentFailed(e) {
       console.warn('[COUPI PG Event] Payment Failed', e.detail);
     }
     window.addEventListener('coupi:payment:failed', handlePaymentFailed);
-    window.addEventListener('youpi:payment:failed', handlePaymentFailed);
 
     function handlePaymentSuspicious(e) {
       console.warn('[COUPI PG Event] Payment Suspicious', e.detail);
     }
     window.addEventListener('coupi:payment:suspicious', handlePaymentSuspicious);
-    window.addEventListener('youpi:payment:suspicious', handlePaymentSuspicious);
 
     function handlePaymentExpired(e) {
       console.warn('[COUPI PG Event] Payment Expired', e.detail);
     }
     window.addEventListener('coupi:payment:expired', handlePaymentExpired);
-    window.addEventListener('youpi:payment:expired', handlePaymentExpired);
 
     function handlePaymentCancelled(e) {
       console.log('[COUPI PG Event] Payment Cancelled', e.detail);
     }
     window.addEventListener('coupi:payment:cancelled', handlePaymentCancelled);
-    window.addEventListener('youpi:payment:cancelled', handlePaymentCancelled);
 
     function showCelebrationModal(orderId, paymentId, amount) {
       const modal = document.getElementById('celebrationModal');

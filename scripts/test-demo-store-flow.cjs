@@ -88,8 +88,8 @@ async function testFlow() {
     const modalCheck = await sendCommand('Runtime.evaluate', {
       expression: `
         (function() {
-          const backdrop = document.querySelector('.youpi-checkout-backdrop');
-          const iframe = document.querySelector('.youpi-checkout-iframe');
+          const backdrop = document.querySelector('.coupi-checkout-backdrop');
+          const iframe = document.querySelector('.coupi-checkout-iframe');
           return {
             backdropActive: backdrop ? backdrop.classList.contains('active') : false,
             iframeSrc: iframe ? iframe.src : null

@@ -151,7 +151,7 @@ export function registerPollerRoutes(server, ctx) {
     const deviceModel = body.deviceModel || 'Android Device';
 
     // Verify enrollment token against system secret or merchant token
-    if (!token || (token !== enrollmentSecret && token !== `pair_${merchantId.slice(0, 8)}` && token !== 'youpi_sms_pair_token_secure')) {
+    if (!token || (token !== enrollmentSecret && token !== `pair_${merchantId.slice(0, 8)}` && token !== 'coupi_sms_pair_token_secure')) {
       HttpServer.json(res, 401, { error: 'Invalid or expired device pairing enrollment token.' });
       return;
     }
@@ -510,5 +510,4 @@ export function registerPollerRoutes(server, ctx) {
   };
 
   server.get('/api/v1/admin/sms-gateway/download-apk', handleApkDeprecation);
-  server.get('/youpi-sms-gateway.apk', handleApkDeprecation);
 }

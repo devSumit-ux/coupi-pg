@@ -17,18 +17,18 @@ async function main() {
     console.log(`[+] Created database directory: ${path.dirname(dbPath)}`);
   }
 
-  // Ensure workspace packages in node_modules/@youpi are linked
-  const youpiScopeDir = path.join(rootDir, 'node_modules', '@youpi');
+  // Ensure workspace packages in node_modules/@coupi are linked
+  const coupiScopeDir = path.join(rootDir, 'node_modules', '@coupi');
   const packagesDir = path.join(rootDir, 'packages');
   if (fs.existsSync(packagesDir)) {
-    if (!fs.existsSync(youpiScopeDir)) {
-      fs.mkdirSync(youpiScopeDir, { recursive: true });
+    if (!fs.existsSync(coupiScopeDir)) {
+      fs.mkdirSync(coupiScopeDir, { recursive: true });
     }
     const pkgs = fs.readdirSync(packagesDir, { withFileTypes: true });
     for (const pkg of pkgs) {
       if (pkg.isDirectory()) {
         const targetPkg = path.join(packagesDir, pkg.name);
-        const linkPath = path.join(youpiScopeDir, pkg.name);
+        const linkPath = path.join(coupiScopeDir, pkg.name);
         if (!fs.existsSync(linkPath)) {
           try {
             fs.symlinkSync(targetPkg, linkPath, 'junction');

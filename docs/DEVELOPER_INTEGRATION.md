@@ -55,7 +55,7 @@ When clicked, the script displays the checkout modal (or mobile sheet on mobile 
 | `data-expired-url` | Optional | Redirect URL on session expiry | `"/order-expired"` |
 | `data-cancelled-url`| Optional | Redirect URL on user cancellation | `"/order-cancelled"` |
 
-*(Note: Legacy `data-youpi-pay` and `data-youpi-key` attributes are fully supported as backwards-compatible aliases).*
+*(Note: Legacy `data-coupi-pay` and `data-coupi-key` attributes are fully supported as backwards-compatible aliases).*
 
 ---
 
@@ -134,7 +134,7 @@ window.addEventListener('coupi:payment:cancelled', (e) => {
 });
 ```
 
-*(Note: `youpi:payment:*` event listeners are also triggered for backward compatibility).*
+*(Note: `coupi:payment:*` event listeners are also triggered for backward compatibility).*
 
 > [!WARNING]
 > Browser events are strictly for user interface updates. **Never** mark orders fulfilled or ship products based solely on client-side events. Only fulfill orders after cryptographically verifying the server-to-server webhook!

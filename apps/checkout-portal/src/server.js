@@ -175,10 +175,9 @@ export class CheckoutServer {
         return;
       }
 
-      // Official SDK script: GET /coupi.js or /sdk/coupi.js (with legacy aliases)
+      // Official SDK script: GET /coupi.js or /sdk/coupi.js
       if (
-        pathname === '/coupi.js' || pathname === '/sdk/coupi.js' || pathname === '/sdk/coupi-checkout.js' ||
-        pathname === '/youpi.js' || pathname === '/sdk/youpi.js' || pathname === '/sdk/youpi-checkout.js'
+        pathname === '/coupi.js' || pathname === '/sdk/coupi.js' || pathname === '/sdk/coupi-checkout.js'
       ) {
         try {
           const resolvedSdkPath = fs.existsSync(this.sdkScriptPath)

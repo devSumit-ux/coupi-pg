@@ -1545,7 +1545,7 @@
                           style="display:inline-flex; align-items:center; gap:3px; margin-top:2px;">
                           <span style="font-size:11px;">🛡️</span>
                           <span id="mockupTrustBadgeText"
-                            style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.92);">YouPI PG Verified
+                            style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.92);">CouPI PG Verified
                             Business</span>
                         </div>
                       </div>
@@ -2848,7 +2848,7 @@
                       Disconnected</strong>
                   </div>
                   <div id="gmailHeroStatusDesc" style="font-size:0.82rem; color:var(--text-muted); line-height:1.4;">
-                    Connect your bank-registered Google account with one click. When you click authorize, YouPI PG
+                    Connect your bank-registered Google account with one click. When you click authorize, CouPI PG
                     handles the full OAuth flow, acquires persistent offline credentials, and activates 1-second UPI
                     credit polling.
                   </div>
@@ -5051,7 +5051,7 @@
         } else {
           googleAuthPopup = window.open(
             data.authUrl,
-            'youpi_google_oauth',
+            'coupi_google_oauth',
             `width=${w},height=${h},top=${top},left=${left},menubar=no,toolbar=no,location=no,status=no`
           );
         }
@@ -5078,7 +5078,7 @@
         window.addEventListener('message', onMessage);
 
         const onStorage = (event) => {
-          if (event.key === 'youpi_gmail_oauth_result') {
+          if (event.key === 'coupi_gmail_oauth_result' || event.key === 'youpi_gmail_oauth_result') {
             try {
               const parsed = JSON.parse(event.newValue);
               if (parsed && parsed.type === 'GMAIL_OAUTH_SUCCESS') {
@@ -5179,7 +5179,7 @@
           if (heroDot) heroDot.style.background = '#ef4444';
           if (heroTitle) heroTitle.textContent = 'Google Account Disconnected';
           if (heroDesc) {
-            heroDesc.textContent = 'Connect your bank-registered Google account with one click. When you click authorize, YouPI PG handles the full OAuth flow, acquires persistent offline credentials, and activates 1-second UPI credit polling.';
+            heroDesc.textContent = 'Connect your bank-registered Google account with one click. When you click authorize, CouPI PG handles the full OAuth flow, acquires persistent offline credentials, and activates 1-second UPI credit polling.';
           }
           if (authBtnLabel) authBtnLabel.textContent = 'Connect with Google (One-Click)';
           if (disconnectBtn) disconnectBtn.style.display = 'none';

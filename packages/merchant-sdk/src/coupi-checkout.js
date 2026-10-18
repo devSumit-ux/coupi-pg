@@ -1,8 +1,8 @@
 /**
  * COUPI PG V2 — Universal One-Script Integration SDK
  *
- * Official Distributable Browser Script (youpi.js / youpi-checkout.js)
- * Provides zero-JavaScript button configuration [data-youpi-pay] and programmatic Coupi.pay({...})
+ * Official Distributable Browser Script (coupi.js / coupi-checkout.js)
+ * Provides zero-JavaScript button configuration [data-coupi-pay] and programmatic Coupi.pay({...})
  * Launches the responsive iframe checkout modal with background blur.
  * Emits normalized browser payment events and manages checkout modal lifecycle.
  *
@@ -29,7 +29,7 @@
     if (!isBrowser) return {};
 
     const script = document.currentScript ||
-      document.querySelector('script[src*="coupi.js"], script[src*="coupi-checkout.js"], script[src*="youpi.js"], script[src*="youpi-checkout.js"]');
+      document.querySelector('script[src*="coupi.js"], script[src*="coupi-checkout.js"], script[src*="coupi.js"], script[src*="coupi-checkout.js"]');
 
     if (!script) return {};
 
@@ -41,7 +41,7 @@
     const origin = scriptUrl ? scriptUrl.origin : (window.location.protocol + '//' + window.location.hostname + ':7000');
 
     return {
-      key: script.getAttribute('data-coupi-key') || script.getAttribute('data-youpi-key') || script.getAttribute('data-key') || script.getAttribute('data-merchant-id') || '',
+      key: script.getAttribute('data-coupi-key') || script.getAttribute('data-coupi-key') || script.getAttribute('data-key') || script.getAttribute('data-merchant-id') || '',
       apiUrl: script.getAttribute('data-api-url') || origin,
       portalUrl: script.getAttribute('data-portal-url') || script.getAttribute('data-checkout-url') || origin,
       currency: script.getAttribute('data-currency') || 'INR',
@@ -205,8 +205,8 @@
             reason: errMsg,
             error: errMsg
           };
-          CoupiCheckout._emitEvent('youpi:payment:failed', failResult);
-          CoupiCheckout._emitEvent('youpi:payment:result', failResult);
+          CoupiCheckout._emitEvent('coupi:payment:failed', failResult);
+          CoupiCheckout._emitEvent('coupi:payment:result', failResult);
           if (typeof instance.options.onFailed === 'function') instance.options.onFailed(failResult);
           if (typeof instance.options.onPaymentFailed === 'function') instance.options.onPaymentFailed(failResult);
           throw new Error(errMsg);
@@ -217,7 +217,7 @@
         instance.open();
         return instance;
       } catch (err) {
-        console.error('[YouPI JS] Payment initialization error:', err.message);
+        console.error('[CouPI JS] Payment initialization error:', err.message);
         throw err;
       }
     }
@@ -314,20 +314,20 @@
 
     _injectModal(targetUrl) {
       const backdrop = document.createElement('div');
-      backdrop.className = 'youpi-checkout-backdrop';
+      backdrop.className = 'coupi-checkout-backdrop';
 
       const container = document.createElement('div');
-      container.className = 'youpi-checkout-container';
+      container.className = 'coupi-checkout-container';
 
       const closeBtn = document.createElement('button');
-      closeBtn.className = 'youpi-checkout-close-btn';
+      closeBtn.className = 'coupi-checkout-close-btn';
       closeBtn.innerHTML = '✕';
       closeBtn.title = 'Close Checkout';
       closeBtn.type = 'button';
       closeBtn.onclick = () => {
         try {
           if (iframe && iframe.contentWindow) {
-            iframe.contentWindow.postMessage({ event: 'youpi.request_cancel' }, '*');
+            iframe.contentWindow.postMessage({ event: 'coupi.request_cancel' }, '*');
             return;
           }
         } catch (err) { }
@@ -336,7 +336,7 @@
       };
 
       const iframe = document.createElement('iframe');
-      iframe.className = 'youpi-checkout-iframe';
+      iframe.className = 'coupi-checkout-iframe';
       iframe.src = targetUrl;
       iframe.allow = 'payment';
 
@@ -378,7 +378,7 @@
       const event = e.data.event;
       const rawData = e.data.data || e.data;
 
-      if (event === 'coupi.payment_success' || event === 'youpi.payment_success') {
+      if (event === 'coupi.payment_success' || event === 'coupi.payment_success') {
         const payload = e.data.data || {};
         const result = {
           status: 'SUCCESS',
@@ -392,9 +392,9 @@
         };
 
         CoupiCheckout._emitEvent('coupi:payment:success', result);
-        CoupiCheckout._emitEvent('youpi:payment:success', result);
+        CoupiCheckout._emitEvent('coupi:payment:success', result);
         CoupiCheckout._emitEvent('coupi:payment:result', result);
-        CoupiCheckout._emitEvent('youpi:payment:result', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
 
         if (typeof this.options.handler === 'function') {
           this.options.handler(result);
@@ -411,7 +411,7 @@
             }
           });
         }, 1500);
-      } else if (event === 'coupi.payment_failed' || event === 'youpi.payment_failed') {
+      } else if (event === 'coupi.payment_failed' || event === 'coupi.payment_failed') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'FAILED',
@@ -426,9 +426,9 @@
         };
 
         CoupiCheckout._emitEvent('coupi:payment:failed', result);
-        CoupiCheckout._emitEvent('youpi:payment:failed', result);
+        CoupiCheckout._emitEvent('coupi:payment:failed', result);
         CoupiCheckout._emitEvent('coupi:payment:result', result);
-        CoupiCheckout._emitEvent('youpi:payment:result', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
 
         if (typeof this.options.onFailed === 'function') {
           try { this.options.onFailed(result); } catch (err) { }
@@ -447,7 +447,7 @@
         });
       } else if (
         event === 'coupi.payment_blocked' || event === 'coupi.payment_blocked_exit' ||
-        event === 'youpi.payment_blocked' || event === 'youpi.payment_blocked_exit'
+        event === 'coupi.payment_blocked' || event === 'coupi.payment_blocked_exit'
       ) {
         const payload = e.data.data || e.data || {};
         const result = {
@@ -463,9 +463,9 @@
         };
 
         CoupiCheckout._emitEvent('coupi:payment:suspicious', result);
-        CoupiCheckout._emitEvent('youpi:payment:suspicious', result);
+        CoupiCheckout._emitEvent('coupi:payment:suspicious', result);
         CoupiCheckout._emitEvent('coupi:payment:result', result);
-        CoupiCheckout._emitEvent('youpi:payment:result', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
 
         if (typeof this.options.onSuspicious === 'function') {
           try { this.options.onSuspicious(result); } catch (err) { }
@@ -477,7 +477,7 @@
             window.location.href = `${this.options.suspiciousUrl}${delim}order_id=${encodeURIComponent(result.order_id)}&reason=SUSPICIOUS`;
           }
         });
-      } else if (event === 'coupi.payment_expired' || event === 'youpi.payment_expired') {
+      } else if (event === 'coupi.payment_expired' || event === 'coupi.payment_expired') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'EXPIRED',
@@ -486,9 +486,9 @@
         };
 
         CoupiCheckout._emitEvent('coupi:payment:expired', result);
-        CoupiCheckout._emitEvent('youpi:payment:expired', result);
+        CoupiCheckout._emitEvent('coupi:payment:expired', result);
         CoupiCheckout._emitEvent('coupi:payment:result', result);
-        CoupiCheckout._emitEvent('youpi:payment:result', result);
+        CoupiCheckout._emitEvent('coupi:payment:result', result);
 
         if (typeof this.options.onExpired === 'function') {
           try { this.options.onExpired(result); } catch (err) { }
@@ -502,7 +502,7 @@
         });
       } else if (
         event === 'coupi.modal_close' || event === 'coupi.close' || event === 'coupi.cancel' || event === 'coupi.payment_cancelled' ||
-        event === 'youpi.modal_close' || event === 'youpi.close' || event === 'youpi.cancel' || event === 'youpi.payment_cancelled'
+        event === 'coupi.modal_close' || event === 'coupi.close' || event === 'coupi.cancel' || event === 'coupi.payment_cancelled'
       ) {
         this._dispatchCancelled();
         const redirectUrl = e.data.redirectUrl;
@@ -524,9 +524,9 @@
         timestamp: new Date().toISOString()
       };
       CoupiCheckout._emitEvent('coupi:payment:cancelled', result);
-      CoupiCheckout._emitEvent('youpi:payment:cancelled', result);
+      CoupiCheckout._emitEvent('coupi:payment:cancelled', result);
       CoupiCheckout._emitEvent('coupi:payment:result', result);
-      CoupiCheckout._emitEvent('youpi:payment:result', result);
+      CoupiCheckout._emitEvent('coupi:payment:result', result);
 
       if (typeof this.options.onCancelled === 'function') {
         try { this.options.onCancelled(result); } catch (e) { }
@@ -543,7 +543,7 @@
     }
 
     /**
-     * Handles clicks on elements with [data-coupi-pay] or [data-youpi-pay] attribute
+     * Handles clicks on elements with [data-coupi-pay] or [data-coupi-pay] attribute
      */
     static handleButtonClick(btn) {
       if (!btn) return;
@@ -604,20 +604,20 @@
         expiredUrl: expiredUrl,
         cancelledUrl: cancelledUrl
       }).catch(err => {
-        console.error('[YouPI JS] Pay error:', err);
+        console.error('[CouPI JS] Pay error:', err);
       });
     }
 
     static _ensureStyles() {
       if (!isBrowser) return;
-      let styleEl = document.getElementById('youpi-checkout-styles');
+      let styleEl = document.getElementById('coupi-checkout-styles');
       if (!styleEl) {
         styleEl = document.createElement('style');
-        styleEl.id = 'youpi-checkout-styles';
+        styleEl.id = 'coupi-checkout-styles';
         document.head.appendChild(styleEl);
       }
       styleEl.textContent = `
-        .youpi-checkout-backdrop {
+        .coupi-checkout-backdrop {
           position: fixed;
           top: 0;
           left: 0;
@@ -641,10 +641,10 @@
           -webkit-user-select: none;
           -webkit-tap-highlight-color: transparent;
         }
-        .youpi-checkout-backdrop.active {
+        .coupi-checkout-backdrop.active {
           opacity: 1;
         }
-        .youpi-checkout-container {
+        .coupi-checkout-container {
           position: relative;
           width: 440px;
           max-width: 95vw;
@@ -662,13 +662,13 @@
           user-select: auto !important;
           -webkit-user-select: auto !important;
         }
-        .youpi-checkout-container.active {
+        .coupi-checkout-container.active {
           transform: translateY(0) scale(1);
         }
-        .youpi-checkout-container.closing {
+        .coupi-checkout-container.closing {
           transform: translateY(20px) scale(0.96);
         }
-        .youpi-checkout-iframe {
+        .coupi-checkout-iframe {
           width: 100%;
           height: 100%;
           border: none;
@@ -676,7 +676,7 @@
           background: #ffffff;
           touch-action: auto !important;
         }
-        .youpi-checkout-close-btn {
+        .coupi-checkout-close-btn {
           position: absolute;
           top: 14px;
           right: 14px;
@@ -694,13 +694,13 @@
           justify-content: center;
           transition: background 0.15s;
         }
-        .youpi-checkout-close-btn:hover {
+        .coupi-checkout-close-btn:hover {
           background: rgba(255, 255, 255, 0.4);
         }
 
         /* DESKTOP / PC MODAL STYLES (Razorpay 2-Column Exact Layout) */
         @media (min-width: 768px) {
-          .youpi-checkout-container {
+          .coupi-checkout-container {
             width: 900px;
             max-width: 95vw;
             height: 600px;
@@ -708,14 +708,14 @@
             border-radius: 16px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
           }
-          .youpi-checkout-close-btn {
+          .coupi-checkout-close-btn {
             display: none; /* Native in-modal close button inside the checkout header bar */
           }
         }
 
         /* MOBILE BOTTOM DRAWER / BOTTOM SHEET STYLES */
         @media (max-width: 767px) {
-          .youpi-checkout-backdrop {
+          .coupi-checkout-backdrop {
             position: fixed !important;
             inset: 0 !important;
             top: 0 !important;
@@ -730,7 +730,7 @@
             padding: 0 !important;
             margin: 0 !important;
           }
-          .youpi-checkout-container {
+          .coupi-checkout-container {
             width: 100vw !important;
             max-width: 100vw !important;
             height: 90vh !important;
@@ -746,7 +746,7 @@
             touch-action: auto !important;
             overflow: hidden !important;
           }
-          .youpi-checkout-container.closing {
+          .coupi-checkout-container.closing {
             transform: translateY(100%) !important;
           }
         }
@@ -754,10 +754,10 @@
     }
   }
 
-  // Auto-bind click listener for all [data-coupi-pay] and [data-youpi-pay] buttons on page
+  // Auto-bind click listener for all [data-coupi-pay] and [data-coupi-pay] buttons on page
   if (isBrowser) {
     document.addEventListener('click', function (e) {
-      const btn = e.target && e.target.closest && e.target.closest('[data-coupi-pay], [data-youpi-pay]');
+      const btn = e.target && e.target.closest && e.target.closest('[data-coupi-pay], [data-coupi-pay]');
       if (btn) {
         e.preventDefault();
         CoupiCheckout.handleButtonClick(btn);

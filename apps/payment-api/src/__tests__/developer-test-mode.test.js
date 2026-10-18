@@ -356,7 +356,7 @@ describe('Section 12: Developer Test Mode Acceptance Tests (All 29 Points)', () 
   test('21 & 22. Inject suspicious message: verify fraud detection occurs and automatic banning is executed immediately', async () => {
     const customer = customerRepo.create({
       name: 'Safe Developer Tester',
-      email: 'safe_tester@youpi.local',
+      email: 'safe_tester@coupi.local',
       mobileNumber: '9988776655',
       status: 'ACTIVE'
     });

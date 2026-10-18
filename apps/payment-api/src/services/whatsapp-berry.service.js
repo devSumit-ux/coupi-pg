@@ -102,7 +102,7 @@ export async function formatQrDataUrl(rawText, qrcodeModule = null) {
 export class WhatsAppBerryService extends EventEmitter {
   constructor(options = {}) {
     super();
-    this.sessionId = options.sessionId || 'youpi_berry_session';
+    this.sessionId = options.sessionId || 'coupi_berry_session';
     this.sessionPath = options.sessionPath || path.resolve(rootDir, 'data/berry_auth');
     this.databasePath = options.databasePath || path.resolve(rootDir, 'data/berry_store.db');
     this.metaFile = options.metaFile || path.resolve(rootDir, 'data/whatsapp_session.json');
@@ -229,7 +229,7 @@ export class WhatsAppBerryService extends EventEmitter {
     this.qrCode = null;
     this.pairingCode = null;
     this.pairingPhone = null;
-    this.sessionId = `youpi_berry_${Date.now()}`;
+    this.sessionId = `coupi_berry_${Date.now()}`;
     this.isSimulatedMode = false;
     this.isInitializing = false;
   }
@@ -571,7 +571,7 @@ export class WhatsAppBerryService extends EventEmitter {
     this.pairingPhone = clean;
 
     // Fresh session ID prevents device identity collisions on WhatsApp server
-    this.sessionId = `youpi_berry_${Date.now()}`;
+    this.sessionId = `coupi_berry_${Date.now()}`;
     try {
       fs.writeFileSync(this.metaFile, JSON.stringify({
         status: 'CONNECTING',
