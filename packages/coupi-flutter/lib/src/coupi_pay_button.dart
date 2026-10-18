@@ -27,6 +27,9 @@ class CoupiPayButton extends StatefulWidget {
   final String gatewayUrl;
   final String apiKey;
   final CoupiCustomer? customer;
+  final String? customerName;
+  final String? customerPhone;
+  final String? customerEmail;
   final Map<String, dynamic>? metadata;
   final String? rail;
   final Function(CoupiPaymentResult result)? onPaymentSuccess;
@@ -39,9 +42,12 @@ class CoupiPayButton extends StatefulWidget {
     Key? key,
     required this.amount,
     required this.orderId,
-    required this.gatewayUrl,
-    required this.apiKey,
+    this.gatewayUrl = 'http://localhost:7000',
+    this.apiKey = '00000000-0000-0000-0000-000000000001',
     this.customer,
+    this.customerName,
+    this.customerPhone,
+    this.customerEmail,
     this.metadata,
     this.rail,
     this.onPaymentSuccess,
@@ -68,10 +74,19 @@ class _CoupiPayButtonState extends State<CoupiPayButton> {
     );
 
     try {
+      final customer = widget.customer ??
+          (widget.customerName != null || widget.customerPhone != null
+              ? CoupiCustomer(
+                  name: widget.customerName,
+                  phone: widget.customerPhone,
+                  email: widget.customerEmail,
+                )
+              : null);
+
       final session = await client.createSession(
         orderId: widget.orderId,
         amount: widget.amount,
-        customer: widget.customer,
+        customer: customer,
         metadata: widget.metadata,
         rail: widget.rail,
       );

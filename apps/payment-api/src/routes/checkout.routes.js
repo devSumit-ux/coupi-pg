@@ -875,8 +875,8 @@ export function registerCheckoutRoutes(server, ctx) {
     });
   });
 
-  // POST /api/v1/checkout/:id/payment-done
-  server.post('/api/v1/checkout/:id/payment-done', async (req, res, params) => {
+  // POST /api/v1/checkout/:id/payment-done, /api/v1/checkout/:id/submit-utr, /api/v1/sessions/:id/utr
+  const handlePaymentDone = async (req, res, params) => {
     const session = ctx.sessionRepo.findById(params.id);
     if (!session) {
       HttpServer.json(res, 404, { error: `Payment session not found: ${params.id}` });
@@ -889,9 +889,35 @@ export function registerCheckoutRoutes(server, ctx) {
       return;
     }
 
-    if (session.status === PaymentStatus.PROCESSING) {
-      // Idempotent
+    let body = {};
+    try {
+      body = await HttpServer.parseBody(req);
+    } catch {}
+
+    const submittedUtr = body?.utr || body?.bankReferenceNumber;
+    if (submittedUtr) {
+      const cleanUtr = String(submittedUtr).trim();
+      const updatedMeta = { ...(session.metadata || {}), submittedUtr: cleanUtr };
+      try {
+        ctx.sessionRepo.updateMetadata(session.id, updatedMeta);
+        session.metadata = updatedMeta;
+      } catch {}
+    }
+
+    if (session.status === PaymentStatus.SUCCESS) {
       HttpServer.json(res, 200, {
+        paymentId: session.id,
+        sessionId: session.id,
+        status: PaymentStatus.SUCCESS,
+        message: 'Payment already verified.'
+      });
+      return;
+    }
+
+    if (session.status === PaymentStatus.PROCESSING) {
+      HttpServer.json(res, 200, {
+        paymentId: session.id,
+        sessionId: session.id,
         status: PaymentStatus.PROCESSING,
         message: 'Already in verification processing.'
       });
@@ -934,10 +960,15 @@ export function registerCheckoutRoutes(server, ctx) {
 
     HttpServer.json(res, 200, {
       paymentId: updated.id,
+      sessionId: updated.id,
       status: PaymentStatus.PROCESSING,
       processingExpiresAt: updated.processingExpiresAt
     });
-  });
+  };
+
+  server.post('/api/v1/checkout/:id/payment-done', handlePaymentDone);
+  server.post('/api/v1/checkout/:id/submit-utr', handlePaymentDone);
+  server.post('/api/v1/sessions/:id/utr', handlePaymentDone);
 
   // POST /api/v1/checkout/:id/cancel
   server.post('/api/v1/checkout/:id/cancel', async (req, res, params) => {
@@ -1713,8 +1744,8 @@ export function registerCheckoutRoutes(server, ctx) {
   server.post('/api/v1/checkout/:id/end-and-restart-payment', handleEndAndRestartPayment);
   server.post('/api/v1/checkout/:id/end-session-and-create-new', handleEndAndRestartPayment);
 
-  // GET /api/v1/checkout/:id/stream and /events (SSE)
-  server.get('/api/v1/checkout/:id/stream', async (req, res, params) => {
+  // GET /api/v1/checkout/:id/stream, /events, and /api/v1/sessions/:id/stream (SSE)
+  const handleCheckoutSse = async (req, res, params) => {
     const session = ctx.sessionRepo.findById(params.id);
     if (!session) {
       HttpServer.json(res, 404, { error: 'Session not found' });
@@ -1726,19 +1757,9 @@ export function registerCheckoutRoutes(server, ctx) {
       return;
     }
     server.initSse(params.id, res);
-  });
+  };
 
-  server.get('/api/v1/checkout/:id/events', async (req, res, params) => {
-    const session = ctx.sessionRepo.findById(params.id);
-    if (!session) {
-      HttpServer.json(res, 404, { error: 'Session not found' });
-      return;
-    }
-    const deviceAccess = checkSessionDeviceAccess(session, req, null, ctx);
-    if (!deviceAccess.allowed) {
-      HttpServer.json(res, deviceAccess.statusCode || 409, deviceAccess.body);
-      return;
-    }
-    server.initSse(params.id, res);
-  });
+  server.get('/api/v1/checkout/:id/stream', handleCheckoutSse);
+  server.get('/api/v1/checkout/:id/events', handleCheckoutSse);
+  server.get('/api/v1/sessions/:id/stream', handleCheckoutSse);
 }

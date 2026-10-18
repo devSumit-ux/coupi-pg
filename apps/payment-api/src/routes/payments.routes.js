@@ -26,17 +26,22 @@ export function registerPaymentRoutes(server, ctx) {
     return ctx.checkoutBaseUrl || 'http://localhost:7000';
   }
 
-  // POST /api/v1/payments
-  server.post('/api/v1/payments', async (req, res) => {
+  // POST /api/v1/payments and POST /api/v1/checkout/sessions
+  async function handleCreatePayment(req, res) {
     const body = await HttpServer.parseBody(req);
     const idempotencyKey = req.headers['idempotency-key'] || body.idempotencyKey;
 
-    // Resolve merchant (default to first/demo merchant if none passed in header)
-    const merchantId = req.headers['x-merchant-id'] || body.merchantId;
+    // Resolve merchant via header, authorization bearer, body API key, or default
+    const authHeader = req.headers['authorization'];
+    const bearerKey = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+    const apiKey = req.headers['x-api-key'] || bearerKey || body.apiKey;
+    const merchantId = req.headers['x-merchant-id'] || body.merchantId || apiKey;
+
     let merchant;
     if (merchantId) {
       merchant = ctx.merchantRepo.findById(merchantId);
-    } else {
+    }
+    if (!merchant) {
       merchant = ctx.merchantRepo.getDefault ? ctx.merchantRepo.getDefault() : (ctx.merchantRepo.findById('00000000-0000-0000-0000-000000000001') || ctx.merchantRepo.findAll()[0]);
     }
 
@@ -45,7 +50,7 @@ export function registerPaymentRoutes(server, ctx) {
       return;
     }
 
-    if (!body.orderId || !body.amount) {
+    if (!body.orderId || (body.amount === undefined && body.amountPaise === undefined)) {
       HttpServer.json(res, 400, { error: 'Missing required fields: orderId and amount.' });
       return;
     }
@@ -134,7 +139,11 @@ export function registerPaymentRoutes(server, ctx) {
 
     let amountPaise;
     try {
-      amountPaise = toPaise(body.amount);
+      if (body.amountPaise !== undefined) {
+        amountPaise = BigInt(body.amountPaise);
+      } else {
+        amountPaise = toPaise(body.amount);
+      }
     } catch (err) {
       HttpServer.json(res, 400, { error: err.message });
       return;
@@ -282,19 +291,36 @@ export function registerPaymentRoutes(server, ctx) {
       ? queueResult.payableAmountPaise
       : amountPaise;
 
+    const baseAmountPaise = amountPaise;
+    const payeeName = receivingAccountSnapshot?.payeeName || merchant.businessName || merchant.name || 'Merchant';
+    const vpa = receivingAccountSnapshot?.upiId || null;
+    const upiIntentUri = vpa
+      ? `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(payeeName)}&am=${toRupeesString(finalAmountPaise)}&cu=${session.currency || 'INR'}&tn=${encodeURIComponent(session.orderId)}`
+      : null;
+
     HttpServer.json(res, 201, {
       paymentId: session.id,
+      sessionId: session.id,
       orderId: session.orderId,
       amount: toRupeesString(finalAmountPaise),
       amountPaise: finalAmountPaise.toString(),
+      payableAmount: parseFloat(toRupeesString(finalAmountPaise)),
+      baseAmount: parseFloat(toRupeesString(baseAmountPaise)),
       offsetPaise: queueResult.offsetPaise || 0,
       currency: session.currency,
       status: queueResult.status,
       queuePosition: queueResult.queuePosition,
       checkoutUrl: `${resolveCheckoutBaseUrl(merchant)}/checkout/${session.id}`,
+      vpa,
+      payeeName,
+      upiIntentUri,
+      expiresAt: queueResult.expiresAt ? queueResult.expiresAt.toISOString() : null,
       hybridRouting: hybridRouting || undefined
     });
-  });
+  }
+
+  server.post('/api/v1/payments', handleCreatePayment);
+  server.post('/api/v1/checkout/sessions', handleCreatePayment);
 
   // GET /api/v1/payments/:id
   server.get('/api/v1/payments/:id', async (req, res, params) => {

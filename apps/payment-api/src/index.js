@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { EventEmitter } from 'node:events';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PaymentStatus } from '@coupi/common';
+import { PaymentStatus, toRupeesString } from '@coupi/common';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -155,6 +155,12 @@ export function createPaymentApp(customDb = null, options = {}) {
     if (session) {
       server.broadcastSse(session.id, 'status_change', {
         status: PaymentStatus.SUCCESS,
+        orderId: session.orderId,
+        paymentId: session.id,
+        sessionId: session.id,
+        amount: toRupeesString(session.amountPaise),
+        amountPaise: session.amountPaise ? session.amountPaise.toString() : '0',
+        utr: session.metadata?.bankReferenceNumber || session.metadata?.utr || session.metadata?.submittedUtr || '',
         verificationLevel: data.verificationLevel || session.verificationLevel || 1,
         verificationTag: data.verificationTag || session.verificationTag,
         sources: data.sources || session.verificationSources
